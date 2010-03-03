@@ -13,3 +13,5 @@ Current tasks:
   * Remove all references to the deprecated `DragMaster` class  
   * Evaluate possibility of implementing a z-coordinate system for scene components
   * Create `ScribbleComponent` class
+  * Evaluate `Panel` coordinate vs. screen coordinates
+  * Evaluate usage of floats, if they are appropriate or not
