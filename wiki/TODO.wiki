@@ -1,0 +1,15 @@
+#summary TODO listing
+
+= Introduction =
+
+This list outlines the current tasks being pursued for the project.
+
+
+== Details==
+
+Current tasks:
+  * Merge documentation and add generated JavaDocs to the trunk
+  * Organize project classes into categorical packages within `magicofcalculus` package
+  * Remove all references to the deprecated `DragMaster` class  
+  * Evaluate possibility of implementing a z-coordinate system for scene components
+  * Create `ScribbleComponent` class
