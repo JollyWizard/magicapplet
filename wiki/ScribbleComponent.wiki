@@ -1,0 +1,10 @@
+#summary Summary of the features to include in the ScribbleComponent
+
+= Introduction =
+
+Todo
+
+
+== Details ==
+
+Todo
