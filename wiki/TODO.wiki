@@ -12,6 +12,6 @@ Current tasks:
   * Organize project classes into categorical packages within `magicofcalculus` package
   * Remove all references to the deprecated `DragMaster` class  
   * Evaluate possibility of implementing a z-coordinate system for scene components
-  * Create `ScribbleComponent` class
+  * Create ScribbleComponent class
   * Evaluate `Panel` coordinate vs. screen coordinates
   * Evaluate usage of floats, if they are appropriate or not
