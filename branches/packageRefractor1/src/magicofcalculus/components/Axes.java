@@ -1,7 +1,7 @@
 //
 //Axes.java
 //
-package magicofcalculus;
+package magicofcalculus.components;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,6 +13,13 @@ import static java.lang.Math.ceil;
 import java.util.ArrayList;
 import java.awt.geom.Path2D;
 import java.awt.Color;
+
+import magicofcalculus.Component;
+import magicofcalculus.DPoint;
+import magicofcalculus.Function;
+import magicofcalculus.Line;
+import magicofcalculus.MagicApplet;
+import magicofcalculus.Panel;
 
 /**
  * Class implementing Component
