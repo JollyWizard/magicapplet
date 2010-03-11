@@ -7,8 +7,17 @@ import java.awt.Color;
 
 /**
  * This is the zoomed in secantApproxPanel.
+ * <p>
+ * TODO add Mathematical description of what the panel actually demonstrates
+ * <p>
  * 
+ * @axes 1
+ * @graph Quadratic Curve
+ * @interactive The secant triangle can be resized by dragging and when it
+ *              reaches minimum size the triangle changes color and the formula
+ *              changes to infinitessimal form.
  * @author TJ Johnson
+ * @documentation James Arlow<james.arlow@gmail.com>
  */
 public class BMITrianglePanel extends Panel {
 
