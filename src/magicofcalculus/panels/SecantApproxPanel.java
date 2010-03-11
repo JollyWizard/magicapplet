@@ -1,10 +1,22 @@
 //
 // SecantApproxPanel.java
 //
-package magicofcalculus;
+package magicofcalculus.panels;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+
+import magicofcalculus.Axes;
+import magicofcalculus.Circle;
+import magicofcalculus.Component;
+import magicofcalculus.DPoint;
+import magicofcalculus.DragMaster;
+import magicofcalculus.Label;
+import magicofcalculus.Line;
+import magicofcalculus.MagicApplet;
+import magicofcalculus.Panel;
+import magicofcalculus.QuadCurve;
+import magicofcalculus.SecantTriangle;
 import static java.lang.Math.abs;
 
 /**
