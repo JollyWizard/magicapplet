@@ -5,6 +5,18 @@ package magicofcalculus;
 
 import java.awt.Color;
 
+/**
+ * This is the zoomed in version of the RiemensSumsPanel
+ * <p>
+ * TODO add Mathematical description of what the panel actually demonstrates
+ * <p>
+ * 
+ * @axes
+ * @graph
+ * @interactive
+ * @author TJ Johnson
+ * @documentation James Arlow<james.arlow@gmail.com>
+ */
 public class BMIRectanglePanel extends Panel {
 
     /**
