@@ -1,9 +1,20 @@
 //
 // BMITrianglePanel.java
 //
-package magicofcalculus;
+package magicofcalculus.panels;
 
 import java.awt.Color;
+
+import magicofcalculus.Axes;
+import magicofcalculus.DPoint;
+import magicofcalculus.Function;
+import magicofcalculus.Label;
+import magicofcalculus.Line;
+import magicofcalculus.MagicApplet;
+import magicofcalculus.Panel;
+import magicofcalculus.PolyLine;
+import magicofcalculus.SecantTriangle;
+import magicofcalculus.Function.LowerSemiCircle;
 
 /**
  * This is the zoomed in secantApproxPanel.
