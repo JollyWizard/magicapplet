@@ -9,6 +9,8 @@ import java.awt.BasicStroke;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.CubicCurve2D;
 
+import magicofcalculus.components.BezierCurve;
+
 public class QuadCurve extends BezierCurve {
 
     public QuadCurve(Panel panel) {

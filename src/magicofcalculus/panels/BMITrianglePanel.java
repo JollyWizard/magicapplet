@@ -5,16 +5,16 @@ package magicofcalculus.panels;
 
 import java.awt.Color;
 
-import magicofcalculus.Axes;
 import magicofcalculus.DPoint;
 import magicofcalculus.Function;
-import magicofcalculus.Label;
 import magicofcalculus.Line;
 import magicofcalculus.MagicApplet;
 import magicofcalculus.Panel;
-import magicofcalculus.PolyLine;
-import magicofcalculus.SecantTriangle;
 import magicofcalculus.Function.LowerSemiCircle;
+import magicofcalculus.components.Axes;
+import magicofcalculus.components.Label;
+import magicofcalculus.components.PolyLine;
+import magicofcalculus.components.SecantTriangle;
 
 /**
  * This is the zoomed in secantApproxPanel.

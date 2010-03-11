@@ -1,7 +1,7 @@
 //
 // PolyLine.java
 //
-package magicofcalculus;
+package magicofcalculus.components;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,6 +10,11 @@ import java.awt.geom.Path2D;
 import java.awt.BasicStroke;
 import static java.lang.Math.round;
 import java.awt.geom.AffineTransform;
+
+import magicofcalculus.Component;
+import magicofcalculus.DPoint;
+import magicofcalculus.MagicApplet;
+import magicofcalculus.Panel;
 
 public class PolyLine extends Component {
 

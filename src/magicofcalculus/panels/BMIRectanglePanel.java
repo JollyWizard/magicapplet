@@ -5,15 +5,15 @@ package magicofcalculus.panels;
 
 import java.awt.Color;
 
-import magicofcalculus.Axes;
-import magicofcalculus.Circle;
 import magicofcalculus.DPoint;
 import magicofcalculus.Function;
-import magicofcalculus.Label;
 import magicofcalculus.MagicApplet;
 import magicofcalculus.Panel;
-import magicofcalculus.PolyLine;
 import magicofcalculus.Function.LinearFunction;
+import magicofcalculus.components.Axes;
+import magicofcalculus.components.Circle;
+import magicofcalculus.components.Label;
+import magicofcalculus.components.PolyLine;
 
 /**
  * This is the zoomed in version of the RiemensSumsPanel

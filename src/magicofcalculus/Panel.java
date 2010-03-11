@@ -212,7 +212,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
      * @param str
      * @return
      */
-    protected java.net.URL getResource(Component thisComponent, String str) {
+    public java.net.URL getResource(Component thisComponent, String str) {
 	java.net.URL url = getClass().getResource(
 		MagicApplet.RESOURCE_PATH + str);
 	if (url == null)
