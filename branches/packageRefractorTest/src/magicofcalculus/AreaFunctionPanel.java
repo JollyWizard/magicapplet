@@ -3,6 +3,7 @@
 //
 package magicofcalculus;
 
+//TESTING MERGE BY ADDING COMMENT TO INTEFERE
 import java.awt.Color;
 
 /**
@@ -152,6 +153,8 @@ public class AreaFunctionPanel extends Panel {
 	syncComponents();
     }
 
+  //TESTING MERGE BY ADDING COMMENT TO INTEFEREs
+    
     /**
      * Modifies scene description and visibility via switch Last scene calls
      * MagicApplet.advancePlayer
