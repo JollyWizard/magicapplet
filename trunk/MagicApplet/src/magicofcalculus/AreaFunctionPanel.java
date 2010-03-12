@@ -30,8 +30,8 @@ public class AreaFunctionPanel extends Panel {
      * <li>adds all components
      * <li>setLabelsOverThreeXSquaredLabel();
      * <li>_xCubedLabelsDragGroupId = createDragGroup();
-     * <li>setSyncParams();
-     * <li>syncComponents();
+     * <li>{@link #setSyncParams()};
+     * <li>{@link #syncComponents()};
      * </ol>
      */
     public AreaFunctionPanel() {
