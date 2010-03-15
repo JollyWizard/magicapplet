@@ -8,8 +8,11 @@
 //
 package magicofcalculus;
 
+import james.Annotations.Visibility;
+
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -20,7 +23,9 @@ import static java.lang.Math.abs;
 import java.awt.Rectangle;
 import java.applet.AudioClip;
 import java.awt.Cursor;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Every Panel has a set of syncParams that can synchronize the components in
@@ -77,24 +82,6 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
      */
     protected Color getBackgroundColor() {
 	return _bgColor;
-    }
-
-    /**
-     * Usage note from original comment: override and call super.setScene(int
-     * scene) first thing,
-     * <p>
-     * sets the _scene variable,cancels if scene is out of bound.
-     * 
-     * @param scene
-     */
-    protected void setScene(int scene) {
-	// should have a minimun of 2 scenes since last scene is the
-	// advancePanel
-	// call
-	if (scene < 0 || scene >= _numScenes)
-	    return;
-	else
-	    _scene = scene;
     }
 
     /**
@@ -535,7 +522,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
      * master list of components?
      * <p>
      */
-    protected ComponentList _componentList = new ComponentList();
+    public ComponentList _componentList = new ComponentList();
 
     /**
      * Action Area;
@@ -605,6 +592,93 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	// if mouse not clicked in button region, ignore it
 	// in fact, ignore the mouseClicked event all togther
     }
+
+    // ////////////////ADDED BY JAMES:
+    /**
+     * Stores a cache of the Visibility annotations for each field.
+     */
+    public HashMap<Field, Visibility> sceneVisibility = new HashMap<Field, Visibility>();
+
+    /**
+     * Usage note from original comment: override and call super.setScene(int
+     * scene) first thing,
+     * <p>
+     * sets the _scene variable,cancels if scene is out of bound.
+     * 
+     * @param scene
+     */
+    // override and call super.setScene(int
+    protected void setScene(int scene) {
+	// scene) first thing,
+	// should have a minimun of 2 scenes since last scene is the
+	// advancePanel call
+	if (scene < 0 || scene >= _numScenes)
+	    return;
+
+	_scene = scene;
+	for (Field f : sceneVisibility.keySet()) {
+	    Component c = null;
+	    try {
+		c = (Component) f.get(this);
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+	    if (c == null) {
+		System.err.println("NULL FIELD:" + f.getName());
+		continue;
+	    }
+	    Visibility s = sceneVisibility.get(f);
+	    int[] active = s.active();
+	    int[] hidden = s.hidden();
+
+	    // Only check active if no hidden values.
+	    if (hidden.length == 0) {
+		/**
+		 * cache value as -1, so a 0 length cache will never be visible
+		 */
+		int lastActive = -1;
+		for (int a : active) {
+		    if (a > _scene)
+			break;
+		    if (a > lastActive) {
+			a = lastActive;
+		    }
+		}
+		if (lastActive >= _scene)
+		    c.setVisible(true);
+		else
+		    c.setVisible(false);
+		// if the last active is odd and the value is
+		// less than the current scene
+		if (active.length > 0 && _scene >= active[0]) {
+		    // && (!s.toggle() || active.length % 2 == 1))
+		    c.setVisible(true);
+		} else {
+		    c.setVisible(false);
+		}
+	    } else {
+		// if hide values are present
+		int closestHide = 0;
+
+		for (int h : hidden) {
+		    if (h >= _scene)
+			break;
+		    if (h > closestHide)
+			closestHide = h;
+		}
+
+		for (int a : active) {
+		    if (a > _scene)
+			break;
+		    if (a > closestHide) {
+			c.setVisible(true);
+			break;
+		    }
+		}
+	    }
+	}
+    }
+
 }
 // ---------------------------------------
 // ------------------------------------------------
