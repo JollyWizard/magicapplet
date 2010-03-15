@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
  * scenes. {@link #next()} and {@link #prev()} are only for intermediary scenes
  * or unusual situations, such as return to previous panel in either case.
  * 
- * @author JiMinitaur
+ * @author James Arlow
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Scene {

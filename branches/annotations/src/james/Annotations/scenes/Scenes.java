@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Stores the list of scenes for a panel as an annotation to the class header.
  * 
- * @author JiMinitaur
+ * @author James Arlow
  * 
  */
 @Retention(RetentionPolicy.RUNTIME)
