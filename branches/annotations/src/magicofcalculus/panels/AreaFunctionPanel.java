@@ -180,10 +180,8 @@ public class AreaFunctionPanel extends Panel {
     @Override
     protected void setScene(int scene) {
 	super.setScene(scene);
-	String sceneDescrip = "no scene";
 	switch (scene) {
 	case 0:
-	    sceneDescrip = "Start";
 	    for (Component comp : _componentList)
 		comp.setVisible(false);
 	    _lowerAxes.setVisible(true);
@@ -200,10 +198,8 @@ public class AreaFunctionPanel extends Panel {
 		((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    else
 		((MagicApplet) getTopLevelAncestor()).reversePanel();
-	    sceneDescrip = "You shouldn't be seeing this!";
 	    break;
 	case 2:
-	    sceneDescrip = "Before Movable Formulas";
 	    _curveFormulaLabel.setVisible(false);
 	    _threeXSquaredLabel.setVisible(false);
 	    _xLabel.setVisible(false);
@@ -218,26 +214,21 @@ public class AreaFunctionPanel extends Panel {
 	    _xLabel.setVisible(true);
 	    _twoLabel.setVisible(true);
 	    _threeLabel.setVisible(true);
-	    sceneDescrip = "Movable Formulas Grouped";
 	    setXCubedLabelsGrouped(true);
 	    break;
 	case 4:
 	    setXCubedLabelsGrouped(false);
-	    sceneDescrip = "Formulas Ungrouped";
 	    _areaFormulaLabel.setVisible(false);
 	    break;
 	case 5:
 	    _areaFormulaLabel.setVisible(true);
 	    setXCubedLabelsGrouped(true);
-	    sceneDescrip = "Area Label and Regrouped";
 	    syncComponents();
 	    break;
 	case 6:
-	    sceneDescrip = "You shouldn't be seeing this!";
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	}
-	setSceneString(sceneDescrip);
     }
 
     /**

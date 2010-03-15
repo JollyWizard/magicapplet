@@ -3,6 +3,9 @@
 //
 package magicofcalculus.panels;
 
+import james.Annotations.scenes.Scene;
+import james.Annotations.scenes.Scenes;
+
 import java.awt.Color;
 
 import magicofcalculus.DPoint;
@@ -27,6 +30,7 @@ import magicofcalculus.components.PolyLine;
  * @author TJ Johnson
  * @documentation James Arlow<james.arlow@gmail.com>
  */
+@Scenes( { @Scene(index = 0, description = "Start"), @Scene(index = 1) })
 public class BMIRectanglePanel extends Panel {
 
     /**
@@ -133,18 +137,11 @@ public class BMIRectanglePanel extends Panel {
      */
     protected void setScene(int scene) {
 	super.setScene(scene);
-	String sceneDescrip = "no scene";
 	switch (scene) {
-	case 0:
-	    sceneDescrip = "Start";
-	    break;
 	case 1:
-	    sceneDescrip = "You shouldn't be seeing this!";
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	}
-	setSceneString(sceneDescrip);
-
     }
 
     /**

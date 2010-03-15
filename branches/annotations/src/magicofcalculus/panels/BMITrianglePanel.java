@@ -3,6 +3,9 @@
 //
 package magicofcalculus.panels;
 
+import james.Annotations.scenes.Scene;
+import james.Annotations.scenes.Scenes;
+
 import java.awt.Color;
 
 import magicofcalculus.DPoint;
@@ -30,6 +33,7 @@ import magicofcalculus.components.SecantTriangle;
  * @author TJ Johnson
  * @documentation James Arlow<james.arlow@gmail.com>
  */
+@Scenes( { @Scene(index = 0, description = "Start"), @Scene(index = 1) })
 public class BMITrianglePanel extends Panel {
 
     /**
@@ -217,23 +221,15 @@ public class BMITrianglePanel extends Panel {
     @Override
     protected void setScene(int scene) {
 	super.setScene(scene);
-	String sceneDescrip = "no scene";
 	switch (scene) {
 	// case 0:
 	// sceneDescrip = "Next: Tangent Line";
 	// _tangentLine.setVisible(false);
 	// break;
-	case 0:
-	    // _tangentLine.setVisible(true);
-	    sceneDescrip = "Start";
-	    break;
 	case 1:
-	    sceneDescrip = "You shouldn't be seeing this!";
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	}
-	setSceneString(sceneDescrip);
-
     }
 
     /**

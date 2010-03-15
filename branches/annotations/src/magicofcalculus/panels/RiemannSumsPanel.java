@@ -3,6 +3,9 @@
 //
 package magicofcalculus.panels;
 
+import james.Annotations.scenes.Scene;
+import james.Annotations.scenes.Scenes;
+
 import java.awt.Color;
 
 import magicofcalculus.DPoint;
@@ -26,6 +29,10 @@ import magicofcalculus.components.PolyLine;
  * @author TJ Johnson
  * @documentation James Arlow<james.arlow@gmail.com>
  */
+@Scenes( { @Scene(index = 0, description = "Start"),
+	@Scene(index = 1, description = "You shouldn't be seeing this!"),
+	@Scene(index = 2, description = "Post BMI"),
+	@Scene(index = 3, description = "You shouldn't be seeing this!") })
 public class RiemannSumsPanel extends Panel {
 
     public RiemannSumsPanel() {
@@ -107,10 +114,8 @@ public class RiemannSumsPanel extends Panel {
     // From Panel
     protected void setScene(int scene) {
 	super.setScene(scene);
-	String sceneDescrip = "no scene";
 	switch (scene) {
 	case 0:
-	    sceneDescrip = "Start";
 	    syncComponents();
 	    break;
 	case 1:
@@ -118,18 +123,14 @@ public class RiemannSumsPanel extends Panel {
 		((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    else
 		((MagicApplet) getTopLevelAncestor()).reversePanel();
-	    sceneDescrip = "You shouldn't be seeing this!";
 	    break;
 	case POST_BMI_SCENE:// 2
-	    sceneDescrip = "Post BMI";
 	    syncComponents();
 	    break;
 	case 3:
-	    sceneDescrip = "You shouldn't be seeing this!";
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	}
-	setSceneString(sceneDescrip);
     }
 
     protected void setSyncParams() {

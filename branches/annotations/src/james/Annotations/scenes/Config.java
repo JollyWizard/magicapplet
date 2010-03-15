@@ -44,7 +44,7 @@ public class Config {
 	// TODO add error conditions (Exceptions)
 	if (ss == null || ss.value().length == 0)
 	    return r;
-	
+
 	// Extract Scene[] from Scenes
 	Scene[] sa = ss.value();
 
@@ -107,12 +107,19 @@ public class Config {
 	r.next.put(r.last, true);
 
 	// DEBUG
-	int c = 0;
+	System.out.println(c.getName());
+	int d = 0;
 	for (int i = 0; i < r.descriptions.size(); i++) {
-	    System.out.print(c++ + r.descriptions.get(i));
-	    System.out.print("\t" + r.prev.get(i));
-	    System.out.print("\t" + r.next.get(i));
+	    System.out.print(d++ + "\t" + r.descriptions.get(i));
+	    System.out.print("\t"
+		    + (r.prev.get(i) != null && r.prev.get(i) == true ? "prev"
+			    : ""));
+	    System.out.print("\t"
+		    + (r.next.get(i) != null && r.next.get(i) == true ? "next"
+			    : ""));
+	    System.out.println("");
 	}
+	System.out.println();
 
 	return r;
     }
