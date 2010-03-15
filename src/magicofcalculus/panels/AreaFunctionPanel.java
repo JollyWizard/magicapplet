@@ -3,6 +3,9 @@
 //
 package magicofcalculus.panels;
 
+import james.Annotations.scenes.Scene;
+import james.Annotations.scenes.Scenes;
+
 import java.awt.Color;
 
 import magicofcalculus.Component;
@@ -21,12 +24,18 @@ import magicofcalculus.components.PolyLine;
  * TODO add Mathematical description of what the panel actually demonstrates
  * <p>
  * 
- * @axes 
- * @graph 
- * @interactive 
+ * @axes
+ * @graph
+ * @interactive
  * @author TJ Johnson
  * @documentation James Arlow<james.arlow@gmail.com>
  */
+@Scenes( { @Scene(index = 0, description = "Start"),
+	@Scene(index = 1, description = "You shouldn't be seeing this!"),
+	@Scene(index = 2, description = "Before Movable Formulas"),
+	@Scene(index = 3, description = "Movable Formulas Grouped"),
+	@Scene(index = 4, description = "Formulas Ungrouped"),
+	@Scene(index = 5, description = "Area Label and Regrouped") })
 public class AreaFunctionPanel extends Panel {
 
     /**
