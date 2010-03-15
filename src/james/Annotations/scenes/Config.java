@@ -9,7 +9,7 @@ import magicofcalculus.Panel;
  * Stores the processed configuration information for the scenes from
  * {@link Scenes#value()}.
  * 
- * @author JiMinitaur
+ * @author James Arlow
  */
 public class Config {
 

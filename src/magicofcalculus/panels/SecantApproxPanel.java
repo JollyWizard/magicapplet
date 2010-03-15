@@ -3,6 +3,12 @@
 //
 package magicofcalculus.panels;
 
+import james.Annotations.AxesProperties;
+import james.Annotations.LabelProperties;
+import james.Annotations.Point;
+import james.Annotations.QuadCurveProperties;
+import james.Annotations.Visibility;
+import james.Annotations.placement.Position;
 import james.Annotations.scenes.Scene;
 import james.Annotations.scenes.Scenes;
 
@@ -607,10 +613,6 @@ public class SecantApproxPanel extends Panel {
 
     // ---------------------------------------
 
-    private static final boolean MAKE_TANGENT_DISAPPEAR = false;
-    // private static final boolean MAKE_TANGENT_DISAPPEAR = true;
-
-    private static final int NUM_SCENES = 15;
     /**
      * The scene where the line becomes a secant of the two points
      */
@@ -624,30 +626,104 @@ public class SecantApproxPanel extends Panel {
     private boolean _groupXCubedLabels = true;
     private int _xCubedLabelsDragGroupId = -1;
 
-    private Axes _axes = null;
-    private QuadCurve _curve = null;
-    private Label _curveEquationLabel = null;
-    private Circle _tangentPoint = null;
-    private Line _tangentLine = null;
-    private Circle _secantPoint = null;
+    private static final boolean MAKE_TANGENT_DISAPPEAR = false;
 
-    private SecantTriangle _secantTriangle = null;
-    private Label _deltaXLabel = null;
-    private Label _deltaYLabel = null;
-    private Label _deltaYXFormulaLabel = null;
-    private Label _dydxFormulaLabel = null;
-    private Label _questionMarkFormulaLabel = null;
+    // private static final boolean MAKE_TANGENT_DISAPPEAR = true;
 
-    private SecantTriangle _dydxTriangle = null;
-    private Label _dxLabel = null;
-    private Label _dyLabel = null;
+    private static final int NUM_SCENES = 15;
 
-    private Label _curveFormulaLabel = null;
-    private Label _slopeFormulaLabel = null;
-    private Label _xCubedLabel = null;
-    private Label _xLabel = null;
-    private Label _twoLabel = null;
-    private Label _threeLabel = null;
+    // ////////////////////////////////////////////////
+    public static final int originX = 50;
+
+    public static final int originY = 450;
+
+    public static final int widthX = 350;
+
+    public static final int heightY = 400;
+
+    @AxesProperties(origin = @Point(x = originX, y = originY), width = widthX, height = heightY)
+    @Visibility(active = 1)
+    public Axes _axes;
+
+    @QuadCurveProperties(start = @Point(x = originX, y = originY), control = @Point(x = 300, y = originY), end = @Point(x = originX
+	    + widthX, y = originY - heightY))
+    @Visibility(active = 1)
+    public QuadCurve _curve;
+
+    @Visibility(active = 5)
+    private Circle _tangentPoint;
+
+    @Visibility(active = 4)
+    public Line _tangentLine;
+
+    @Visibility(active = 3)
+    public Circle _secantPoint;
+
+    @Visibility(active = 6)
+    public SecantTriangle _secantTriangle;
+
+    @LabelProperties(image = "28pt/CurveEquationLabel.gif")
+    @Position(x = 160, y = 80)
+    @Visibility(active = 2)
+    public Label _curveEquationLabel;
+
+    @LabelProperties(image = "24pt/DeltaX.gif", drag = false)
+    @Visibility(active = 7)
+    public Label _deltaXLabel;
+
+    @LabelProperties(image = "24pt/DeltaY.gif", drag = false)
+    @Visibility(active = 7)
+    public Label _deltaYLabel;
+
+    @LabelProperties(image = "24pt/DeltaYXFormula.gif")
+    @Position(x = 112, y = 183)
+    @Visibility(active = 8)
+    public Label _deltaYXFormulaLabel;
+
+    @LabelProperties(image = "24pt/DydxFormula.gif")
+    @Position(x = 112, y = 183)
+    public Label _dydxFormulaLabel;
+
+    @LabelProperties(image = "24pt/QuestionMarkFormula.gif")
+    @Position(x = 112, y = 183)
+    public Label _questionMarkFormulaLabel;
+
+    public SecantTriangle _dydxTriangle;
+
+    @LabelProperties(image = "12pt/dx.gif")
+    @Position(x = 251, y = 356)
+    public Label _dxLabel;
+
+    @LabelProperties(image = "12pt/dy.gif")
+    @Position(x = 270, y = 341)
+    public Label _dyLabel;
+
+    @LabelProperties(image = "24pt/CurveFormulaLabel.gif")
+    @Position(x = 454, y = 148)
+    @Visibility(active = 9)
+    public Label _curveFormulaLabel;
+
+    @LabelProperties(image = "24pt/SlopeFormulaLabel.gif")
+    @Position(x = 453, y = 214)
+    @Visibility(active = 11)
+    public Label _slopeFormulaLabel;
+
+    @LabelProperties(image = "32pt/XCubedLabel.gif")
+    @Position(x = 694, y = 129)
+    @Visibility(active = 9)
+    public Label _xCubedLabel;
+
+    @LabelProperties(image = "32pt/XLabel.gif")
+    @Visibility(active = 9)
+    public Label _xLabel;
+
+    @LabelProperties(image = "32pt/TwoLabel.gif")
+    @Visibility(active = 9)
+    public Label _twoLabel;
+
+    @LabelProperties(image = "32pt/ThreeLabel.gif")
+    @Visibility(active = 9)
+    public Label _threeLabel;
 
     // Sync params
     /**
