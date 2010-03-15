@@ -3,6 +3,9 @@
 //
 package magicofcalculus.panels;
 
+import james.Annotations.scenes.Scene;
+import james.Annotations.scenes.Scenes;
+
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 
@@ -30,6 +33,22 @@ import static java.lang.Math.abs;
  * @author TJ Johnson
  * @documentation James Arlow<james.arlow@gmail.com>
  */
+@Scenes( {
+	@Scene(index = 0, description = "Start"),
+	@Scene(index = 1, description = "Curve"),
+	@Scene(index = 2, description = "Curve formula"),
+	@Scene(index = 3, description = "Tangent Point"),
+	@Scene(index = 4, description = "Tangent Line"),
+	@Scene(index = 5, description = "Secant Point"),
+	@Scene(index = 6, description = "Attach Point and Line"),
+	@Scene(index = 7, description = "Triangle w labels"),
+	@Scene(index = 8, description = "Slope Formula"),
+	@Scene(index = 9, description = "Movable Formulas Grouped"),
+	@Scene(index = 10, description = "Formulas Ungrouped"),
+	@Scene(index = 11, description = "Slope Label and Regrouped"),
+	@Scene(index = 12, description = "You shouldn't be seeing this!", next = true),
+	@Scene(index = 13, description = "Post BMI"),
+	@Scene(index = 14, description = "You shouldn't be seeing this!", next = true) })
 public class SecantApproxPanel extends Panel {
 
     /**
