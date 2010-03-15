@@ -3,9 +3,15 @@
 //
 // Direct subclasses: Line, QuadCurve
 //
-package magicofcalculus;
+package magicofcalculus.components;
 
 import java.awt.Graphics;
+
+import magicofcalculus.Component;
+import magicofcalculus.DPoint;
+import magicofcalculus.DragMaster;
+import magicofcalculus.Line;
+import magicofcalculus.Panel;
 
 public class BezierCurve extends Component implements DragMaster {
 

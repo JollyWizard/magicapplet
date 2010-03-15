@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
+
+import magicofcalculus.components.BezierCurve;
 import static java.lang.Math.sqrt;
 
 public class Line extends BezierCurve {

@@ -5,6 +5,14 @@ package magicofcalculus;
 
 import javax.swing.JApplet;
 import javax.swing.SwingUtilities;
+
+import magicofcalculus.panels.AreaFunctionPanel;
+import magicofcalculus.panels.BMIRectanglePanel;
+import magicofcalculus.panels.BMITrianglePanel;
+import magicofcalculus.panels.FundTheoremPanel;
+import magicofcalculus.panels.RiemannSumsPanel;
+import magicofcalculus.panels.SecantApproxPanel;
+
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;

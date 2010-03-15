@@ -1,9 +1,21 @@
 //
 // AreaFunctionPanel.java
 //
-package magicofcalculus;
+package magicofcalculus.panels;
 
 import java.awt.Color;
+
+import magicofcalculus.Component;
+import magicofcalculus.DPoint;
+import magicofcalculus.Function;
+import magicofcalculus.MagicApplet;
+import magicofcalculus.Panel;
+import magicofcalculus.Function.IntegralOfSinXOverX;
+import magicofcalculus.Function.SinXOverX;
+import magicofcalculus.components.Axes;
+import magicofcalculus.components.Circle;
+import magicofcalculus.components.Label;
+import magicofcalculus.components.PolyLine;
 
 /**
  * TODO add Mathematical description of what the panel actually demonstrates
@@ -30,8 +42,8 @@ public class AreaFunctionPanel extends Panel {
      * <li>adds all components
      * <li>setLabelsOverThreeXSquaredLabel();
      * <li>_xCubedLabelsDragGroupId = createDragGroup();
-     * <li>{@link #setSyncParams()};
-     * <li>{@link #syncComponents()};
+     * <li>setSyncParams();
+     * <li>syncComponents();
      * </ol>
      */
     public AreaFunctionPanel() {

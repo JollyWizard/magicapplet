@@ -1,9 +1,20 @@
 //
 // RiemannSumsPanel.java
 //
-package magicofcalculus;
+package magicofcalculus.panels;
 
 import java.awt.Color;
+
+import magicofcalculus.DPoint;
+import magicofcalculus.Function;
+import magicofcalculus.Line;
+import magicofcalculus.MagicApplet;
+import magicofcalculus.Panel;
+import magicofcalculus.Function.XSquaredPlusOne;
+import magicofcalculus.components.Axes;
+import magicofcalculus.components.Circle;
+import magicofcalculus.components.Label;
+import magicofcalculus.components.PolyLine;
 
 /**
  * TODO add Mathematical description of what the panel actually demonstrates

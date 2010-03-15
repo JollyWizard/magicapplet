@@ -1,9 +1,22 @@
 //
 // AreaFunctionPanel.java
 //
-package magicofcalculus;
+package magicofcalculus.panels;
 
 import java.awt.Color;
+
+import magicofcalculus.Component;
+import magicofcalculus.DPoint;
+import magicofcalculus.Function;
+import magicofcalculus.MagicApplet;
+import magicofcalculus.Panel;
+import magicofcalculus.Function.LowerSemiCircle;
+import magicofcalculus.components.Axes;
+import magicofcalculus.components.Circle;
+import magicofcalculus.components.Label;
+import magicofcalculus.components.PolyLine;
+import magicofcalculus.components.RectComponent;
+import magicofcalculus.components.SecantTriangle;
 
 /**
  * <p>

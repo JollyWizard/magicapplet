@@ -1,7 +1,7 @@
 //
 // SecantTriangle.java
 //
-package magicofcalculus;
+package magicofcalculus.components;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,6 +9,12 @@ import java.awt.BasicStroke;
 import static java.lang.Math.ceil;
 import static java.lang.Math.sqrt;
 import java.awt.geom.Path2D;
+
+import magicofcalculus.Component;
+import magicofcalculus.DPoint;
+import magicofcalculus.MagicApplet;
+import magicofcalculus.Panel;
+import magicofcalculus.TriangleShape;
 
 public class SecantTriangle extends Component {
 

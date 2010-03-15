@@ -1,11 +1,16 @@
 //
 // Circle.java
 //
-package magicofcalculus;
+package magicofcalculus.components;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+
+import magicofcalculus.Component;
+import magicofcalculus.DPoint;
+import magicofcalculus.MagicApplet;
+import magicofcalculus.Panel;
 
 public class Circle extends Component {
    

@@ -3,20 +3,19 @@
 //
 package magicofcalculus;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * Class extending {@link ArrayList} of type {@link Component}. Holds the
  * components used in MagicApplet's scenes.
  */
-public class ComponentList extends LinkedList<Component>
+public class ComponentList extends ArrayList<Component>
 {
 
   /**
    * Default class constructor
    */
   public ComponentList() {
-      super();
   }
 
   /**

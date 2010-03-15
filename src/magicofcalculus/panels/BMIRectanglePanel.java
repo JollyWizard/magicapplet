@@ -1,9 +1,19 @@
 //
 // BMIRectanglePanel.java
 //
-package magicofcalculus;
+package magicofcalculus.panels;
 
 import java.awt.Color;
+
+import magicofcalculus.DPoint;
+import magicofcalculus.Function;
+import magicofcalculus.MagicApplet;
+import magicofcalculus.Panel;
+import magicofcalculus.Function.LinearFunction;
+import magicofcalculus.components.Axes;
+import magicofcalculus.components.Circle;
+import magicofcalculus.components.Label;
+import magicofcalculus.components.PolyLine;
 
 /**
  * This is the zoomed in version of the RiemensSumsPanel
