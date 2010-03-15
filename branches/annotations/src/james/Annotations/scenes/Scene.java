@@ -18,24 +18,30 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Scene {
 
-  /**
-   * The index of the scene
-   */
-  int index();
+    /**
+     * The index of the scene
+     */
+    int index();
 
-  /**
-   * The description of the scene
-   */
-  String description();
+    /**
+     * The description of the scene
+     */
+    String description() default DEFAULT;
 
-  /**
-   * Indicates that when the scene is finished the next act should be called
-   */
-  boolean next() default false;
+    /**
+     * Indicates that when the scene is finished the next act should be called
+     */
+    boolean next() default false;
 
-  /**
-   * Indicates that when reversing through scenes, the previous Act should be
-   * called after this one. By default scene 0 will get this functionality.
-   */
-  boolean prev() default false;
+    /**
+     * Indicates that when reversing through scenes, the previous Act should be
+     * called after this one. By default scene 0 will get this functionality.
+     */
+    boolean prev() default false;
+
+    /**
+     * The default value for Strings, to differentiate from intended empty
+     * strings when processing
+     */
+    public static final String DEFAULT = "!_DEFAULT";
 }
