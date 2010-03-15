@@ -17,11 +17,12 @@ import java.util.List;
 
 import magicofcalculus.DPoint;
 import magicofcalculus.Function;
-import magicofcalculus.Component.Axes;
-import magicofcalculus.Component.Label;
-import magicofcalculus.Component.PolyLine;
-import magicofcalculus.Component.QuadCurve;
-import magicofcalculus.Panels.Panel;
+import magicofcalculus.Panel;
+import magicofcalculus.QuadCurve;
+import magicofcalculus.components.Axes;
+import magicofcalculus.components.Label;
+import magicofcalculus.components.PolyLine;
+
 
 public class Tools {
 
