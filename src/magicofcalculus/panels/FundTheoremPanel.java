@@ -3,6 +3,9 @@
 //
 package magicofcalculus.panels;
 
+import james.Annotations.scenes.Scenes;
+import james.Annotations.scenes.Scene;
+
 import java.awt.Color;
 
 import magicofcalculus.Component;
@@ -29,6 +32,14 @@ import magicofcalculus.components.SecantTriangle;
  * @author TJ Johnson
  * @documentation James Arlow<james.arlow@gmail.com>
  */
+@Scenes( { @Scene(index = 0, description = "Start"),
+	@Scene(index = 1, description = "Lower Equation"),
+	@Scene(index = 2, description = "Slope Equation"),
+	@Scene(index = 3, description = "Upper Equation"),
+	@Scene(index = 4, description = "Main Equation Grouped"),
+	@Scene(index = 5, description = "Equation Ungrouped"),
+	@Scene(index = 6, description = "Equation Regrouped"),
+	@Scene(index = 7, description = "You shouldn't be seeing this!"), })
 public class FundTheoremPanel extends Panel {
 
     /**
@@ -241,7 +252,6 @@ public class FundTheoremPanel extends Panel {
     // From Panel
     protected void setScene(int scene) {
 	super.setScene(scene);
-	String sceneDescrip = "no scene";
 	switch (scene) {
 	case 0:
 	    for (Component comp : _componentList)
@@ -263,22 +273,18 @@ public class FundTheoremPanel extends Panel {
 	    _daLabel.setVisible(true);
 	    _dxLabel.setVisible(true);
 	    _verticalDimensionLabel.setVisible(true);
-	    sceneDescrip = "Start";
 	    _lowerAreaEqLabel.setVisible(false);
 	    break;
 	case 1:
 	    _lowerAreaEqLabel.setVisible(true);
-	    sceneDescrip = "Lower Equation";
 	    _slopeEqLabel.setVisible(false);
 	    break;
 	case 2:
 	    _slopeEqLabel.setVisible(true);
-	    sceneDescrip = "Slope Equation";
 	    _upperAreaEqLabel.setVisible(false);
 	    break;
 	case 3:
 	    _upperAreaEqLabel.setVisible(true);
-	    sceneDescrip = "Upper Equation";
 	    _mainEqLabel.setVisible(false);
 	    _mainEqShortLabel.setVisible(false);
 	    _mainEqDxLabel.setVisible(false);
@@ -292,7 +298,6 @@ public class FundTheoremPanel extends Panel {
 	    _mainEqDxLabel.setVisible(true);
 	    // _fundamentalEqLabel.setVisible(false);
 	    // _fundamentalEqLabel.setVisible(true);//dev
-	    sceneDescrip = "Main Equation Grouped";
 	    // setMainEqLabelsGrouped(true);
 	    addToDragGroup(_mainEqLabelsDragGroupId, _mainEqDxLabel);
 	    break;
@@ -300,20 +305,16 @@ public class FundTheoremPanel extends Panel {
 	    // setMainEqLabelsGrouped(false);
 	    removeFromDragGroup(_mainEqLabelsDragGroupId, _mainEqDxLabel);
 	    _componentList.bringToTopOfZOrder(_mainEqDxLabel);
-	    sceneDescrip = "Equation Ungrouped";
 	    break;
 	case 6:
 	    // setMainEqLabelsGrouped(true);
 	    addToDragGroup(_mainEqLabelsDragGroupId, _mainEqDxLabel);
-	    sceneDescrip = "Equation Regrouped";
 	    syncComponents();
 	    break;
 	case 7:
-	    sceneDescrip = "You shouldn't be seeing this!";
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	}
-	setSceneString(sceneDescrip);
     }
 
     /**

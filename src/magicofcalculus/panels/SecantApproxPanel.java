@@ -289,41 +289,33 @@ public class SecantApproxPanel extends Panel {
 
 	super.setScene(scene);
 
-	String sceneDescrip = "no scene";
 	switch (scene) {
 	case 0:
 	    for (Component comp : _componentList)
 		comp.setVisible(false);
 	    _tangentLine.setColor(Color.blue);
-	    sceneDescrip = "Start";
 	    break;
 	case 1:
 	    _axes.setVisible(true);
 	    _curve.setVisible(true);
-	    sceneDescrip = "Curve";
 	    _curveEquationLabel.setVisible(false);
 	    break;
 	case 2:
 	    _curveEquationLabel.setVisible(true);
-	    sceneDescrip = "Curve formula";
 	    _tangentPoint.setVisible(false);
 	    break;
 	case 3:
 	    _tangentPoint.setVisible(true);
-	    sceneDescrip = "Tangent Point";
 	    _tangentLine.setVisible(false);
 	    break;
 	case 4:
 	    _tangentLine.setVisible(true);
-	    sceneDescrip = "Tangent Line";
 	    _secantPoint.setVisible(false);
 	    break;
 	case 5:
 	    _secantPoint.setVisible(true);
-	    sceneDescrip = "Secant Point";
 	    break;
 	case ATTACH_SCENE:// 6
-	    sceneDescrip = "Attach Point and Line";
 	    _secantTriangle.setVisible(false);
 	    _deltaXLabel.setVisible(false);
 	    _deltaYLabel.setVisible(false);
@@ -334,12 +326,10 @@ public class SecantApproxPanel extends Panel {
 	    _deltaYLabel.setVisible(true);
 	    syncComponents();// to place labels on triangle in case no move has
 	    // happened since Attach Point and Line
-	    sceneDescrip = "Triangle w labels";
 	    _deltaYXFormulaLabel.setVisible(false);
 	    break;
 	case 8:// SLOPE_FORMULA_VISIBLE_SCENE
 	    _deltaYXFormulaLabel.setVisible(true);
-	    sceneDescrip = "Slope Formula";
 	    _curveFormulaLabel.setVisible(false);
 	    _xCubedLabel.setVisible(false);
 	    _xLabel.setVisible(false);
@@ -353,19 +343,16 @@ public class SecantApproxPanel extends Panel {
 	    _twoLabel.setVisible(true);
 	    _threeLabel.setVisible(true);
 	    setLabelsOverXCubedLabel();
-	    sceneDescrip = "Movable Formulas Grouped";
 	    setXCubedLabelsGrouped(true);
 	    break;
 	case 10:
 	    setXCubedLabelsGrouped(false);
-	    sceneDescrip = "Formulas Ungrouped";
 	    _slopeFormulaLabel.setVisible(false);
 	    setXCubedLabelsGrouped(false);
 	    break;
 	case 11:
 	    _slopeFormulaLabel.setVisible(true);
 	    setXCubedLabelsGrouped(true);
-	    sceneDescrip = "Slope Label and Regrouped";
 	    syncComponents();// dev, in case coming back here from scene 13 with
 	    // green line
 	    break;
@@ -374,21 +361,16 @@ public class SecantApproxPanel extends Panel {
 		((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    else
 		((MagicApplet) getTopLevelAncestor()).reversePanel();
-	    sceneDescrip = "You shouldn't be seeing this!";
 	    break;
 	case POST_BMI_SCENE:// 13
-	    sceneDescrip = "Post BMI";
 	    break;
 	case 14:
-	    sceneDescrip = "You shouldn't be seeing this!";
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	default:
 	    break;
 	// don't forget to set NUM_SCENES
 	}
-	setSceneString(sceneDescrip);
-
     }
 
     protected void setSyncParams() {

@@ -631,6 +631,8 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	if (scene < 0 || scene >= _numScenes)
 	    return;
 
+	_scene = scene;
+
 	// Scene description:
 	if (sceneConfig.descriptions.size() > scene)
 	    try {
@@ -642,7 +644,6 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	    }
 
 	// Component VISIBILITY:
-	_scene = scene;
 	for (Field f : sceneVisibility.keySet()) {
 	    Component c = null;
 	    try {
