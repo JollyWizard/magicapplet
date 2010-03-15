@@ -51,6 +51,10 @@ public class Tools {
     return r;
   }
 
+  public static void initializePanel(Panel p) {
+      
+  }
+  
   /**
    * Populates Fields of the panel with labels.
    * 
