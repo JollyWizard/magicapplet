@@ -8,6 +8,7 @@
 //
 package magicofcalculus;
 
+import james.Tools;
 import james.Annotations.Visibility;
 
 import javax.swing.JPanel;
@@ -65,6 +66,8 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	setVersionLocation(10, PANEL_HIEGHT - 10);
 
 	setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+
+	Tools.initializePanel(this);
     }
 
     /**
@@ -98,7 +101,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
      * @param numScenes
      *            if &lt; 0 scenes = 0;
      */
-    protected void setNumScenes(int numScenes) {// also resets _scene to
+    public void setNumScenes(int numScenes) {// also resets _scene to
 	// _numScenes-1, so we'll
 	// we'll either advance into scene 0 or reverse into the second to last
 	// scene
@@ -594,12 +597,26 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
     }
 
     // ////////////////ADDED BY JAMES:
+
+    private james.Annotations.scenes.Config sceneConfig;
+
+    public void setSceneConfig(james.Annotations.scenes.Config config) {
+	sceneConfig = config;
+	setNumScenes(config.last + 1);
+    }
+
+    public james.Annotations.scenes.Config getSceneConfig() {
+	return sceneConfig;
+    }
+
     /**
      * Stores a cache of the Visibility annotations for each field.
      */
     public HashMap<Field, Visibility> sceneVisibility = new HashMap<Field, Visibility>();
 
     /**
+     * TODO cache this info like scenes.config
+     * <p>
      * Usage note from original comment: override and call super.setScene(int
      * scene) first thing,
      * <p>
@@ -607,14 +624,24 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
      * 
      * @param scene
      */
-    // override and call super.setScene(int
+    // override and call super.setScene(int scene) first thing, should have a
+    // minimun of 2 scenes since last scene is the advancePanel call
     protected void setScene(int scene) {
-	// scene) first thing,
-	// should have a minimun of 2 scenes since last scene is the
-	// advancePanel call
+
 	if (scene < 0 || scene >= _numScenes)
 	    return;
 
+	// Scene description:
+	if (sceneConfig.descriptions.size() > scene)
+	    try {
+		setSceneString(sceneConfig.descriptions.get(scene));
+	    } catch (Exception e) {
+		// In case there is a problem with the list don't kil the
+		// program
+		e.printStackTrace();
+	    }
+
+	// Component VISIBILITY:
 	_scene = scene;
 	for (Field f : sceneVisibility.keySet()) {
 	    Component c = null;
@@ -678,7 +705,6 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	    }
 	}
     }
-
 }
 // ---------------------------------------
 // ------------------------------------------------
