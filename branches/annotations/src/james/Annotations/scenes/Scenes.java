@@ -14,5 +14,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Scenes {
+    /**
+     * The list of Scene(s) for the class
+     * 
+     * @return
+     */
     Scene[] value() default {};
+
 }
