@@ -57,8 +57,6 @@ public class Tools {
 	p.setSceneConfig(c);
     }
 
-    
-
     /**
      * Populates Fields of the panel with labels.
      * 
@@ -76,10 +74,6 @@ public class Tools {
 			if (l == null)
 			    continue fields;
 
-			if (lp != null)
-			    l
-				    .setPosition(new DPoint(lp.pos().x(), lp
-					    .pos().y()));
 			p._componentList.add(l);
 			System.out.println("LABEL BUILT: "
 				+ p.getClass().getName()

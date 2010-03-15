@@ -18,13 +18,6 @@ public @interface LabelProperties {
 
   String image() default Default;
 
-  /**
-   * If parameter = LabelProperties.Default, then the position values where
-   * not declared.
-   * TODO migrate this to separate functionality
-   */
-  Point pos() default @Point(parameter = Default);
-
   boolean showImage() default true;
 
   boolean drag() default true;

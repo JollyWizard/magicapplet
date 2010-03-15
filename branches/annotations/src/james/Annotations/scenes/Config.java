@@ -74,13 +74,13 @@ public class Config {
 	     * Use currentScene, lastScene, or "" based on availability
 	     */
 	    if (currentScene != null
-		    && currentScene.description() != Scene.DEFAULT) {
+		    && !currentScene.description().equals(Scene.DEFAULT)) {
 		// if current scene found
 		r.descriptions.add(currentScene.description());
 		lastScene = currentScene;
 		continue all;
 	    } else if (lastScene != null
-		    && lastScene.description() != Scene.DEFAULT) {
+		    && !lastScene.description().equals(Scene.DEFAULT)) {
 		// if last scene is available
 		r.descriptions.add(lastScene.description());
 		continue all;
