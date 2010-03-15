@@ -35,11 +35,11 @@ public class Config {
      * 
      * @param p
      */
-    public static Config build(Class<? extends Panel> p) {
+    public static Config build(Class<? extends Panel> c) {
 	// return value
 	Config r = new Config();
 
-	Scenes ss = p.getClass().getAnnotation(Scenes.class);
+	Scenes ss = c.getAnnotation(Scenes.class);
 
 	// TODO add error conditions (Exceptions)
 	if (ss == null || ss.value().length == 0)
