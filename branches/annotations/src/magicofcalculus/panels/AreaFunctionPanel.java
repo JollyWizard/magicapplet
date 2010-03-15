@@ -3,6 +3,11 @@
 //
 package magicofcalculus.panels;
 
+import james.Annotations.AxesProperties;
+import james.Annotations.LabelProperties;
+import james.Annotations.Point;
+import james.Annotations.PolyLineConfig;
+import james.Annotations.placement.Position;
 import james.Annotations.scenes.Scene;
 import james.Annotations.scenes.Scenes;
 
@@ -59,116 +64,24 @@ public class AreaFunctionPanel extends Panel {
 	super();
 	setNumScenes(7);
 
-	DPoint lowerOrigin = new DPoint(50, 450);
-	DPoint upperOrigin = new DPoint(50, 225);
-	int lengthOfAxisXInPanel = 300;
-	int lengthOfAxisYInPanel = 200;
-	int lengthOfAxisXLocal = 10;
-	int lengthOfAxisYLocal = 2;
-
-	_lowerAxes = new Axes(this);
-	_lowerAxes.setAxesInPanel(lowerOrigin, lengthOfAxisXInPanel,
-		lengthOfAxisYInPanel);
-	_lowerAxes.setAxesLocal(lengthOfAxisXLocal, lengthOfAxisYLocal);
 	_lowerAxes.setFillUnderCurveVisible(true);
 	_lowerAxes.setFillUnderCurveColor(Color.blue);
 
-	_upperAxes = new Axes(this);
-	_upperAxes.setAxesInPanel(upperOrigin, lengthOfAxisXInPanel,
-		lengthOfAxisYInPanel);
-	_upperAxes.setAxesLocal(lengthOfAxisXLocal, lengthOfAxisYLocal);
-
-	setNextButtonArea(lowerOrigin.x, lowerOrigin.y + 20,
-		lengthOfAxisXInPanel, Panel.PANEL_HIEGHT - lowerOrigin.y - 20);
-	// setBackButtonArea(0,lowerOrigin.y,lowerOrigin.x,Panel.PANEL_HIEGHT-lowerOrigin.y);
-	setNextButtonArea(50, PANEL_HIEGHT - 30, PANEL_WIDTH - 50, 30);// default
-	// bottom
-	// 50
-	// pixels
-
 	_lowerPoint = new Circle(this);
-	_lowerPoint.setCenter(lowerOrigin);
+	_lowerPoint.setCenter(_lowerAxes.getOrigin());
 	_lowerPoint.setColor(Color.blue);
 	_lowerPoint.setDraggable(true);
 
 	_upperPoint = new Circle(this);
-	_upperPoint.setCenter(upperOrigin);
+	_upperPoint.setCenter(_upperAxes.getOrigin());
 	_upperPoint.setColor(Color.red);
 	_upperPoint.setDraggable(true);
 
-	_lowerGraph = _lowerAxes.getPolyLineFromFunction(NUM_INTERVALS, 0,
-		lengthOfAxisXLocal, _curveFunction);
-	// _lowerGraph.setColor(Color.red);
-
-	_upperGraph = _upperAxes.getPolyLineFromFunction(NUM_INTERVALS, 0,
-		lengthOfAxisXLocal, _areaFunction);
-	_upperGraph.setColor(Color.red);
-
-	_fLabel = new Label(this);
-	_fLabel.setImage("36pt/FLabel.gif");
-	_fLabel.setDisplayImage(true);
-	_fLabel.setPosition(145, 295);
-	_fLabel.setDraggable(true);
-
-	_aLabel = new Label(this);
-	_aLabel.setImage("36pt/ALabel.gif");
-	_aLabel.setDisplayImage(true);
-	_aLabel.setPosition(145, 113);
-	_aLabel.setDraggable(true);
-
-	_curveFormulaLabel = new Label(this);
-	_curveFormulaLabel.setImage("24pt/CurveFormulaLabel.gif");
-	_curveFormulaLabel.setDisplayImage(true);
-	_curveFormulaLabel.setDraggable(true);
-	_curveFormulaLabel.setPosition(411, 287);
-
-	_areaFormulaLabel = new Label(this);
-	_areaFormulaLabel.setImage("24pt/AreaFormulaLabel.gif");
-	_areaFormulaLabel.setDisplayImage(true);
-	_areaFormulaLabel.setDraggable(true);
-	_areaFormulaLabel.setPosition(454, 148);
-
-	_threeXSquaredLabel = new Label(this);
-	_threeXSquaredLabel.setImage("32pt/ThreeXSquaredLabel.gif");
-	_threeXSquaredLabel.setDisplayImage(true);
-	_threeXSquaredLabel.setDraggable(true);
-	_threeXSquaredLabel.setPosition(638, 271);
-
-	_xLabel = new Label(this);
-	_xLabel.setImage("32pt/XLabel.gif");
-	_xLabel.setDisplayImage(true);
-	_xLabel.setDraggable(true);
-
-	_threeLabel = new Label(this);
-	_threeLabel.setImage("32pt/ThreeLabel.gif");
-	_threeLabel.setDisplayImage(true);
-	_threeLabel.setDraggable(true);
-	_threeLabel.setOpaque(true);
-	_threeLabel.setBgColor(getBackgroundColor());
-
-	_twoLabel = new Label(this);
-	_twoLabel.setImage("32pt/TwoLabel.gif");
-	_twoLabel.setDisplayImage(true);
-	_twoLabel.setDraggable(true);
-
-	_componentList.add(0, _lowerAxes);
-	_componentList.add(0, _upperAxes);
 	_componentList.add(0, _lowerPoint);
 	_componentList.add(0, _upperPoint);
-	_componentList.add(0, _lowerGraph);
-	_componentList.add(0, _upperGraph);
-	_componentList.add(0, _fLabel);
-	_componentList.add(0, _aLabel);
-	_componentList.add(0, _curveFormulaLabel);
-	_componentList.add(0, _areaFormulaLabel);
-	_componentList.add(0, _threeXSquaredLabel);
-	_componentList.add(0, _xLabel);
-	_componentList.add(0, _twoLabel);
-	_componentList.add(0, _threeLabel);
 
 	setLabelsOverThreeXSquaredLabel();
 	_xCubedLabelsDragGroupId = createDragGroup();
-
 	setSyncParams();
 	syncComponents();
     }
@@ -271,7 +184,8 @@ public class AreaFunctionPanel extends Panel {
 	// on the upper x axis in Panel coords
 	DPoint point = new DPoint(_xValuePanel, _upperAxes.getOrigin().y);
 	_upperAxes.transformPanelToLocal(point);
-	point.y = _areaFunction.getYofX(point.x);// on curve in local coords
+	// on curve in local coords
+	point.y = new Function.IntegralOfSinXOverX().getYofX(point.x);
 	_upperAxes.transformLocalToPanel(point);
 	_upperPoint.setCenter(point);
 
@@ -329,26 +243,63 @@ public class AreaFunctionPanel extends Panel {
     /**
      * The number of intervals used to map the integral function
      */
+
+    public static final double AXIS_X = 50;
+
+    public static final int AXIS_W = 300;
+
+    public static final int AXIS_H = 200;
+
+    public static final int localX = 10;
+
+    public static final int localY = 2;
+
+    @AxesProperties(index = 0, origin = @Point(x = AXIS_X, y = 450), localW = localX, localH = localY, width = AXIS_W, height = AXIS_H)
+    public Axes _lowerAxes;
+
+    @AxesProperties(index = 1, origin = @Point(x = AXIS_X, y = 225), localW = localX, localH = localY, width = AXIS_W, height = AXIS_H)
+    public Axes _upperAxes;
+
+    private Circle _lowerPoint;
+
+    private Circle _upperPoint;
+
+    @PolyLineConfig(axes = 0, function = Function.SinXOverX.class, intervals = NUM_INTERVALS, rightXLocal = 10, color = "black")
+    public PolyLine _lowerGraph;
+
+    @PolyLineConfig(axes = 1, function = Function.IntegralOfSinXOverX.class, intervals = NUM_INTERVALS, rightXLocal = 10, color = "red")
+    public PolyLine _upperGraph;
+
     private static final int NUM_INTERVALS = 100;
 
-    private Axes _lowerAxes = null;
-    private Axes _upperAxes = null;
-    private Circle _lowerPoint = null;
-    private Circle _upperPoint = null;
-    private PolyLine _lowerGraph = null;
-    private PolyLine _upperGraph = null;
-    private Label _fLabel = null;
-    private Label _aLabel = null;
+    @LabelProperties(image = "36pt/FLabel.gif")
+    @Position(x = 145, y = 295)
+    public Label _fLabel;
 
-    Function _curveFunction = new Function.SinXOverX();
-    Function _areaFunction = new Function.IntegralOfSinXOverX();
+    @LabelProperties(image = "36pt/ALabel.gif")
+    @Position(x = 145, y = 113)
+    public Label _aLabel;
 
-    private Label _curveFormulaLabel = null;
-    private Label _areaFormulaLabel = null;
-    private Label _threeXSquaredLabel = null;
-    private Label _xLabel = null;
-    private Label _twoLabel = null;
-    private Label _threeLabel = null;
+    @LabelProperties(image = "24pt/CurveFormulaLabel.gif")
+    @Position(x = 411, y = 287)
+    public Label _curveFormulaLabel;
+
+    @LabelProperties(image = "24pt/AreaFormulaLabel.gif")
+    @Position(x = 454, y = 148)
+    public Label _areaFormulaLabel;
+
+    @LabelProperties(image = "32pt/ThreeXSquaredLabel.gif")
+    @Position(x = 638, y = 271)
+    public Label _threeXSquaredLabel;
+
+    @LabelProperties(image = "32pt/XLabel.gif")
+    public Label _xLabel;
+
+    @LabelProperties(image = "32pt/TwoLabel.gif")
+    public Label _twoLabel;
+
+    @LabelProperties(image = "32pt/ThreeLabel.gif")
+    public Label _threeLabel;
 
     private boolean _groupXCubedLabels = true;
     private int _xCubedLabelsDragGroupId = -1;

@@ -72,28 +72,11 @@ public class SecantApproxPanel extends Panel {
      * </pre>
      */
     public SecantApproxPanel() {
-
 	super();
 	setNumScenes(NUM_SCENES);
 	// setNumScenes(1);//dev
 
-	DPoint origin = new DPoint(50, 450);
-	int lengthOfAxisX = 350;
-	int lengthOfAxisY = 400;
-
-	_axes = new Axes(this);
-	_axes.setAxesInPanel(origin, lengthOfAxisX, lengthOfAxisY);
-
-	_curve = new QuadCurve(this);
-	_curve.setCurve(origin.x, origin.y, 300, origin.y, origin.x
-		+ lengthOfAxisX, origin.y - lengthOfAxisY);
 	_curve.setColor(Color.red);
-
-	_curveEquationLabel = new Label(this);
-	_curveEquationLabel.setPosition(160, 80);
-	_curveEquationLabel.setDraggable(true);
-	_curveEquationLabel.setDisplayImage(true);
-	_curveEquationLabel.setImage("28pt/CurveEquationLabel.gif");
 
 	_tangentPoint = new Circle(this);
 	_tangentPoint.setCenter(_curve
@@ -115,7 +98,6 @@ public class SecantApproxPanel extends Panel {
 		.setCenter(_curve.getPointAtParamValue(tValueAtSecantPoint));
 	_secantPoint.setColor(Color.blue);
 	_secantPoint.setDraggable(true);
-	_secantPoint.setDragMaster((DragMaster) _curve);
 
 	_secantTriangle = new SecantTriangle(this);
 	_secantTriangle.setTriangle(_tangentPoint.getCenter(), _secantPoint
@@ -124,34 +106,6 @@ public class SecantApproxPanel extends Panel {
 	_secantTriangle.setDraggable(true);
 	_secantTriangle.setOutlineOnly(true);
 
-	_deltaXLabel = new Label(this);
-	_deltaXLabel.setImage("24pt/DeltaX.gif");
-	_deltaXLabel.setDisplayImage(true);
-	_deltaXLabel.setPosition(0, 0);
-
-	_deltaYLabel = new Label(this);
-	_deltaYLabel.setImage("24pt/DeltaY.gif");
-	_deltaYLabel.setDisplayImage(true);
-	_deltaYLabel.setPosition(0, 0);
-
-	_deltaYXFormulaLabel = new Label(this);
-	_deltaYXFormulaLabel.setImage("24pt/DeltaYXFormula.gif");
-	_deltaYXFormulaLabel.setDisplayImage(true);
-	_deltaYXFormulaLabel.setDraggable(true);
-	_deltaYXFormulaLabel.setPosition(112, 183);
-
-	_dydxFormulaLabel = new Label(this);
-	_dydxFormulaLabel.setImage("24pt/DydxFormula.gif");
-	_dydxFormulaLabel.setDisplayImage(true);
-	_dydxFormulaLabel.setDraggable(true);
-	_dydxFormulaLabel.setPosition(112, 183);
-
-	_questionMarkFormulaLabel = new Label(this);
-	_questionMarkFormulaLabel.setImage("24pt/QuestionMarkFormula.gif");
-	_questionMarkFormulaLabel.setDisplayImage(true);
-	_questionMarkFormulaLabel.setDraggable(true);
-	_questionMarkFormulaLabel.setPosition(112, 183);
-
 	_dydxTriangle = new SecantTriangle(this);
 	_dydxTriangle.setColor(MagicApplet.GREEN);
 	final int offset = 7;
@@ -159,76 +113,19 @@ public class SecantApproxPanel extends Panel {
 		-offset, offset), _tangentPoint.getCenter().getTranslation(
 		offset, -offset));
 
-	_dxLabel = new Label(this);
-	_dxLabel.setImage("12pt/dx.gif");
-	_dxLabel.setDisplayImage(true);
-	_dxLabel.setPosition(251, 356);
-	_dxLabel.setDraggable(true);// dev
+	// _threeLabel.setSize((int) _threeLabel.getWidth() + 5,
+	// (int) _threeLabel.getHeight());
 
-	_dyLabel = new Label(this);
-	_dyLabel.setImage("12pt/dy.gif");
-	_dyLabel.setDisplayImage(true);
-	_dyLabel.setPosition(270, 341);
-	_dyLabel.setDraggable(true);// dev
-
-	_curveFormulaLabel = new Label(this);
-	_curveFormulaLabel.setImage("24pt/CurveFormulaLabel.gif");
-	_curveFormulaLabel.setDisplayImage(true);
-	_curveFormulaLabel.setDraggable(true);
-	_curveFormulaLabel.setPosition(new DPoint(454, 148));
-
-	_slopeFormulaLabel = new Label(this);
-	_slopeFormulaLabel.setImage("24pt/SlopeFormulaLabel.gif");
-	_slopeFormulaLabel.setDisplayImage(true);
-	_slopeFormulaLabel.setDraggable(true);
-	_slopeFormulaLabel.setPosition(new DPoint(453, 214));
-
-	_xCubedLabel = new Label(this);
-	_xCubedLabel.setImage("32pt/XCubedLabel.gif");
-	_xCubedLabel.setDisplayImage(true);
-	_xCubedLabel.setDraggable(true);
-	_xCubedLabel.setPosition(694, 129);
-
-	_xLabel = new Label(this);
-	_xLabel.setImage("32pt/XLabel.gif");
-	_xLabel.setDisplayImage(true);
-	_xLabel.setDraggable(true);
-
-	_threeLabel = new Label(this);
-	_threeLabel.setImage("32pt/ThreeLabel.gif");
-	_threeLabel.setDisplayImage(true);
-	_threeLabel.setDraggable(true);
-	_threeLabel.setOpaque(true);
-	_threeLabel.setBgColor(getBackgroundColor());
-	_threeLabel.setSize((int) _threeLabel.getWidth() + 5, (int) _threeLabel
-		.getHeight());
-
-	_twoLabel = new Label(this);
-	_twoLabel.setImage("32pt/TwoLabel.gif");
-	_twoLabel.setDisplayImage(true);
-	_twoLabel.setDraggable(true);
-
-	_componentList.add(0, _axes);// add to beginning of list
+	// _componentList.add(0, _axes);//add to beginning of list
 	_componentList.add(0, _curve);
 	_componentList.add(0, _curveEquationLabel);
 	_componentList.add(0, _tangentPoint);
 	_componentList.add(0, _tangentLine);
 	_componentList.add(0, _secantPoint);
 	_componentList.add(0, _secantTriangle);
-	_componentList.add(0, _deltaXLabel);
-	_componentList.add(0, _deltaYLabel);
-	_componentList.add(0, _deltaYXFormulaLabel);
-	_componentList.add(0, _dydxFormulaLabel);
-	_componentList.add(0, _questionMarkFormulaLabel);
 	_componentList.add(0, _dydxTriangle);
-	_componentList.add(0, _dxLabel);
-	_componentList.add(0, _dyLabel);
-	_componentList.add(0, _curveFormulaLabel);
-	_componentList.add(0, _slopeFormulaLabel);
-	_componentList.add(0, _xCubedLabel);
-	_componentList.add(0, _xLabel);
-	_componentList.add(0, _twoLabel);
-	_componentList.add(0, _threeLabel);
+
+	System.out.println(_xLabel);
 
 	setLabelsOverXCubedLabel();
 	_xCubedLabelsDragGroupId = createDragGroup();
@@ -237,7 +134,6 @@ public class SecantApproxPanel extends Panel {
 	addToDragGroup(groupId, _deltaYXFormulaLabel);
 	addToDragGroup(groupId, _dydxFormulaLabel);
 	addToDragGroup(groupId, _questionMarkFormulaLabel);
-
     }
 
     /**
@@ -263,7 +159,6 @@ public class SecantApproxPanel extends Panel {
 	// put this down here so so it stays hittable during
 	// super.mousePressed() which selects the first hittable component
 	_secantPoint.setVisible(secantPointWasVisible);
-
     }
 
     /**
@@ -297,68 +192,23 @@ public class SecantApproxPanel extends Panel {
 
 	switch (scene) {
 	case 0:
-	    for (Component comp : _componentList)
-		comp.setVisible(false);
 	    _tangentLine.setColor(Color.blue);
 	    break;
-	case 1:
-	    _axes.setVisible(true);
-	    _curve.setVisible(true);
-	    _curveEquationLabel.setVisible(false);
-	    break;
-	case 2:
-	    _curveEquationLabel.setVisible(true);
-	    _tangentPoint.setVisible(false);
-	    break;
-	case 3:
-	    _tangentPoint.setVisible(true);
-	    _tangentLine.setVisible(false);
-	    break;
-	case 4:
-	    _tangentLine.setVisible(true);
-	    _secantPoint.setVisible(false);
-	    break;
-	case 5:
-	    _secantPoint.setVisible(true);
-	    break;
-	case ATTACH_SCENE:// 6
-	    _secantTriangle.setVisible(false);
-	    _deltaXLabel.setVisible(false);
-	    _deltaYLabel.setVisible(false);
-	    break;
 	case 7:
-	    _secantTriangle.setVisible(true);
-	    _deltaXLabel.setVisible(true);
-	    _deltaYLabel.setVisible(true);
 	    syncComponents();// to place labels on triangle in case no move has
 	    // happened since Attach Point and Line
-	    _deltaYXFormulaLabel.setVisible(false);
 	    break;
 	case 8:// SLOPE_FORMULA_VISIBLE_SCENE
-	    _deltaYXFormulaLabel.setVisible(true);
-	    _curveFormulaLabel.setVisible(false);
-	    _xCubedLabel.setVisible(false);
-	    _xLabel.setVisible(false);
-	    _twoLabel.setVisible(false);
-	    _threeLabel.setVisible(false);
 	    break;
 	case 9:
-	    _curveFormulaLabel.setVisible(true);
-	    _xCubedLabel.setVisible(true);
-	    _xLabel.setVisible(true);
-	    _twoLabel.setVisible(true);
-	    _threeLabel.setVisible(true);
 	    setLabelsOverXCubedLabel();
-	    setXCubedLabelsGrouped(true);
 	    break;
 	case 10:
 	    setXCubedLabelsGrouped(false);
-	    _slopeFormulaLabel.setVisible(false);
 	    setXCubedLabelsGrouped(false);
 	    break;
 	case 11:
 	    _slopeFormulaLabel.setVisible(true);
-	    setXCubedLabelsGrouped(true);
 	    syncComponents();// dev, in case coming back here from scene 13 with
 	    // green line
 	    break;
@@ -375,7 +225,6 @@ public class SecantApproxPanel extends Panel {
 	    break;
 	default:
 	    break;
-	// don't forget to set NUM_SCENES
 	}
     }
 
@@ -642,6 +491,8 @@ public class SecantApproxPanel extends Panel {
     public static final int heightY = 400;
 
     @AxesProperties(origin = @Point(x = originX, y = originY), width = widthX, height = heightY)
+    // XXX TESTING EXAMPLE does not override position.
+    @Position(x = originX + 200, y = originY + 200)
     @Visibility(active = 1)
     public Axes _axes;
 

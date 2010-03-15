@@ -5,6 +5,7 @@ import james.Annotations.LabelProperties;
 import james.Annotations.PolyLineConfig;
 import james.Annotations.QuadCurveProperties;
 import james.Annotations.Visibility;
+import james.Annotations.placement.Position;
 import james.Annotations.scenes.Config;
 
 import java.awt.Color;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import magicofcalculus.Component;
 import magicofcalculus.DPoint;
 import magicofcalculus.Function;
 import magicofcalculus.Panel;
@@ -55,6 +57,63 @@ public class Tools {
     public static void initializePanel(Panel p) {
 	Config c = james.Annotations.scenes.Config.build(p.getClass());
 	p.setSceneConfig(c);
+	buildAxes(p);
+	buildQuadCurves(p);
+	buildLabels(p);
+	cacheVisibility(p);
+	setPositions(p);
+    }
+
+    public static Class[] primitives = { int.class, short.class, long.class,
+	    float.class, double.class, byte.class, char.class };
+
+    /**
+     * sets initial Position of Components from @Position annotation
+     */
+    public static void setPositions(Panel p) {
+	boolean component;
+	fields: for (Field f : p.getClass().getFields()) {
+	    // if not a component skip
+	    component = false;
+	    Class cl = f.getType();
+	    // Test for arrays and primitives first.
+	    if (cl.isArray())
+		continue;
+	    for (Class c : primitives)
+		if (cl == c)
+		    continue fields;
+	    while (cl != Object.class) {
+		if (cl == Component.class) {
+		    component = true;
+		    break;
+		}
+		cl = cl.getSuperclass();
+	    }
+	    if (!component)
+		continue fields;
+
+	    // if no @Position skip
+	    Position pos = f.getAnnotation(Position.class);
+	    if (pos == null)
+		continue fields;
+
+	    /**
+	     * Get component from field
+	     */
+	    Component com = null;
+	    try {
+		com = (Component) f.get(p);
+	    } catch (IllegalArgumentException e) {
+		e.printStackTrace();
+	    } catch (IllegalAccessException e) {
+		e.printStackTrace();
+	    }
+
+	    // if not null then set position
+	    if (com == null)
+		continue fields;
+	    com.setPosition(pos.x(), pos.y());
+	}
     }
 
     /**
