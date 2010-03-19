@@ -9,8 +9,8 @@ import javax.imageio.ImageIO;
 
 /**
  * Class which encapsulates a {@link BufferedImage} while providing publicly
- * accessible {@link Graphics} and {@link Graphics2D} objects, and the functionality to write it's contents to a
- * JPEG or PNG file.
+ * accessible {@link Graphics} and {@link Graphics2D} objects, and the
+ * functionality to write it's contents to a JPEG or PNG file.
  * 
  * 
  * @author Wade Harkins (vdtdev@gmail.com)

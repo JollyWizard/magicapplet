@@ -17,16 +17,14 @@ public class RenderedBufferedImage implements RenderedImage {
 	private BufferedImage baseImage;
 
 	/**
-	 * Public constructor creating a new <code>RenderedBufferedImage</code> from an
-	 * existing {@link BufferedImage}
+	 * Public constructor creating a new <code>RenderedBufferedImage</code> from
+	 * an existing {@link BufferedImage}
 	 * 
 	 * @param img
 	 */
 	public RenderedBufferedImage(BufferedImage img) {
 		this.baseImage = img;
 	}
-
-	
 
 	@Override
 	public WritableRaster copyData(WritableRaster raster) {
