@@ -3,6 +3,7 @@
 //
 package magicofcalculus.panels;
 
+import james.SubComponent;
 import james.Annotations.AxesProperties;
 import james.Annotations.LabelProperties;
 import james.Annotations.Point;
@@ -125,10 +126,7 @@ public class SecantApproxPanel extends Panel {
 	_componentList.add(0, _secantTriangle);
 	_componentList.add(0, _dydxTriangle);
 
-	System.out.println(_xLabel);
-
 	setLabelsOverXCubedLabel();
-	_xCubedLabelsDragGroupId = createDragGroup();
 
 	int groupId = createDragGroup();
 	addToDragGroup(groupId, _deltaYXFormulaLabel);
@@ -204,8 +202,8 @@ public class SecantApproxPanel extends Panel {
 	    setLabelsOverXCubedLabel();
 	    break;
 	case 10:
-	    setXCubedLabelsGrouped(false);
-	    setXCubedLabelsGrouped(false);
+	    // TODO Migrated to _x23label
+	    // setXCubedLabelsGrouped(false);
 	    break;
 	case 11:
 	    _slopeFormulaLabel.setVisible(true);
@@ -272,9 +270,10 @@ public class SecantApproxPanel extends Panel {
 		syncDeltaXLabel();
 	    } else if (_componentList.get(i) == _deltaYLabel) {
 		syncDeltaYLabel();
-	    } else if (_componentList.get(i) == _threeLabel) {
-		syncThreeLabel();
 	    }
+//	    else if (_componentList.get(i) == _threeLabel) {
+//		syncThreeLabel();
+//	    }
 	}
 
 	if (pointsOnTopOfEachOther) {
@@ -416,29 +415,14 @@ public class SecantApproxPanel extends Panel {
 	_deltaYLabel.setPosition(xPos, yPos);
     }
 
-    private void syncThreeLabel() {
-	if (_threeLabel.getPosition().x < _xLabel.getPosition().x)
-	    _threeLabel.setImage("32pt/ThreeLabelBig.gif");
-	else
-	    _threeLabel.setImage("32pt/ThreeLabel.gif");
-    }
-
-    /**
-     * Adds the labels for the xcubed information to the drag group or clear
-     * drag group if false.
+    /*
+     * TODO migrate to _x23label
      * 
-     * @param set
+     * private void syncThreeLabel() { if (_threeLabel.getPosition().x <
+     * _xLabel.getPosition().x) _threeLabel.setImage("32pt/ThreeLabelBig.gif");
+     * else _threeLabel.setImage("32pt/ThreeLabel.gif"); }
      */
-    private void setXCubedLabelsGrouped(boolean set) {
-	_groupXCubedLabels = set;
-	if (_groupXCubedLabels) {
-	    addToDragGroup(_xCubedLabelsDragGroupId, _xLabel);
-	    addToDragGroup(_xCubedLabelsDragGroupId, _twoLabel);
-	    addToDragGroup(_xCubedLabelsDragGroupId, _threeLabel);
-	} else
-	    clearDragGroup(_xCubedLabelsDragGroupId);
-    }
-
+    
     /**
      * Sets the 3 label for x's power to a relative position for the formula to
      * look correct.
@@ -446,18 +430,20 @@ public class SecantApproxPanel extends Panel {
     private void setLabelsOverXCubedLabel() {
 	DPoint bottomLeftCornerOfXCubedLabel = _xCubedLabel
 		.getBottomLeftCorner();
-	_xLabel.setBottomLeftCorner(bottomLeftCornerOfXCubedLabel);
+	DPoint _x23Pos = _x23.getPosition(bottomLeftCornerOfXCubedLabel);
+	_x23._xLabel.setPosition(_x23Pos);
+	
 	double pctWidthOverlap = 5;
 	double pctHeightOverlap = 38;
-	double xPos = _xLabel.getPosition().x + (1 - pctWidthOverlap / 100)
-		* _xLabel.getWidth();
-	double yPos = _xLabel.getPosition().y + (pctHeightOverlap / 100)
-		* _xLabel.getHeight();
-	_threeLabel.setImage("32pt/ThreeLabel.gif");
-	_threeLabel.setBottomLeftCorner(new DPoint(xPos, yPos));
-	_twoLabel.setBottomLeftCorner(_threeLabel.getBottomLeftCorner());
-	_componentList.bringToTopOfZOrder(_xLabel);
-	_componentList.bringToTopOfZOrder(_threeLabel);
+	double xPos = _x23._xLabel.getPosition().x + (1 - pctWidthOverlap / 100)
+		* _x23._xLabel.getWidth();
+	double yPos = _x23._xLabel.getPosition().y + (pctHeightOverlap / 100)
+		* _x23._xLabel.getHeight();
+	_x23._threeLabel.setImage("32pt/ThreeLabel.gif");
+	_x23._threeLabel.setBottomLeftCorner(new DPoint(xPos, yPos));
+	_x23._twoLabel.setBottomLeftCorner(_x23._threeLabel.getBottomLeftCorner());
+	_componentList.bringToTopOfZOrder(_x23._xLabel);
+	_componentList.bringToTopOfZOrder(_x23._threeLabel);
     }
 
     // ---------------------------------------
@@ -471,9 +457,6 @@ public class SecantApproxPanel extends Panel {
      * THe scene when the panel is returned to from BMI_Panel
      */
     private static final int POST_BMI_SCENE = 13;
-
-    private boolean _groupXCubedLabels = true;
-    private int _xCubedLabelsDragGroupId = -1;
 
     private static final boolean MAKE_TANGENT_DISAPPEAR = false;
 
@@ -491,7 +474,6 @@ public class SecantApproxPanel extends Panel {
     public static final int heightY = 400;
 
     @AxesProperties(origin = @Point(x = originX, y = originY), width = widthX, height = heightY)
-    // XXX TESTING EXAMPLE does not override position.
     @Position(x = originX + 200, y = originY + 200)
     @Visibility(active = 1)
     public Axes _axes;
@@ -564,17 +546,33 @@ public class SecantApproxPanel extends Panel {
     @Visibility(active = 9)
     public Label _xCubedLabel;
 
-    @LabelProperties(image = "32pt/XLabel.gif")
+    /**
+     * Old groupable labels moved to agrregate label
+     * Position taken from {@link SecantApproxPanel#_xCubedLabel} 
+     */
+    @Position(x = 694, y = 129)
     @Visibility(active = 9)
-    public Label _xLabel;
+    public x23Label _x23;
 
-    @LabelProperties(image = "32pt/TwoLabel.gif")
-    @Visibility(active = 9)
-    public Label _twoLabel;
+    /**
+     * addToDragGroup(_xCubedLabelsDragGroupId, _xLabel);
+     * addToDragGroup(_xCubedLabelsDragGroupId, _twoLabel);
+     * addToDragGroup(_xCubedLabelsDragGroupId, _threeLabel);
+     */
+    public class x23Label extends SubComponent {
+	public x23Label(Panel panel) {
+	    super(panel);
+	}
 
-    @LabelProperties(image = "32pt/ThreeLabel.gif")
-    @Visibility(active = 9)
-    public Label _threeLabel;
+	@LabelProperties(image = "32pt/XLabel.gif")
+	public Label _xLabel;
+
+	@LabelProperties(image = "32pt/TwoLabel.gif")
+	public Label _twoLabel;
+
+	@LabelProperties(image = "32pt/ThreeLabel.gif")
+	public Label _threeLabel;
+    }
 
     // Sync params
     /**

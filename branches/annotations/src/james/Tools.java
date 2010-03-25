@@ -54,9 +54,15 @@ public class Tools {
 	return r;
     }
 
+    /**
+     * initialize all the automated and annotation information of a panel.
+     * 
+     * @param p
+     */
     public static void initializePanel(Panel p) {
 	Config c = james.Annotations.scenes.Config.build(p.getClass());
 	p.setSceneConfig(c);
+	subComponents.buildSubComponents(p);
 	buildAxes(p);
 	buildQuadCurves(p);
 	buildLabels(p);
@@ -70,26 +76,10 @@ public class Tools {
     /**
      * sets initial Position of Components from @Position annotation
      */
-    public static void setPositions(Panel p) {
-	boolean component;
-	fields: for (Field f : p.getClass().getFields()) {
-	    // if not a component skip
-	    component = false;
-	    Class cl = f.getType();
-	    // Test for arrays and primitives first.
-	    if (cl.isArray())
-		continue;
-	    for (Class c : primitives)
-		if (cl == c)
-		    continue fields;
-	    while (cl != Object.class) {
-		if (cl == Component.class) {
-		    component = true;
-		    break;
-		}
-		cl = cl.getSuperclass();
-	    }
-	    if (!component)
+    public static void setPositions(Object o) {
+	fields: for (Field f : o.getClass().getFields()) {
+
+	    if (!Component.class.isAssignableFrom(f.getType()))
 		continue fields;
 
 	    // if no @Position skip
@@ -102,17 +92,14 @@ public class Tools {
 	     */
 	    Component com = null;
 	    try {
-		com = (Component) f.get(p);
-	    } catch (IllegalArgumentException e) {
-		e.printStackTrace();
-	    } catch (IllegalAccessException e) {
+		com = (Component) f.get(o);
+	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
 
 	    // if not null then set position
-	    if (com == null)
-		continue fields;
-	    com.setPosition(pos.x(), pos.y());
+	    if (com != null)
+		com.setPosition(pos.x(), pos.y());
 	}
     }
 
@@ -121,21 +108,38 @@ public class Tools {
      * 
      * @param p
      */
-    public static void buildLabels(Panel p) {
-	fields: for (Field f : p.getClass().getFields()) {
+    public static void buildLabels(Object o) {
+
+	// Panel must be used to initialize the components, so the type of
+	// object must be tested before we begin
+	Panel p = null;
+	if (o instanceof Panel)
+	    p = (Panel) o;
+	else if (o instanceof Component)
+	    p = ((Component) o)._panel;
+
+	fields: for (Field f : o.getClass().getFields()) {
 	    if (f.getType().equals(Label.class)) {
 		try {
-		    if (f.get(p) == null) {
+		    if (f.get(o) == null) {
 			LabelProperties lp = f
 				.getAnnotation(LabelProperties.class);
-			f.set(p, buildLabel(p, lp));
-			Label l = (Label) f.get(p);
+			f.set(o, buildLabel(p, lp));
+			Label l = (Label) f.get(o);
 			if (l == null)
 			    continue fields;
 
-			p._componentList.add(l);
+			// Add to draw list
+			if (o instanceof Panel) {
+			    ((Panel) o)._componentList.add(l);
+			} else if (o instanceof SubComponent) {
+			    ((SubComponent) o).members.add(l);
+			    l.setVisible(true);
+			}
+
+			// Diagnostic
 			System.out.println("LABEL BUILT: "
-				+ p.getClass().getName()
+				+ o.getClass().getName()
 				+ f.getAnnotation(LabelProperties.class)
 					.image());
 		    } else
@@ -147,10 +151,6 @@ public class Tools {
 		}
 	    }
 	}
-    }
-
-    public static void addAllComponents() {
-
     }
 
     /**
@@ -348,6 +348,53 @@ public class Tools {
 	    }
 	}
 	return r;
+    }
+
+    /**
+     * Holds methods for dealing with subComponents
+     * 
+     * @author James Arlow
+     */
+    public static class subComponents {
+	/**
+	 * Initializes sub component fields (but not fields)
+	 * 
+	 * @param p
+	 */
+	public static void buildSubComponents(Panel p) {
+
+	    for (Field f : p.getClass().getFields()) {
+		Class c = f.getType();
+		if (SubComponent.class.isAssignableFrom(c)) {
+
+		    SubComponent sc = null;
+		    try {
+			// Find Constructor and execute
+			if (Modifier.isStatic(c.getModifiers())) {
+			    sc = (SubComponent) f.getType().getConstructor(
+				    Panel.class).newInstance(p);
+			} else {
+			    sc = (SubComponent) f.getType().getConstructor(
+				    p.getClass(), Panel.class)
+				    .newInstance(p, p);
+			}
+
+			if (sc != null) {
+			    f.set(p, sc);
+
+			    // Add to Draw List
+			    p._componentList.add(sc);
+
+			    buildLabels(sc);
+			    setPositions(sc);
+			}
+
+		    } catch (Exception e) {
+			System.err.println(e.getMessage());
+		    }
+		}
+	    }
+	}
     }
 
 }
