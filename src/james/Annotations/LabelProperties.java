@@ -22,6 +22,12 @@ public @interface LabelProperties {
      */
     String image() default Default;
 
+    /**
+     * @deprecated, moved to autocall TODO add implementation to Image class
+     *              caller
+     * 
+     * @return
+     */
     boolean showImage() default true;
 
     /**

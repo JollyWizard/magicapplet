@@ -1,9 +1,11 @@
 package james;
 
+import james.Annotations.AutoCaller;
 import james.Annotations.AxesProperties;
 import james.Annotations.LabelProperties;
 import james.Annotations.PolyLineConfig;
 import james.Annotations.QuadCurveProperties;
+import james.Annotations.QuickInit;
 import james.Annotations.Visibility;
 import james.Annotations.placement.Position;
 import james.Annotations.scenes.Config;
@@ -64,8 +66,39 @@ public class Tools {
 	subComponents.buildSubComponents(p);
 	buildAxes(p);
 	buildQuadCurves(p);
-	// buildLabels(p);
+	//buildLabels(p);
+	QuickInit.Build(p);
+	AutoCaller.m.autoCall(p);
+
 	cacheVisibility(p);
+	addAllComponents(p);
+    }
+
+    public static void listComponents(Panel p) {
+	for (Component c : p._componentList)
+	    System.err.println(c.getPosition().toString() + " | "
+		    + c.isVisible() + " | " + c);
+	System.out.println();
+    }
+
+    public static void addAllComponents(Panel p) {
+	Class cp = p.getClass();
+	for (Field f : cp.getFields()) {
+	    if (Component.class.isAssignableFrom(f.getType())) {
+		Component c = null;
+		try {
+		    c = (Component) f.get(p);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+
+		if (c == null)
+		    continue;
+		for (Component c1 : p._componentList)
+		    if (c1 == c) continue;
+		p._componentList.add(c);
+	    }
+	}
     }
 
     public static Class[] primitives = { int.class, short.class, long.class,
@@ -142,8 +175,7 @@ public class Tools {
 			// Diagnostic
 			System.out.println("LABEL BUILT: "
 				+ o.getClass().getName()
-				+ f.getAnnotation(LabelProperties.class)
-					.image());
+				+ f.getAnnotation(LabelProperties.class));
 		    } else
 			System.err.println("CANNOT ACCESS PRIVATE LABEL: " + f);
 		} catch (IllegalAccessException iae) {

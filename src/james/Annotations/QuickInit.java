@@ -7,6 +7,53 @@ import java.lang.reflect.Modifier;
 public class QuickInit {
 
     /**
+     * Builds all fields that QuickInit is capable of
+     * 
+     * @param o
+     */
+    public static void Build(Object o) {
+	for (Field f : o.getClass().getFields()) {
+	    Build(o, f);
+	}
+    }
+
+    public static <T> T Build(Class<T> c) {
+	return Build(c, (Object) null);
+    }
+
+    public static void Build(Object o, Field f) {
+	// check parameters before trying
+	if (o == null)
+	    return;
+
+	// check accessible
+	int mod = f.getModifiers();
+	if (Modifier.isFinal(mod) || !Modifier.isPublic(mod))
+	    return;
+
+	// make sure parent is correct
+	if (!f.getDeclaringClass().isAssignableFrom(o.getClass()))
+	    return;
+	// check for null
+	try {
+	    if (f.get(o) != null)
+		return;
+	} catch (Exception e1) {
+	    e1.printStackTrace();
+	}
+
+	// Build object and set if successful
+	Object fo = Build(f.getType(), o);
+	if (fo == null)
+	    return;
+	try {
+	    f.set(o, fo);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    /**
      * Returns an instance of c, using constructor c(o.getClass()) or c() (if
      * the one-arg constructor is not found). Recursively performs the same
      * operation on all member fields using the created object as o.
@@ -24,12 +71,17 @@ public class QuickInit {
      */
     @SuppressWarnings("unchecked")
     public static <T> T Build(Class<T> c, Object o) {
+	int mod = c.getModifiers();
+	if (c.isPrimitive() || Modifier.isAbstract(mod)
+		|| !Modifier.isPublic(mod))
+	    return null;
 	T r = null;
 	// First search for constructor that takes o as an arguement
 	try {
 	    if (o != null) {
 		for (Constructor con : c.getConstructors()) {
-		    if (!Modifier.isPublic(con.getModifiers())) continue;
+		    if (!Modifier.isPublic(con.getModifiers()))
+			continue;
 		    Class[] params = con.getParameterTypes();
 		    if (params.length != 1
 			    || !params[0].isAssignableFrom(o.getClass())) {
@@ -49,7 +101,8 @@ public class QuickInit {
 		    r = c.newInstance();
 		}
 	    } catch (Exception e) {
-		System.err.println("DEFAULT CONSTRUCTOR INIT ERROR: " + c.getClass());
+		System.err.println("DEFAULT CONSTRUCTOR INIT ERROR: "
+			+ c.getClass());
 		e.printStackTrace();
 	    }
 	}
@@ -58,22 +111,8 @@ public class QuickInit {
 	if (r == null)
 	    return r;
 
-	// Then quick init all fields
-	for (Field f : c.getFields()) {
-	    int mod = f.getModifiers();
-	    if (Modifier.isPublic(mod) && !Modifier.isFinal(mod))
-		try {
-		    // skip fields that already have a value
-		    if (f.get(r) != null)
-			continue;
-
-		    Object fo = Build(f.getType(), r);
-		    if (fo != null)
-			f.set(r, fo);
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-	}
+	// Build FIelds
+	Build(r);
 
 	return r;
     }

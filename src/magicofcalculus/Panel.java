@@ -705,6 +705,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 		}
 	    }
 	}
+	Tools.listComponents(this);
     }
 }
 // ---------------------------------------

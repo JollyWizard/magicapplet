@@ -9,7 +9,7 @@ import james.Annotations.ComponentCaller;
 import magicofcalculus.components.Label;
 
 /**
- * Contains a url string for a labels image
+ * Contains a configuration information about label images
  * 
  * @author James Arlow
  * 
@@ -25,16 +25,22 @@ public @interface Image {
      */
     public String value();
 
+    /**
+     * Whether or not the image is to be drawn. Assumedly, initially.
+     */
+    public boolean showImage() default true;
+
     public static class SetLabel extends ComponentCaller<Image, Label> {
 
 	@Override
 	public void call(Image annote, Label c) {
 	    c.setImage(annote.value());
+	    c.setDisplayImage(annote.showImage());
 	}
 
 	@Override
 	public String[] getProperties(Label c) {
-	    return new String[] { };
+	    return new String[] {};
 	}
     }
 }
