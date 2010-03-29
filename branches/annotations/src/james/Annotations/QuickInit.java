@@ -95,7 +95,8 @@ public class QuickInit {
 	    e.printStackTrace();
 	}
 	// Then perform default constructor search
-	if (r == null && !c.isMemberClass()) {
+	if (r == null
+		&& (!c.isMemberClass() || Modifier.isStatic(c.getModifiers()))) {
 	    try {
 		if (c.getConstructor() != null) {
 		    r = c.newInstance();
