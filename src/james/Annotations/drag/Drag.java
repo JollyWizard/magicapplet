@@ -2,7 +2,6 @@ package james.Annotations.drag;
 
 import james.Annotations.ComponentCaller;
 import james.Annotations.QuickInit;
-import james.Annotations.placement.Position;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -46,8 +45,8 @@ public @interface Drag {
 	@Override
 	public void call(Drag annote, Component c) {
 	    c.setDraggable(annote.value());
-	    if (annote.action() != Handler.class) {
-		Handler h = QuickInit.Build(annote.action());
+	    if (annote.action() != Handler.class && c._panel != null) {
+		Handler h = QuickInit.Build(annote.action(), c._panel);
 		c.dMaster2 = h;
 	    }
 	}
