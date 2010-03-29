@@ -7,6 +7,7 @@ import james.Annotations.AxesProperties;
 import james.Annotations.LabelProperties;
 import james.Annotations.Point;
 import james.Annotations.PolyLineConfig;
+import james.Annotations.labels.Image;
 import james.Annotations.placement.Position;
 import james.Annotations.scenes.Scene;
 import james.Annotations.scenes.Scenes;
@@ -272,33 +273,33 @@ public class AreaFunctionPanel extends Panel {
 
     private static final int NUM_INTERVALS = 100;
 
-    @LabelProperties(image = "36pt/FLabel.gif")
+    @Image("36pt/FLabel.gif")
     @Position(x = 145, y = 295)
     public Label _fLabel;
 
-    @LabelProperties(image = "36pt/ALabel.gif")
+    @Image("36pt/ALabel.gif")
     @Position(x = 145, y = 113)
     public Label _aLabel;
 
-    @LabelProperties(image = "24pt/CurveFormulaLabel.gif")
+    @Image("24pt/CurveFormulaLabel.gif")
     @Position(x = 411, y = 287)
     public Label _curveFormulaLabel;
 
-    @LabelProperties(image = "24pt/AreaFormulaLabel.gif")
+    @Image("24pt/AreaFormulaLabel.gif")
     @Position(x = 454, y = 148)
     public Label _areaFormulaLabel;
 
-    @LabelProperties(image = "32pt/ThreeXSquaredLabel.gif")
+    @Image("32pt/ThreeXSquaredLabel.gif")
     @Position(x = 638, y = 271)
     public Label _threeXSquaredLabel;
 
-    @LabelProperties(image = "32pt/XLabel.gif")
+    @Image("32pt/XLabel.gif")
     public Label _xLabel;
 
-    @LabelProperties(image = "32pt/TwoLabel.gif")
+    @Image("32pt/TwoLabel.gif")
     public Label _twoLabel;
 
-    @LabelProperties(image = "32pt/ThreeLabel.gif")
+    @Image("32pt/ThreeLabel.gif")
     public Label _threeLabel;
 
     private boolean _groupXCubedLabels = true;

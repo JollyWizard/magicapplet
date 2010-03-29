@@ -5,10 +5,12 @@ package magicofcalculus.panels;
 
 import james.SubComponent;
 import james.Annotations.AxesProperties;
+import james.Annotations.Draggable;
 import james.Annotations.LabelProperties;
 import james.Annotations.Point;
 import james.Annotations.QuadCurveProperties;
 import james.Annotations.Visibility;
+import james.Annotations.labels.Image;
 import james.Annotations.placement.Position;
 import james.Annotations.scenes.Scene;
 import james.Annotations.scenes.Scenes;
@@ -126,7 +128,7 @@ public class SecantApproxPanel extends Panel {
 	_componentList.add(0, _secantTriangle);
 	_componentList.add(0, _dydxTriangle);
 
-	setLabelsOverXCubedLabel();
+	//setLabelsOverXCubedLabel();
 
 	int groupId = createDragGroup();
 	addToDragGroup(groupId, _deltaYXFormulaLabel);
@@ -271,9 +273,9 @@ public class SecantApproxPanel extends Panel {
 	    } else if (_componentList.get(i) == _deltaYLabel) {
 		syncDeltaYLabel();
 	    }
-//	    else if (_componentList.get(i) == _threeLabel) {
-//		syncThreeLabel();
-//	    }
+	    // else if (_componentList.get(i) == _threeLabel) {
+	    // syncThreeLabel();
+	    // }
 	}
 
 	if (pointsOnTopOfEachOther) {
@@ -422,7 +424,7 @@ public class SecantApproxPanel extends Panel {
      * _xLabel.getPosition().x) _threeLabel.setImage("32pt/ThreeLabelBig.gif");
      * else _threeLabel.setImage("32pt/ThreeLabel.gif"); }
      */
-    
+
     /**
      * Sets the 3 label for x's power to a relative position for the formula to
      * look correct.
@@ -432,16 +434,17 @@ public class SecantApproxPanel extends Panel {
 		.getBottomLeftCorner();
 	DPoint _x23Pos = _x23.getPosition(bottomLeftCornerOfXCubedLabel);
 	_x23._xLabel.setPosition(_x23Pos);
-	
+
 	double pctWidthOverlap = 5;
 	double pctHeightOverlap = 38;
-	double xPos = _x23._xLabel.getPosition().x + (1 - pctWidthOverlap / 100)
-		* _x23._xLabel.getWidth();
+	double xPos = _x23._xLabel.getPosition().x
+		+ (1 - pctWidthOverlap / 100) * _x23._xLabel.getWidth();
 	double yPos = _x23._xLabel.getPosition().y + (pctHeightOverlap / 100)
 		* _x23._xLabel.getHeight();
 	_x23._threeLabel.setImage("32pt/ThreeLabel.gif");
 	_x23._threeLabel.setBottomLeftCorner(new DPoint(xPos, yPos));
-	_x23._twoLabel.setBottomLeftCorner(_x23._threeLabel.getBottomLeftCorner());
+	_x23._twoLabel.setBottomLeftCorner(_x23._threeLabel
+		.getBottomLeftCorner());
 	_componentList.bringToTopOfZOrder(_x23._xLabel);
 	_componentList.bringToTopOfZOrder(_x23._threeLabel);
     }
@@ -495,61 +498,71 @@ public class SecantApproxPanel extends Panel {
     @Visibility(active = 6)
     public SecantTriangle _secantTriangle;
 
-    @LabelProperties(image = "28pt/CurveEquationLabel.gif")
+    @Draggable
+    @Image("28pt/CurveEquationLabel.gif")
     @Position(x = 160, y = 80)
     @Visibility(active = 2)
     public Label _curveEquationLabel;
 
-    @LabelProperties(image = "24pt/DeltaX.gif", drag = false)
+    @Image("24pt/DeltaX.gif")
     @Visibility(active = 7)
     public Label _deltaXLabel;
 
-    @LabelProperties(image = "24pt/DeltaY.gif", drag = false)
+    @Image("24pt/DeltaY.gif")
     @Visibility(active = 7)
     public Label _deltaYLabel;
 
-    @LabelProperties(image = "24pt/DeltaYXFormula.gif")
+    @Draggable
+    @Image("24pt/DeltaYXFormula.gif")
     @Position(x = 112, y = 183)
     @Visibility(active = 8)
     public Label _deltaYXFormulaLabel;
 
-    @LabelProperties(image = "24pt/DydxFormula.gif")
+    @Draggable
+    @Image("24pt/DydxFormula.gif")
     @Position(x = 112, y = 183)
     public Label _dydxFormulaLabel;
 
-    @LabelProperties(image = "24pt/QuestionMarkFormula.gif")
+    @Draggable
+    @Image("24pt/QuestionMarkFormula.gif")
     @Position(x = 112, y = 183)
     public Label _questionMarkFormulaLabel;
 
     public SecantTriangle _dydxTriangle;
 
-    @LabelProperties(image = "12pt/dx.gif")
+    @Draggable
+    @Image("12pt/dx.gif")
     @Position(x = 251, y = 356)
     public Label _dxLabel;
 
-    @LabelProperties(image = "12pt/dy.gif")
+    @Draggable
+    @Image("12pt/dy.gif")
     @Position(x = 270, y = 341)
     public Label _dyLabel;
 
-    @LabelProperties(image = "24pt/CurveFormulaLabel.gif")
+    @Draggable
+    @Image("24pt/CurveFormulaLabel.gif")
     @Position(x = 454, y = 148)
     @Visibility(active = 9)
     public Label _curveFormulaLabel;
 
-    @LabelProperties(image = "24pt/SlopeFormulaLabel.gif")
+    @Draggable
+    @Image("24pt/SlopeFormulaLabel.gif")
     @Position(x = 453, y = 214)
     @Visibility(active = 11)
     public Label _slopeFormulaLabel;
 
-    @LabelProperties(image = "32pt/XCubedLabel.gif")
+    @Draggable
+    @Image("32pt/XCubedLabel.gif")
     @Position(x = 694, y = 129)
     @Visibility(active = 9)
     public Label _xCubedLabel;
 
     /**
-     * Old groupable labels moved to agrregate label
-     * Position taken from {@link SecantApproxPanel#_xCubedLabel} 
+     * Old groupable labels moved to agrregate label Position taken from
+     * {@link SecantApproxPanel#_xCubedLabel}
      */
+    @Draggable
     @Position(x = 694, y = 129)
     @Visibility(active = 9)
     public x23Label _x23;
@@ -564,13 +577,13 @@ public class SecantApproxPanel extends Panel {
 	    super(panel);
 	}
 
-	@LabelProperties(image = "32pt/XLabel.gif")
+	@Image("32pt/XLabel.gif")
 	public Label _xLabel;
 
-	@LabelProperties(image = "32pt/TwoLabel.gif")
+	@Image("32pt/TwoLabel.gif")
 	public Label _twoLabel;
 
-	@LabelProperties(image = "32pt/ThreeLabel.gif")
+	@Image("32pt/ThreeLabel.gif")
 	public Label _threeLabel;
     }
 

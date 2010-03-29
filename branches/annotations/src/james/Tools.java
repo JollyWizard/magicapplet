@@ -48,7 +48,6 @@ public class Tools {
 	    r.setImage(prop.image());
 	    r.setDisplayImage(prop.showImage());
 	}
-	r.setDraggable(prop.drag());
 	r.setBgColor(panel.getBackground());
 	r.setOpaque(prop.opaque());
 	return r;
@@ -65,9 +64,8 @@ public class Tools {
 	subComponents.buildSubComponents(p);
 	buildAxes(p);
 	buildQuadCurves(p);
-	buildLabels(p);
+	// buildLabels(p);
 	cacheVisibility(p);
-	setPositions(p);
     }
 
     public static Class[] primitives = { int.class, short.class, long.class,
@@ -75,6 +73,8 @@ public class Tools {
 
     /**
      * sets initial Position of Components from @Position annotation
+     * 
+     * @deprecated now handled by AutoCaller
      */
     public static void setPositions(Object o) {
 	fields: for (Field f : o.getClass().getFields()) {
@@ -106,6 +106,8 @@ public class Tools {
     /**
      * Populates Fields of the panel with labels.
      * 
+     * @deprecated because of transition to QuickInit and AutoBuild component
+     *             TODO add components to panel._componentlist elsewhere
      * @param p
      */
     public static void buildLabels(Object o) {
@@ -157,6 +159,7 @@ public class Tools {
      * Builds all Axes and PolyLines possible from config parameters and adds
      * them to the component list.
      * 
+     * @deprecated autobuilt by quickinit TODO move index cache
      * @param p
      */
     public static void buildAxes(Panel p) {
@@ -385,7 +388,7 @@ public class Tools {
 			    // Add to Draw List
 			    p._componentList.add(sc);
 
-			    buildLabels(sc);
+			    // bui/ldLabels(sc);
 			    setPositions(sc);
 			}
 
