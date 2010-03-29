@@ -4,6 +4,7 @@
 package magicofcalculus.panels;
 
 import james.SubComponent;
+import james.Annotations.AutoCaller;
 import james.Annotations.AxesProperties;
 import james.Annotations.LabelProperties;
 import james.Annotations.Point;
@@ -50,7 +51,7 @@ import static java.lang.Math.abs;
 	@Scene(index = 4, description = "Tangent Line"),
 	@Scene(index = 5, description = "Secant Point"),
 	@Scene(index = 6, description = "Attach Point and Line"),
-	@Scene(index = 7, description = "Triangle w labels"),
+	@Scene(index = 7, description = "Triangle w// labels"),
 	@Scene(index = 8, description = "Slope Formula"),
 	@Scene(index = 9, description = "Movable Formulas Grouped"),
 	@Scene(index = 10, description = "Formulas Ungrouped"),
@@ -133,7 +134,7 @@ public class SecantApproxPanel extends Panel {
 	addToDragGroup(groupId, _deltaYXFormulaLabel);
 	addToDragGroup(groupId, _dydxFormulaLabel);
 	addToDragGroup(groupId, _questionMarkFormulaLabel);
-	
+
 	System.out.println(_secantPoint.dMaster2);
     }
 
@@ -307,6 +308,8 @@ public class SecantApproxPanel extends Panel {
      * Class to handle the action where the components collide after the mystic
      * secrets of calculus have been revealed
      * 
+     * @manual When the two points collide the Formula will change to reveal the mystical workings of the calculus
+     * 
      * @author James Arlow
      */
     public class PostBMI_Collider extends Drag.Handler {
@@ -476,9 +479,13 @@ public class SecantApproxPanel extends Panel {
      * The scene where the line becomes a secant of the two points
      */
     private static final int ATTACH_SCENE = 6;
+    
+    /**
+     * The scene where the slope formula becomes visible
+     */
     private static final int SLOPE_FORMULA_VISIBLE_SCENE = 8;
     /**
-     * THe scene when the panel is returned to from BMI_Panel
+     * The scene when the panel is returned to from BMI_Panel
      */
     private static final int POST_BMI_SCENE = 13;
 
@@ -506,7 +513,6 @@ public class SecantApproxPanel extends Panel {
 	    + widthX, y = originY - heightY))
     @Visibility(active = 1)
     public QuadCurve _curve;
-
 
     @Visibility(active = 5)
     private Circle _tangentPoint;

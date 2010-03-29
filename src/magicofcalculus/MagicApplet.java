@@ -3,6 +3,9 @@
 //
 package magicofcalculus;
 
+import james.Annotations.AutoCaller;
+import james.Annotations.ComponentCaller;
+
 import javax.swing.JApplet;
 import javax.swing.SwingUtilities;
 
@@ -137,6 +140,7 @@ public class MagicApplet extends JApplet {
      * createGUI method
      */
     public void init() {
+	ComponentCaller.debug = true;
 	printDiagnostic(this, "init()");
 
 	// dev, get panel backgroud color from applet tag
