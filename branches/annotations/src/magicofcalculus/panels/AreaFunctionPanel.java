@@ -81,10 +81,12 @@ public class AreaFunctionPanel extends Panel {
 	_componentList.add(0, _lowerPoint);
 	_componentList.add(0, _upperPoint);
 
-	setLabelsOverThreeXSquaredLabel();
+	// setLabelsOverThreeXSquaredLabel();
 	_xCubedLabelsDragGroupId = createDragGroup();
 	setSyncParams();
-	syncComponents();
+	// Removed from constructor because of null pointers before automated
+	// initialization
+	// syncComponents();
     }
 
     /**
@@ -121,7 +123,7 @@ public class AreaFunctionPanel extends Panel {
 	    _threeLabel.setVisible(false);
 	    break;
 	case 3:
-	    setLabelsOverThreeXSquaredLabel();
+	    // setLabelsOverThreeXSquaredLabel();
 	    syncThreeLabel();
 	    _curveFormulaLabel.setVisible(true);
 	    _threeXSquaredLabel.setVisible(true);
@@ -229,6 +231,8 @@ public class AreaFunctionPanel extends Panel {
     /**
      * sets a second set of labels on top of the first set. I assume its a test
      * method.
+     * 
+     * @deprecated
      */
     private void setLabelsOverThreeXSquaredLabel() {
 	DPoint pos = _threeXSquaredLabel.getPosition();// 694,195

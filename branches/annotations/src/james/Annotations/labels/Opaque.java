@@ -9,10 +9,15 @@ import java.lang.annotation.Target;
 
 import magicofcalculus.components.Label;
 
+/**
+ * Sets opacity for images
+ * @author James Arlow
+ *
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Opaque {
-    public boolean value();
+    public boolean value() default true;
 
     public static class SetOpaque extends ComponentCaller<Opaque, Label> {
 

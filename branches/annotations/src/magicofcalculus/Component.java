@@ -5,6 +5,8 @@
 //
 package magicofcalculus;
 
+import james.Annotations.drag.Drag;
+
 import java.awt.Graphics;
 import java.awt.Color;
 
@@ -86,6 +88,8 @@ public class Component extends Object {
 	_dragHandle = mousePoint;
     }
 
+    public Drag.Handler dMaster2;
+
     public void dragTo(DPoint mousePoint) {
 	// this provides common drag operations, (1) a simple drag that uses a
 	// _dragHandle,
@@ -107,6 +111,9 @@ public class Component extends Object {
 		return;
 	    setPosition(dragDest);
 	}
+
+	if (dMaster2 != null)
+	    dMaster2.action();
 
     }
 

@@ -5,11 +5,11 @@ package magicofcalculus.panels;
 
 import james.SubComponent;
 import james.Annotations.AxesProperties;
-import james.Annotations.Draggable;
 import james.Annotations.LabelProperties;
 import james.Annotations.Point;
 import james.Annotations.QuadCurveProperties;
 import james.Annotations.Visibility;
+import james.Annotations.drag.Drag;
 import james.Annotations.labels.Image;
 import james.Annotations.placement.Position;
 import james.Annotations.scenes.Scene;
@@ -96,11 +96,10 @@ public class SecantApproxPanel extends Panel {
 	_tangentLine.setPivotDrag(_tangentPoint.getCenter());
 	_tangentLine.setColor(Color.blue);
 
-	_secantPoint = new Circle(this);
 	_secantPoint
 		.setCenter(_curve.getPointAtParamValue(tValueAtSecantPoint));
 	_secantPoint.setColor(Color.blue);
-	_secantPoint.setDraggable(true);
+	// _secantPoint.setDraggable(true);
 
 	_secantTriangle = new SecantTriangle(this);
 	_secantTriangle.setTriangle(_tangentPoint.getCenter(), _secantPoint
@@ -128,12 +127,14 @@ public class SecantApproxPanel extends Panel {
 	_componentList.add(0, _secantTriangle);
 	_componentList.add(0, _dydxTriangle);
 
-	//setLabelsOverXCubedLabel();
+	// setLabelsOverXCubedLabel();
 
 	int groupId = createDragGroup();
 	addToDragGroup(groupId, _deltaYXFormulaLabel);
 	addToDragGroup(groupId, _dydxFormulaLabel);
 	addToDragGroup(groupId, _questionMarkFormulaLabel);
+	
+	System.out.println(_secantPoint.dMaster2);
     }
 
     /**
@@ -201,7 +202,7 @@ public class SecantApproxPanel extends Panel {
 	case 8:// SLOPE_FORMULA_VISIBLE_SCENE
 	    break;
 	case 9:
-	    setLabelsOverXCubedLabel();
+	    // setLabelsOverXCubedLabel();
 	    break;
 	case 10:
 	    // TODO Migrated to _x23label
@@ -257,8 +258,6 @@ public class SecantApproxPanel extends Panel {
 
 	if (getScene() < ATTACH_SCENE)
 	    return;
-	boolean pointsOnTopOfEachOther = _tValue == _curve
-		.getParamValueAtPointNearestTo(_tangentPoint.getCenter());
 
 	// go thru the movable components
 	for (int i = 0; i < _componentList.size(); i++) {
@@ -278,47 +277,10 @@ public class SecantApproxPanel extends Panel {
 	    // }
 	}
 
+	boolean pointsOnTopOfEachOther = _tValue == _curve
+		.getParamValueAtPointNearestTo(_tangentPoint.getCenter());
+
 	if (pointsOnTopOfEachOther) {
-	    if (getScene() >= POST_BMI_SCENE) {
-		_tangentLine.setColor(MagicApplet.GREEN);
-		_tangentLine.setLine(_tangentPoint.getCenter(), _curve
-			.getSlopeAtParamValue(_tValueAtTangentPoint),
-			_tangentLine.getLength());
-		_tangentLine.setVisible(true);
-
-		_secantPoint.setVisible(false);
-		_tangentPoint.setVisible(false);
-		_dydxTriangle.setVisible(true);
-		_dxLabel.setVisible(true);
-		_dyLabel.setVisible(true);
-
-		_deltaYXFormulaLabel.setVisible(false);
-		_questionMarkFormulaLabel.setVisible(false);
-		_dydxFormulaLabel.setVisible(true);
-		_deltaXLabel.setVisible(false);
-		_deltaYLabel.setVisible(false);
-	    } else {
-		_tangentLine.setColor(Color.blue);
-		double slope = Line.getSlope(_mousePt.x, _mousePt.y,
-			_tangentPoint.getCenter().x,
-			_tangentPoint.getCenter().y);
-		_tangentLine.setLine(_tangentPoint.getCenter(), slope,
-			_tangentLine.getLength());
-		_tangentLine.setVisible(!MAKE_TANGENT_DISAPPEAR);
-
-		_secantPoint.setVisible(true);
-		_tangentPoint.setVisible(true);
-		_dydxTriangle.setVisible(false);
-		_dxLabel.setVisible(false);
-		_dyLabel.setVisible(false);
-
-		_deltaXLabel.setVisible(false);
-		_deltaYLabel.setVisible(false);
-		_deltaYXFormulaLabel.setVisible(false);
-		_dydxFormulaLabel.setVisible(false);
-		if (getScene() >= SLOPE_FORMULA_VISIBLE_SCENE)
-		    _questionMarkFormulaLabel.setVisible(true);
-	    }
 	} else {
 	    _tangentLine.setColor(Color.blue);
 	    _tangentLine.setVisible(true);
@@ -338,6 +300,63 @@ public class SecantApproxPanel extends Panel {
 		_deltaXLabel.setVisible(true);
 		_deltaYLabel.setVisible(true);
 	    }
+	}
+    }
+
+    /**
+     * Class to handle the action where the components collide after the mystic
+     * secrets of calculus have been revealed
+     * 
+     * @author James Arlow
+     */
+    public class PostBMI_Collider extends Drag.Handler {
+	public void action(Object... Params) {
+	    boolean pointsOnTopOfEachOther = _tValue == _curve
+		    .getParamValueAtPointNearestTo(_tangentPoint.getCenter());
+
+	    if (pointsOnTopOfEachOther) {
+		if (getScene() >= POST_BMI_SCENE) {
+		    _tangentLine.setColor(MagicApplet.GREEN);
+		    _tangentLine.setLine(_tangentPoint.getCenter(), _curve
+			    .getSlopeAtParamValue(_tValueAtTangentPoint),
+			    _tangentLine.getLength());
+		    _tangentLine.setVisible(true);
+
+		    _secantPoint.setVisible(false);
+		    _tangentPoint.setVisible(false);
+		    _dydxTriangle.setVisible(true);
+		    _dxLabel.setVisible(true);
+		    _dyLabel.setVisible(true);
+
+		    _deltaYXFormulaLabel.setVisible(false);
+		    _questionMarkFormulaLabel.setVisible(false);
+		    _dydxFormulaLabel.setVisible(true);
+		    _deltaXLabel.setVisible(false);
+		    _deltaYLabel.setVisible(false);
+		} else {
+		    _tangentLine.setColor(Color.blue);
+		    double slope = Line.getSlope(_mousePt.x, _mousePt.y,
+			    _tangentPoint.getCenter().x, _tangentPoint
+				    .getCenter().y);
+		    _tangentLine.setLine(_tangentPoint.getCenter(), slope,
+			    _tangentLine.getLength());
+		    _tangentLine.setVisible(!MAKE_TANGENT_DISAPPEAR);
+
+		    _secantPoint.setVisible(true);
+		    _tangentPoint.setVisible(true);
+		    _dydxTriangle.setVisible(false);
+		    _dxLabel.setVisible(false);
+		    _dyLabel.setVisible(false);
+
+		    _deltaXLabel.setVisible(false);
+		    _deltaYLabel.setVisible(false);
+		    _deltaYXFormulaLabel.setVisible(false);
+		    _dydxFormulaLabel.setVisible(false);
+		    if (getScene() >= SLOPE_FORMULA_VISIBLE_SCENE)
+			_questionMarkFormulaLabel.setVisible(true);
+		}
+	    }
+
 	}
     }
 
@@ -428,6 +447,8 @@ public class SecantApproxPanel extends Panel {
     /**
      * Sets the 3 label for x's power to a relative position for the formula to
      * look correct.
+     * 
+     * @deprecated
      */
     private void setLabelsOverXCubedLabel() {
 	DPoint bottomLeftCornerOfXCubedLabel = _xCubedLabel
@@ -486,19 +507,21 @@ public class SecantApproxPanel extends Panel {
     @Visibility(active = 1)
     public QuadCurve _curve;
 
+
     @Visibility(active = 5)
     private Circle _tangentPoint;
 
     @Visibility(active = 4)
     public Line _tangentLine;
 
+    @Drag(action = PostBMI_Collider.class)
     @Visibility(active = 3)
     public Circle _secantPoint;
 
     @Visibility(active = 6)
     public SecantTriangle _secantTriangle;
 
-    @Draggable
+    @Drag
     @Image("28pt/CurveEquationLabel.gif")
     @Position(x = 160, y = 80)
     @Visibility(active = 2)
@@ -512,47 +535,47 @@ public class SecantApproxPanel extends Panel {
     @Visibility(active = 7)
     public Label _deltaYLabel;
 
-    @Draggable
+    @Drag
     @Image("24pt/DeltaYXFormula.gif")
     @Position(x = 112, y = 183)
     @Visibility(active = 8)
     public Label _deltaYXFormulaLabel;
 
-    @Draggable
+    @Drag
     @Image("24pt/DydxFormula.gif")
     @Position(x = 112, y = 183)
     public Label _dydxFormulaLabel;
 
-    @Draggable
+    @Drag
     @Image("24pt/QuestionMarkFormula.gif")
     @Position(x = 112, y = 183)
     public Label _questionMarkFormulaLabel;
 
     public SecantTriangle _dydxTriangle;
 
-    @Draggable
+    @Drag
     @Image("12pt/dx.gif")
     @Position(x = 251, y = 356)
     public Label _dxLabel;
 
-    @Draggable
+    @Drag
     @Image("12pt/dy.gif")
     @Position(x = 270, y = 341)
     public Label _dyLabel;
 
-    @Draggable
+    @Drag
     @Image("24pt/CurveFormulaLabel.gif")
     @Position(x = 454, y = 148)
     @Visibility(active = 9)
     public Label _curveFormulaLabel;
 
-    @Draggable
+    @Drag
     @Image("24pt/SlopeFormulaLabel.gif")
     @Position(x = 453, y = 214)
     @Visibility(active = 11)
     public Label _slopeFormulaLabel;
 
-    @Draggable
+    @Drag
     @Image("32pt/XCubedLabel.gif")
     @Position(x = 694, y = 129)
     @Visibility(active = 9)
@@ -562,7 +585,7 @@ public class SecantApproxPanel extends Panel {
      * Old groupable labels moved to agrregate label Position taken from
      * {@link SecantApproxPanel#_xCubedLabel}
      */
-    @Draggable
+    @Drag
     @Position(x = 694, y = 129)
     @Visibility(active = 9)
     public x23Label _x23;
@@ -583,7 +606,7 @@ public class SecantApproxPanel extends Panel {
 	@Image("32pt/TwoLabel.gif")
 	public Label _twoLabel;
 
-	@Image("32pt/ThreeLabel.gif")
+	@Image(value = "32pt/ThreeLabel.gif")
 	public Label _threeLabel;
     }
 
