@@ -1,4 +1,4 @@
-package james.Annotations;
+package james;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

@@ -3,8 +3,8 @@
 //
 package magicofcalculus;
 
-import james.Annotations.AutoCaller;
-import james.Annotations.ComponentCaller;
+import james.AutoCaller;
+import james.ComponentCaller;
 
 import javax.swing.JApplet;
 import javax.swing.SwingUtilities;

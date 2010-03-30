@@ -3,8 +3,8 @@
 //
 package magicofcalculus.panels;
 
+import james.AutoCaller;
 import james.SubComponent;
-import james.Annotations.AutoCaller;
 import james.Annotations.AxesProperties;
 import james.Annotations.LabelProperties;
 import james.Annotations.Point;

@@ -1,7 +1,7 @@
 package james.Annotations.drag;
 
-import james.Annotations.ComponentCaller;
-import james.Annotations.QuickInit;
+import james.ComponentCaller;
+import james.QuickInit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
