@@ -1,11 +1,9 @@
 package james;
 
-import james.Annotations.AutoCaller;
 import james.Annotations.AxesProperties;
 import james.Annotations.LabelProperties;
 import james.Annotations.PolyLineConfig;
 import james.Annotations.QuadCurveProperties;
-import james.Annotations.QuickInit;
 import james.Annotations.Visibility;
 import james.Annotations.placement.Position;
 import james.Annotations.scenes.Config;

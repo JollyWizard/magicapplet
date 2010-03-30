@@ -1,5 +1,9 @@
 package james.Annotations;
 
+import james.AutoCaller;
+import james.ComponentCaller;
+import james.QuickInit;
+
 import java.lang.reflect.Field;
 
 import magicofcalculus.panels.SecantApproxPanel;

@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import james.Annotations.ComponentCaller;
+import james.ComponentCaller;
 import magicofcalculus.components.Label;
 
 /**
