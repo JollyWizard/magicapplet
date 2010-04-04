@@ -39,7 +39,7 @@ import magicofcalculus.components.SecantTriangle;
 	@Scene(index = 4, description = "Main Equation Grouped"),
 	@Scene(index = 5, description = "Equation Ungrouped"),
 	@Scene(index = 6, description = "Equation Regrouped"),
-	@Scene(index = 7, description = "You shouldn't be seeing this!"), })
+	@Scene(index = 7, description = "You shouldn't be seeing this!") })
 public class FundTheoremPanel extends Panel {
 
     /**
