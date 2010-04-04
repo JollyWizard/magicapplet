@@ -3,25 +3,22 @@
 //
 package magicofcalculus.panels;
 
-import james.AutoCaller;
 import james.SubComponent;
-import james.Annotations.AxesProperties;
-import james.Annotations.LabelProperties;
-import james.Annotations.Point;
-import james.Annotations.QuadCurveProperties;
-import james.Annotations.Visibility;
-import james.Annotations.drag.Drag;
-import james.Annotations.labels.Image;
-import james.Annotations.placement.Position;
-import james.Annotations.scenes.Scene;
-import james.Annotations.scenes.Scenes;
+import james.annotations.Point;
+import james.annotations.QuadCurveProperties;
+import james.annotations.drag.Drag;
+import james.annotations.draw.Color;
+import james.annotations.labels.Image;
+import james.annotations.placement.Dimensions;
+import james.annotations.placement.Position;
+import james.annotations.placement.Scale;
+import james.annotations.scenes.Scene;
+import james.annotations.scenes.Scenes;
+import james.annotations.visibility.Visible;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 
-import magicofcalculus.Component;
 import magicofcalculus.DPoint;
-import magicofcalculus.DragMaster;
 import magicofcalculus.Line;
 import magicofcalculus.MagicApplet;
 import magicofcalculus.Panel;
@@ -30,7 +27,6 @@ import magicofcalculus.components.Axes;
 import magicofcalculus.components.Circle;
 import magicofcalculus.components.Label;
 import magicofcalculus.components.SecantTriangle;
-import static java.lang.Math.abs;
 
 /**
  * TODO add Mathematical description of what the panel actually demonstrates
@@ -80,62 +76,34 @@ public class SecantApproxPanel extends Panel {
 	setNumScenes(NUM_SCENES);
 	// setNumScenes(1);//dev
 
-	_curve.setColor(Color.red);
-
 	_tangentPoint = new Circle(this);
 	_tangentPoint.setCenter(_curve
 		.getPointAtParamValue(_tValueAtTangentPoint));
-	_tangentPoint.setColor(Color.red);
 
 	double length = 700;// in pixels
-	_tangentLine = new Line(this);
 	double tValueAtSecantPoint = _tValue;
 	double slope = Line.getSlope(_tangentPoint.getCenter(), _curve
 		.getPointAtParamValue(tValueAtSecantPoint));
 	_tangentLine.setLine(_tangentPoint.getCenter(), slope, length);
-	_tangentLine.setDraggable(true);
 	_tangentLine.setPivotDrag(_tangentPoint.getCenter());
-	_tangentLine.setColor(Color.blue);
 
 	_secantPoint
 		.setCenter(_curve.getPointAtParamValue(tValueAtSecantPoint));
-	_secantPoint.setColor(Color.blue);
-	// _secantPoint.setDraggable(true);
 
-	_secantTriangle = new SecantTriangle(this);
 	_secantTriangle.setTriangle(_tangentPoint.getCenter(), _secantPoint
 		.getCenter());
-	_secantTriangle.setColor(Color.blue);
-	_secantTriangle.setDraggable(true);
 	_secantTriangle.setOutlineOnly(true);
 
-	_dydxTriangle = new SecantTriangle(this);
 	_dydxTriangle.setColor(MagicApplet.GREEN);
 	final int offset = 7;
 	_dydxTriangle.setTriangle(_tangentPoint.getCenter().getTranslation(
 		-offset, offset), _tangentPoint.getCenter().getTranslation(
 		offset, -offset));
 
-	// _threeLabel.setSize((int) _threeLabel.getWidth() + 5,
-	// (int) _threeLabel.getHeight());
-
-	// _componentList.add(0, _axes);//add to beginning of list
-	_componentList.add(0, _curve);
-	_componentList.add(0, _curveEquationLabel);
-	_componentList.add(0, _tangentPoint);
-	_componentList.add(0, _tangentLine);
-	_componentList.add(0, _secantPoint);
-	_componentList.add(0, _secantTriangle);
-	_componentList.add(0, _dydxTriangle);
-
-	// setLabelsOverXCubedLabel();
-
 	int groupId = createDragGroup();
 	addToDragGroup(groupId, _deltaYXFormulaLabel);
 	addToDragGroup(groupId, _dydxFormulaLabel);
 	addToDragGroup(groupId, _questionMarkFormulaLabel);
-
-	System.out.println(_secantPoint.dMaster2);
     }
 
     /**
@@ -194,7 +162,6 @@ public class SecantApproxPanel extends Panel {
 
 	switch (scene) {
 	case 0:
-	    _tangentLine.setColor(Color.blue);
 	    break;
 	case 7:
 	    syncComponents();// to place labels on triangle in case no move has
@@ -283,7 +250,6 @@ public class SecantApproxPanel extends Panel {
 
 	if (pointsOnTopOfEachOther) {
 	} else {
-	    _tangentLine.setColor(Color.blue);
 	    _tangentLine.setVisible(true);
 
 	    _secantPoint.setVisible(true);
@@ -308,7 +274,8 @@ public class SecantApproxPanel extends Panel {
      * Class to handle the action where the components collide after the mystic
      * secrets of calculus have been revealed
      * 
-     * @manual When the two points collide the Formula will change to reveal the mystical workings of the calculus
+     * @manual When the two points collide the Formula will change to reveal the
+     *         mystical workings of the calculus
      * 
      * @author James Arlow
      */
@@ -337,7 +304,6 @@ public class SecantApproxPanel extends Panel {
 		    _deltaXLabel.setVisible(false);
 		    _deltaYLabel.setVisible(false);
 		} else {
-		    _tangentLine.setColor(Color.blue);
 		    double slope = Line.getSlope(_mousePt.x, _mousePt.y,
 			    _tangentPoint.getCenter().x, _tangentPoint
 				    .getCenter().y);
@@ -479,7 +445,7 @@ public class SecantApproxPanel extends Panel {
      * The scene where the line becomes a secant of the two points
      */
     private static final int ATTACH_SCENE = 6;
-    
+
     /**
      * The scene where the slope formula becomes visible
      */
@@ -500,51 +466,58 @@ public class SecantApproxPanel extends Panel {
 
     public static final int originY = 450;
 
-    public static final int widthX = 350;
+    public static final int width = 350;
 
-    public static final int heightY = 400;
+    public static final int height = 400;
 
-    @AxesProperties(origin = @Point(x = originX, y = originY), width = widthX, height = heightY)
-    @Position(x = originX + 200, y = originY + 200)
-    @Visibility(active = 1)
+    @Position(x = originX, y = originY)
+    @Dimensions(width = width, height = height)
+    @Scale(x = 0, y = 0)
+    @Visible(1)
     public Axes _axes;
 
     @QuadCurveProperties(start = @Point(x = originX, y = originY), control = @Point(x = 300, y = originY), end = @Point(x = originX
-	    + widthX, y = originY - heightY))
-    @Visibility(active = 1)
+	    + width, y = originY - height))
+    @Visible(1)
+    @Color("red")
     public QuadCurve _curve;
 
-    @Visibility(active = 5)
+    @Visible(5)
     private Circle _tangentPoint;
 
-    @Visibility(active = 4)
+    @Drag
+    @Visible(4)
+    @Color("blue")
     public Line _tangentLine;
 
     @Drag(action = PostBMI_Collider.class)
-    @Visibility(active = 3)
+    @Visible(3)
+    @Color("blue")
     public Circle _secantPoint;
 
-    @Visibility(active = 6)
+    @Visible(6)
+    @Drag
+    @Color("blue")
     public SecantTriangle _secantTriangle;
 
     @Drag
     @Image("28pt/CurveEquationLabel.gif")
     @Position(x = 160, y = 80)
-    @Visibility(active = 2)
+    @Visible(2)
     public Label _curveEquationLabel;
 
     @Image("24pt/DeltaX.gif")
-    @Visibility(active = 7)
+    @Visible(7)
     public Label _deltaXLabel;
 
     @Image("24pt/DeltaY.gif")
-    @Visibility(active = 7)
+    @Visible(7)
     public Label _deltaYLabel;
 
     @Drag
     @Image("24pt/DeltaYXFormula.gif")
     @Position(x = 112, y = 183)
-    @Visibility(active = 8)
+    @Visible(8)
     public Label _deltaYXFormulaLabel;
 
     @Drag
@@ -572,19 +545,19 @@ public class SecantApproxPanel extends Panel {
     @Drag
     @Image("24pt/CurveFormulaLabel.gif")
     @Position(x = 454, y = 148)
-    @Visibility(active = 9)
+    @Visible(9)
     public Label _curveFormulaLabel;
 
     @Drag
     @Image("24pt/SlopeFormulaLabel.gif")
     @Position(x = 453, y = 214)
-    @Visibility(active = 11)
+    @Visible(11)
     public Label _slopeFormulaLabel;
 
     @Drag
     @Image("32pt/XCubedLabel.gif")
     @Position(x = 694, y = 129)
-    @Visibility(active = 9)
+    @Visible(9)
     public Label _xCubedLabel;
 
     /**
@@ -593,7 +566,7 @@ public class SecantApproxPanel extends Panel {
      */
     @Drag
     @Position(x = 694, y = 129)
-    @Visibility(active = 9)
+    @Visible(9)
     public x23Label _x23;
 
     /**

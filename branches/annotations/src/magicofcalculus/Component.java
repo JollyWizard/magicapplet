@@ -5,7 +5,7 @@
 //
 package magicofcalculus;
 
-import james.Annotations.drag.Drag;
+import james.annotations.drag.Drag;
 
 import java.awt.Graphics;
 import java.awt.Color;
@@ -152,6 +152,13 @@ public class Component extends Object {
     protected DragMaster _dragMaster = null;
 
     protected Color _color = Color.black;
+
+    /**
+     * @return the _color
+     */
+    public Color getColor() {
+	return _color;
+    }
 
     protected float _strokeWidth = 3.5f;
 }

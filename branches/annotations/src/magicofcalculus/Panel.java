@@ -9,7 +9,7 @@
 package magicofcalculus;
 
 import james.Tools;
-import james.Annotations.Visibility;
+import james.annotations.visibility.Visible;
 
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
@@ -598,21 +598,21 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 
     // ////////////////ADDED BY JAMES:
 
-    private james.Annotations.scenes.Config sceneConfig;
+    private james.annotations.scenes.Config sceneConfig;
 
-    public void setSceneConfig(james.Annotations.scenes.Config config) {
+    public void setSceneConfig(james.annotations.scenes.Config config) {
 	sceneConfig = config;
 	setNumScenes(config.last + 1);
     }
 
-    public james.Annotations.scenes.Config getSceneConfig() {
+    public james.annotations.scenes.Config getSceneConfig() {
 	return sceneConfig;
     }
 
     /**
      * Stores a cache of the Visibility annotations for each field.
      */
-    public HashMap<Field, Visibility> sceneVisibility = new HashMap<Field, Visibility>();
+    public HashMap<Field, Visible> sceneVisibility = new HashMap<Field, Visible>();
 
     /**
      * TODO cache this info like scenes.config
@@ -655,8 +655,8 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 		System.err.println("NULL FIELD:" + f.getName());
 		continue;
 	    }
-	    Visibility s = sceneVisibility.get(f);
-	    int[] active = s.active();
+	    Visible s = sceneVisibility.get(f);
+	    int[] active = s.value();
 	    int[] hidden = s.hidden();
 
 	    // Only check active if no hidden values.
@@ -705,7 +705,6 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 		}
 	    }
 	}
-	Tools.listComponents(this);
     }
 }
 // ---------------------------------------

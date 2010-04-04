@@ -3,24 +3,23 @@
 //
 package magicofcalculus.panels;
 
-import james.Annotations.AxesProperties;
-import james.Annotations.LabelProperties;
-import james.Annotations.Point;
-import james.Annotations.PolyLineConfig;
-import james.Annotations.labels.Image;
-import james.Annotations.placement.Position;
-import james.Annotations.scenes.Scene;
-import james.Annotations.scenes.Scenes;
-
-import java.awt.Color;
-
+import james.annotations.AxesProperties;
+import james.annotations.PolyLineConfig;
+import james.annotations.drag.Drag;
+import james.annotations.draw.Color;
+import james.annotations.draw.Fill;
+import james.annotations.labels.Image;
+import james.annotations.placement.Dimensions;
+import james.annotations.placement.Position;
+import james.annotations.placement.Scale;
+import james.annotations.scenes.Scene;
+import james.annotations.scenes.Scenes;
+import james.annotations.visibility.Visible;
 import magicofcalculus.Component;
 import magicofcalculus.DPoint;
 import magicofcalculus.Function;
 import magicofcalculus.MagicApplet;
 import magicofcalculus.Panel;
-import magicofcalculus.Function.IntegralOfSinXOverX;
-import magicofcalculus.Function.SinXOverX;
 import magicofcalculus.components.Axes;
 import magicofcalculus.components.Circle;
 import magicofcalculus.components.Label;
@@ -65,18 +64,9 @@ public class AreaFunctionPanel extends Panel {
 	super();
 	setNumScenes(7);
 
-	_lowerAxes.setFillUnderCurveVisible(true);
-	_lowerAxes.setFillUnderCurveColor(Color.blue);
-
-	_lowerPoint = new Circle(this);
 	_lowerPoint.setCenter(_lowerAxes.getOrigin());
-	_lowerPoint.setColor(Color.blue);
-	_lowerPoint.setDraggable(true);
 
-	_upperPoint = new Circle(this);
 	_upperPoint.setCenter(_upperAxes.getOrigin());
-	_upperPoint.setColor(Color.red);
-	_upperPoint.setDraggable(true);
 
 	_componentList.add(0, _lowerPoint);
 	_componentList.add(0, _upperPoint);
@@ -84,9 +74,6 @@ public class AreaFunctionPanel extends Panel {
 	// setLabelsOverThreeXSquaredLabel();
 	_xCubedLabelsDragGroupId = createDragGroup();
 	setSyncParams();
-	// Removed from constructor because of null pointers before automated
-	// initialization
-	// syncComponents();
     }
 
     /**
@@ -97,47 +84,21 @@ public class AreaFunctionPanel extends Panel {
     protected void setScene(int scene) {
 	super.setScene(scene);
 	switch (scene) {
-	case 0:
-	    for (Component comp : _componentList)
-		comp.setVisible(false);
-	    _lowerAxes.setVisible(true);
-	    _upperAxes.setVisible(true);
-	    _lowerPoint.setVisible(true);
-	    _upperPoint.setVisible(true);
-	    _lowerGraph.setVisible(true);
-	    _upperGraph.setVisible(true);
-	    _fLabel.setVisible(true);
-	    _aLabel.setVisible(true);
-	    break;
 	case 1:
 	    if (_sceneAdvancing)
 		((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    else
 		((MagicApplet) getTopLevelAncestor()).reversePanel();
 	    break;
-	case 2:
-	    _curveFormulaLabel.setVisible(false);
-	    _threeXSquaredLabel.setVisible(false);
-	    _xLabel.setVisible(false);
-	    _twoLabel.setVisible(false);
-	    _threeLabel.setVisible(false);
-	    break;
 	case 3:
 	    // setLabelsOverThreeXSquaredLabel();
 	    syncThreeLabel();
-	    _curveFormulaLabel.setVisible(true);
-	    _threeXSquaredLabel.setVisible(true);
-	    _xLabel.setVisible(true);
-	    _twoLabel.setVisible(true);
-	    _threeLabel.setVisible(true);
 	    setXCubedLabelsGrouped(true);
 	    break;
 	case 4:
 	    setXCubedLabelsGrouped(false);
-	    _areaFormulaLabel.setVisible(false);
 	    break;
 	case 5:
-	    _areaFormulaLabel.setVisible(true);
 	    setXCubedLabelsGrouped(true);
 	    syncComponents();
 	    break;
@@ -180,25 +141,40 @@ public class AreaFunctionPanel extends Panel {
      * First syncs the two points, then syncs the labels.
      */
     protected void syncComponents() {
-	// _lowerPoint
-	_lowerPoint.setCenter(_xValuePanel, _lowerAxes.getOrigin().y);
-
-	// _upperPoint
-	// on the upper x axis in Panel coords
-	DPoint point = new DPoint(_xValuePanel, _upperAxes.getOrigin().y);
-	_upperAxes.transformPanelToLocal(point);
-	// on curve in local coords
-	point.y = new Function.IntegralOfSinXOverX().getYofX(point.x);
-	_upperAxes.transformLocalToPanel(point);
-	_upperPoint.setCenter(point);
-
-	// others
-	_upperGraph.setDrawingInterval(_upperAxes.getOrigin().x, _xValuePanel);
-	_lowerAxes.setFillUnderCurve(_lowerGraph, _lowerAxes.getOrigin().x,
-		_xValuePanel);
-	_lowerAxes.setFillUnderCurveVisible(_xValuePanel != _lowerAxes
-		.getOrigin().x);
 	syncThreeLabel();
+    }
+
+    /**
+     * Sets the two points equal
+     * 
+     * @manual The two points will move in tandem.
+     * @author T Johnson, James Arlow
+     */
+    public class DragPoint extends Drag.Handler {
+
+	@Override
+	public void action(Object... params) {
+	    // _lowerPoint
+	    _lowerPoint.setCenter(_xValuePanel, _lowerAxes.getOrigin().y);
+
+	    // _upperPoint
+	    // on the upper x axis in Panel coords
+	    DPoint point = new DPoint(_xValuePanel, _upperAxes.getOrigin().y);
+	    _upperAxes.transformPanelToLocal(point);
+	    // on curve in local coords
+	    point.y = new Function.IntegralOfSinXOverX().getYofX(point.x);
+	    _upperAxes.transformLocalToPanel(point);
+	    _upperPoint.setCenter(point);
+
+	    // others
+	    _upperGraph.setDrawingInterval(_upperAxes.getOrigin().x,
+		    _xValuePanel);
+	    _lowerAxes.setFillUnderCurve(_lowerGraph, _lowerAxes.getOrigin().x,
+		    _xValuePanel);
+	    _lowerAxes.setFillUnderCurveVisible(_xValuePanel != _lowerAxes
+		    .getOrigin().x);
+	}
+
     }
 
     // ---------------------------------------
@@ -208,7 +184,6 @@ public class AreaFunctionPanel extends Panel {
      * Syncs the formula label
      */
     private void setXCubedLabelsGrouped(boolean set) {
-
 	_groupXCubedLabels = set;
 	if (_groupXCubedLabels) {
 	    addToDragGroup(_xCubedLabelsDragGroupId, _xLabel);
@@ -259,51 +234,78 @@ public class AreaFunctionPanel extends Panel {
 
     public static final int localY = 2;
 
-    @AxesProperties(index = 0, origin = @Point(x = AXIS_X, y = 450), localW = localX, localH = localY, width = AXIS_W, height = AXIS_H)
+    @Visible
+    @AxesProperties(index = 0)
+    @Scale(x = localX, y = localY)
+    @Dimensions(width = AXIS_W, height = AXIS_H)
+    @Fill(color = "blue")
+    @Position(x = AXIS_X, y = 450)
     public Axes _lowerAxes;
 
-    @AxesProperties(index = 1, origin = @Point(x = AXIS_X, y = 225), localW = localX, localH = localY, width = AXIS_W, height = AXIS_H)
+    @Visible
+    @AxesProperties(index = 1, localW = localX, localH = localY)
+    @Position(x = AXIS_X, y = 225)
+    @Fill(color = "red")
+    @Dimensions(width = AXIS_W, height = AXIS_H)
     public Axes _upperAxes;
 
-    private Circle _lowerPoint;
+    @Visible
+    @Drag(action = DragPoint.class)
+    @Color("blue")
+    public Circle _lowerPoint;
 
-    private Circle _upperPoint;
+    @Visible
+    @Drag(action = DragPoint.class)
+    @Color("red")
+    public Circle _upperPoint;
 
-    @PolyLineConfig(axes = 0, function = Function.SinXOverX.class, intervals = NUM_INTERVALS, rightXLocal = 10, color = "black")
+    @Visible
+    @PolyLineConfig(axes = 0, function = Function.SinXOverX.class, intervals = NUM_INTERVALS, rightXLocal = 10)
+    @Color("black")
     public PolyLine _lowerGraph;
 
-    @PolyLineConfig(axes = 1, function = Function.IntegralOfSinXOverX.class, intervals = NUM_INTERVALS, rightXLocal = 10, color = "red")
+    @Visible
+    @PolyLineConfig(axes = 1, function = Function.IntegralOfSinXOverX.class, intervals = NUM_INTERVALS, rightXLocal = 10)
+    @Color("red")
     public PolyLine _upperGraph;
 
     private static final int NUM_INTERVALS = 100;
 
+    @Visible
     @Image("36pt/FLabel.gif")
     @Position(x = 145, y = 295)
     public Label _fLabel;
 
+    @Visible
     @Image("36pt/ALabel.gif")
     @Position(x = 145, y = 113)
     public Label _aLabel;
 
+    @Visible(value = 3)
     @Image("24pt/CurveFormulaLabel.gif")
     @Position(x = 411, y = 287)
     public Label _curveFormulaLabel;
 
+    @Visible(value = 5)
     @Image("24pt/AreaFormulaLabel.gif")
     @Position(x = 454, y = 148)
     public Label _areaFormulaLabel;
 
     @Image("32pt/ThreeXSquaredLabel.gif")
     @Position(x = 638, y = 271)
+    @Visible(value = 3)
     public Label _threeXSquaredLabel;
 
     @Image("32pt/XLabel.gif")
+    @Visible(value = 3)
     public Label _xLabel;
 
     @Image("32pt/TwoLabel.gif")
+    @Visible(value = 3)
     public Label _twoLabel;
 
     @Image("32pt/ThreeLabel.gif")
+    @Visible(value = 3)
     public Label _threeLabel;
 
     private boolean _groupXCubedLabels = true;
@@ -313,5 +315,3 @@ public class AreaFunctionPanel extends Panel {
     private double _xValuePanel = 0;// in Panel coordinates
 
 }
-// ---------------------------------------
-// ------------------------------------------------

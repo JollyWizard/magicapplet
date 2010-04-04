@@ -1,12 +1,12 @@
 package james;
 
-import james.Annotations.AxesProperties;
-import james.Annotations.LabelProperties;
-import james.Annotations.PolyLineConfig;
-import james.Annotations.QuadCurveProperties;
-import james.Annotations.Visibility;
-import james.Annotations.placement.Position;
-import james.Annotations.scenes.Config;
+import james.annotations.AxesProperties;
+import james.annotations.LabelProperties;
+import james.annotations.PolyLineConfig;
+import james.annotations.QuadCurveProperties;
+import james.annotations.placement.Position;
+import james.annotations.scenes.Config;
+import james.annotations.visibility.Visible;
 
 import java.awt.Color;
 import java.lang.annotation.Annotation;
@@ -59,12 +59,12 @@ public class Tools {
      * @param p
      */
     public static void initializePanel(Panel p) {
-	Config c = james.Annotations.scenes.Config.build(p.getClass());
+	Config c = james.annotations.scenes.Config.build(p.getClass());
 	p.setSceneConfig(c);
 	subComponents.buildSubComponents(p);
 	buildAxes(p);
 	buildQuadCurves(p);
-	//buildLabels(p);
+	// buildLabels(p);
 	QuickInit.Build(p);
 	AutoCaller.m.autoCall(p);
 
@@ -93,7 +93,8 @@ public class Tools {
 		if (c == null)
 		    continue;
 		for (Component c1 : p._componentList)
-		    if (c1 == c) continue;
+		    if (c1 == c)
+			continue;
 		p._componentList.add(c);
 	    }
 	}
@@ -283,14 +284,12 @@ public class Tools {
      */
     public static void buildAxis(Panel p, Field f) {
 	AxesProperties ap = f.getAnnotation(AxesProperties.class);
-	if (ap == null)
-	    return;
 	try {
 	    Axes a = new Axes(p);
-	    a.setAxesInPanel(new DPoint(ap.origin().x(), ap.origin().y()), ap
-		    .width(), ap.height());
-	    a.setAxesLocal(ap.localW(), ap.localH());
-	    axesIndexes.get(p).put(ap.index(), a);
+	    if (ap == null)
+		axesIndexes.get(p).put(0, a);
+	    else
+		axesIndexes.get(p).put(ap.index(), a);
 	    f.set(p, a);
 	    p._componentList.add(a);
 	} catch (Exception e) {
@@ -305,20 +304,6 @@ public class Tools {
      * graphs.
      */
     public static HashMap<Panel, HashMap<Integer, Axes>> axesIndexes = new HashMap<Panel, HashMap<Integer, Axes>>();
-
-    public static Color getColor(String s) {
-	Field f;
-	try {
-	    f = Color.class.getField(s);
-	    if (f != null && Modifier.isStatic(f.getModifiers())
-		    && f.getType().equals(Color.class)) {
-		return (Color) f.get(null);
-	    }
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-	return null;
-    }
 
     /**
      * Builds a polyline from a config annotation and adds to panel _component
@@ -354,8 +339,6 @@ public class Tools {
 	    function = config.function().newInstance();
 	    PolyLine r = axes.getPolyLineFromFunction(config.intervals(),
 		    config.leftXLocal(), config.rightXLocal(), function);
-	    Color c = james.Tools.getColor(config.color());
-	    r.setColor(c);
 	    return r;
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -366,9 +349,9 @@ public class Tools {
     public static boolean mouseDiagnostic = false;
 
     public static void cacheVisibility(Panel panel) {
-	List<Field> fl = getFieldsWith(panel.getClass(), Visibility.class);
+	List<Field> fl = getFieldsWith(panel.getClass(), Visible.class);
 	for (Field f : fl) {
-	    panel.sceneVisibility.put(f, f.getAnnotation(Visibility.class));
+	    panel.sceneVisibility.put(f, f.getAnnotation(Visible.class));
 	}
     }
 
