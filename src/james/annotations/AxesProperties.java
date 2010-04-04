@@ -1,7 +1,7 @@
 /**
  * 
  */
-package james.annot;
+package james.annotations;
 
 
 import java.lang.annotation.ElementType;
