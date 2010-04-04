@@ -1,4 +1,4 @@
-package james.Annotations.labels;
+package james.annot.labels;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,14 +9,14 @@ import james.ComponentCaller;
 import magicofcalculus.components.Label;
 
 /**
- * Contains a configuration information about label images
+ * Contains a url string for a labels image
  * 
  * @author James Arlow
  * 
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Image {
+public @interface Text {
 
     /**
      * The label's image url string
@@ -25,22 +25,16 @@ public @interface Image {
      */
     public String value();
 
-    /**
-     * Whether or not the image is to be drawn. Assumedly, initially.
-     */
-    public boolean showImage() default true;
-
-    public static class SetLabel extends ComponentCaller<Image, Label> {
+    public static class SetLabel extends ComponentCaller<Text, Label> {
 
 	@Override
-	public void call(Image annote, Label c) {
-	    c.setImage(annote.value());
-	    c.setDisplayImage(annote.showImage());
+	public void call(Text annote, Label c) {
+	    c.setText(annote.value());
 	}
 
 	@Override
 	public String[] getProperties(Label c) {
-	    return new String[] {};
+	    return new String[] {/* Expose label text for debugging info */};
 	}
     }
 }

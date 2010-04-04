@@ -3,8 +3,8 @@
 //
 package magicofcalculus.panels;
 
-import james.Annotations.scenes.Scene;
-import james.Annotations.scenes.Scenes;
+import james.annotations.scenes.Scene;
+import james.annotations.scenes.Scenes;
 
 import java.awt.Color;
 

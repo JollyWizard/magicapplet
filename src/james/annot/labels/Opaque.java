@@ -1,4 +1,4 @@
-package james.Annotations.labels;
+package james.annot.labels;
 
 import james.ComponentCaller;
 

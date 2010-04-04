@@ -3,8 +3,7 @@
 //
 package magicofcalculus;
 
-import james.AutoCaller;
-import james.ComponentCaller;
+import james.QuickInit;
 
 import javax.swing.JApplet;
 import javax.swing.SwingUtilities;
@@ -106,7 +105,7 @@ public class MagicApplet extends JApplet {
 		+ mouse.getYOnScreen() + ")";
 	if (mouse.getClickCount() > 0)
 	    output = output.concat(",clicks=" + mouse.getClickCount());
-	System.out.println(output);
+	// System.out.println(output);
     }
 
     /**
@@ -140,20 +139,14 @@ public class MagicApplet extends JApplet {
      * createGUI method
      */
     public void init() {
-	ComponentCaller.debug = true;
+	// ComponentCaller.debug = true;
 	printDiagnostic(this, "init()");
 
 	// dev, get panel backgroud color from applet tag
 	// String colorStr = getParameter("backgroundColor");
 	// if (colorStr!=null) setBackgroundColor(new
 	// Color(Integer.parseInt(colorStr,16)));
-
-	_secantApproxPanel = new SecantApproxPanel();
-	_riemannSumsPanel = new RiemannSumsPanel();
-	_areaFunctionPanel = new AreaFunctionPanel();
-	_bmiTrianglePanel = new BMITrianglePanel();
-	_bmiRectanglePanel = new BMIRectanglePanel();
-	_fundTheoremPanel = new FundTheoremPanel();
+	QuickInit.Build(this);
 
 	_currentPanelIndex = -1;
 	_panelList.add(_secantApproxPanel);
@@ -323,37 +316,37 @@ public class MagicApplet extends JApplet {
     /**
      * Instance of {@link SecantApproxPanel} used in scene.
      */
-    private SecantApproxPanel _secantApproxPanel = null;
+    public SecantApproxPanel _secantApproxPanel = null;
 
     /**
      * Instance of {@link BMITrianglePanel} used in scene.
      */
-    private BMITrianglePanel _bmiTrianglePanel = null;
+    public BMITrianglePanel _bmiTrianglePanel = null;
 
     /**
      * Instance of {@link RiemannSumsPanel} used in scene.
      */
-    private RiemannSumsPanel _riemannSumsPanel = null;
+    public RiemannSumsPanel _riemannSumsPanel = null;
 
     /**
      * Instance of {@link BMIRectanglePanel} used in scene.
      */
-    private BMIRectanglePanel _bmiRectanglePanel = null;
+    public BMIRectanglePanel _bmiRectanglePanel = null;
 
     /**
      * Instance of {@link AreaFunctionPanel} used in scene.
      */
-    private AreaFunctionPanel _areaFunctionPanel = null;
+    public AreaFunctionPanel _areaFunctionPanel = null;
 
     /**
      * Instance of {@link FundTheoremPanel} used in scene.
      */
-    private FundTheoremPanel _fundTheoremPanel = null;
+    public FundTheoremPanel _fundTheoremPanel = null;
 
     /**
      * AudioClip holding the "ding.wav" sound
      */
-    private AudioClip _audioClip = null;
+    public AudioClip _audioClip = null;
 
 }
 // ------------------------------------------------

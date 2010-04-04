@@ -1,26 +1,26 @@
 /**
  * 
  */
-package james.Annotations;
-
+package james.annot;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import magicofcalculus.Function;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface AxesProperties {
-  int index() default 0;
+public @interface PolyLineConfig {
+    int axes() default 0;
 
-  Point origin();
+    int intervals();
 
-  int width() default 0;
+    double leftXLocal() default 0;
 
-  int height() default 0;
+    double rightXLocal() default 0;
 
-  int localW() default 0;
+    Class<? extends Function> function();
 
-  int localH() default 0;
 }

@@ -1,4 +1,4 @@
-package james.Annotations.drag;
+package james.annot.drag;
 
 import james.ComponentCaller;
 import james.QuickInit;

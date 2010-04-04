@@ -1,4 +1,4 @@
-package james.Annotations.scenes;
+package james.annot.scenes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,6 +1,5 @@
 package james;
 
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -44,13 +43,11 @@ public abstract class ComponentCaller<A extends Annotation, C extends Component>
 		post = getProperties(c);
 		for (int i = 0; i < pre.length; i++) {
 		    System.out.print("\t");
-		    if (i > 0) {
-			System.out.print('\t');
-		    }
 		    System.out.print(i < pre.length ? pre[i] : null);
 		    System.out.print(" | ");
 		    System.out.println(i < post.length ? post[i] : null);
 		}
+		System.out.println();
 	    }
 	}
     }
