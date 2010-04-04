@@ -1,4 +1,4 @@
-package james.annot;
+package james.annotations;
 
 public @interface Point {
   double x() default 0;

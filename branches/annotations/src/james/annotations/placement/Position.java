@@ -1,4 +1,4 @@
-package james.annot.placement;
+package james.annotations.placement;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

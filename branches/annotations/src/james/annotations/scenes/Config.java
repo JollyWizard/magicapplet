@@ -1,4 +1,4 @@
-package james.annot.scenes;
+package james.annotations.scenes;
 
 import java.util.HashMap;
 import java.util.LinkedList;

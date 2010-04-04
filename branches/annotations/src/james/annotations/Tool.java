@@ -1,4 +1,4 @@
-package james.annot;
+package james.annotations;
 
 import james.AutoCaller;
 import james.ComponentCaller;

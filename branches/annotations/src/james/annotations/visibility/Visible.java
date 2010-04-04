@@ -1,4 +1,4 @@
-package james.annot.visibility;
+package james.annotations.visibility;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
