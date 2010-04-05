@@ -5,6 +5,7 @@ package magicofcalculus;
 
 import james.QuickInit;
 import james.annotations.Map;
+import james.annotations.draw.color;
 import james.annotations.player.Index;
 
 import javax.swing.JApplet;
@@ -291,14 +292,20 @@ public class MagicApplet extends JApplet {
     public static String RESOURCE_PATH = "/magicofcalculus/resources/";
 
     /**
+     * Index for @Color annotations
+     */
+    public static final int _GREEN = 1;
+    /**
      * A {@link Color} equivalent to <code>(60, 150, 170)</code>
      */
+    @color.Index(_GREEN)
     public static Color GREEN = new Color(60, 150, 170);
 
-    public static final int _GREEN = 1;
-    
-    /**
-     * A {@link Color} equivalent to <code>(90,180,200)</code>
+    public static final int _LIGHT_GREEN = 2;
+
+    @color.Index(_LIGHT_GREEN)
+    /*
+     * * A {@link Color} equivalent to <code>(90,180,200)</code>
      */
     public static Color LIGHT_GREEN = new Color(90, 180, 200);
 

@@ -7,7 +7,7 @@ import james.SubComponent;
 import james.annotations.Point;
 import james.annotations.QuadCurveProperties;
 import james.annotations.drag.Drag;
-import james.annotations.draw.Color;
+import james.annotations.draw.color;
 import james.annotations.labels.Image;
 import james.annotations.placement.Dimensions;
 import james.annotations.placement.Position;
@@ -93,7 +93,6 @@ public class SecantApproxPanel extends Panel {
 		.getCenter());
 	_secantTriangle.setOutlineOnly(true);
 
-	_dydxTriangle.setColor(MagicApplet.GREEN);
 	final int offset = 7;
 	_dydxTriangle.setTriangle(_tangentPoint.getCenter().getTranslation(
 		-offset, offset), _tangentPoint.getCenter().getTranslation(
@@ -153,20 +152,15 @@ public class SecantApproxPanel extends Panel {
     /**
      * sets visibility and descriptions via switch
      * <p>
-     * 
      */
     protected void setScene(int scene) {
 
 	super.setScene(scene);
 
 	switch (scene) {
-	case 0:
-	    break;
 	case 7:
 	    syncComponents();// to place labels on triangle in case no move has
 	    // happened since Attach Point and Line
-	    break;
-	case 8:// SLOPE_FORMULA_VISIBLE_SCENE
 	    break;
 	case 9:
 	    // setLabelsOverXCubedLabel();
@@ -185,8 +179,6 @@ public class SecantApproxPanel extends Panel {
 		((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    else
 		((MagicApplet) getTopLevelAncestor()).reversePanel();
-	    break;
-	case POST_BMI_SCENE:// 13
 	    break;
 	case 14:
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
@@ -404,14 +396,6 @@ public class SecantApproxPanel extends Panel {
 	_deltaYLabel.setPosition(xPos, yPos);
     }
 
-    /*
-     * TODO migrate to _x23label
-     * 
-     * private void syncThreeLabel() { if (_threeLabel.getPosition().x <
-     * _xLabel.getPosition().x) _threeLabel.setImage("32pt/ThreeLabelBig.gif");
-     * else _threeLabel.setImage("32pt/ThreeLabel.gif"); }
-     */
-
     /**
      * Sets the 3 label for x's power to a relative position for the formula to
      * look correct.
@@ -478,25 +462,26 @@ public class SecantApproxPanel extends Panel {
     @QuadCurveProperties(start = @Point(x = originX, y = originY), control = @Point(x = 300, y = originY), end = @Point(x = originX
 	    + width, y = originY - height))
     @Visible(1)
-    @Color("red")
+    @color("red")
     public QuadCurve _curve;
 
     @Visible(5)
-    private Circle _tangentPoint;
+    @color("red")
+    public Circle _tangentPoint;
 
     @Drag
     @Visible(4)
-    @Color("blue")
+    @color("blue")
     public Line _tangentLine;
 
     @Drag(action = PostBMI_Collider.class)
     @Visible(3)
-    @Color("blue")
+    @color("blue")
     public Circle _secantPoint;
 
     @Visible(6)
     @Drag
-    @Color("blue")
+    @color("blue")
     public SecantTriangle _secantTriangle;
 
     @Drag
@@ -529,6 +514,7 @@ public class SecantApproxPanel extends Panel {
     @Position(x = 112, y = 183)
     public Label _questionMarkFormulaLabel;
 
+    @color(src = MagicApplet.class, index = MagicApplet._GREEN, mode = color.Mode.field)
     public SecantTriangle _dydxTriangle;
 
     @Drag
@@ -586,6 +572,18 @@ public class SecantApproxPanel extends Panel {
 
 	@Image(value = "32pt/ThreeLabel.gif")
 	public Label _threeLabel;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see magicofcalculus.Component#setVisible(boolean)
+	 */
+	@Override
+	public void setVisible(boolean set) {
+	    super.setVisible(set);
+	    System.out.println("_X23 visible = true;");
+	}
+
     }
 
     // Sync params

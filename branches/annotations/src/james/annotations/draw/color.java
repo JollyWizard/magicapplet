@@ -13,9 +13,9 @@ import magicofcalculus.Component;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Color {
+public @interface color {
 
-    public String value();
+    public String value() default "";
 
     public Class src() default Object.class;
 
