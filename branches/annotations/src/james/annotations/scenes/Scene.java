@@ -44,4 +44,10 @@ public @interface Scene {
      * strings when processing
      */
     public static final String DEFAULT = "!_DEFAULT";
+    
+    public Class<? extends Action> action = Action.class;
+    
+    public static interface Action<T> {
+	public void performAction(T option);
+    }
 }

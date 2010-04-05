@@ -4,6 +4,8 @@
 package magicofcalculus;
 
 import james.QuickInit;
+import james.annotations.Map;
+import james.annotations.player.Index;
 
 import javax.swing.JApplet;
 import javax.swing.SwingUtilities;
@@ -17,7 +19,10 @@ import magicofcalculus.panels.SecantApproxPanel;
 
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.applet.AudioClip;
 import java.awt.Color;
 
@@ -149,15 +154,7 @@ public class MagicApplet extends JApplet {
 	QuickInit.Build(this);
 
 	_currentPanelIndex = -1;
-	_panelList.add(_secantApproxPanel);
-	_panelList.add(_bmiTrianglePanel);
-	_panelList.add(_secantApproxPanel);
-	_panelList.add(_riemannSumsPanel);
-	_panelList.add(_bmiRectanglePanel);
-	_panelList.add(_riemannSumsPanel);
-	_panelList.add(_areaFunctionPanel);
-	_panelList.add(_fundTheoremPanel);
-	_panelList.add(_areaFunctionPanel);
+	Map.Fill(this, _panelList, Index.class, Panel.class);
 
 	java.net.URL soundUrl = getResource("ding.wav");
 	if (soundUrl == null)
@@ -243,7 +240,7 @@ public class MagicApplet extends JApplet {
     }
 
     /**
-     * Advances the scene to the next panel in {@link _panelList}
+     * Advances the scene to the next panel in {@link #_panelList}
      */
     public void advancePanel() {
 	printDiagnostic(this, "advancePanel()");
@@ -316,32 +313,38 @@ public class MagicApplet extends JApplet {
     /**
      * Instance of {@link SecantApproxPanel} used in scene.
      */
-    public SecantApproxPanel _secantApproxPanel = null;
+    @Index( { 0, 2 })
+    public SecantApproxPanel _secantApproxPanel;
 
     /**
      * Instance of {@link BMITrianglePanel} used in scene.
      */
-    public BMITrianglePanel _bmiTrianglePanel = null;
+    @Index(1)
+    public BMITrianglePanel _bmiTrianglePanel;
 
     /**
      * Instance of {@link RiemannSumsPanel} used in scene.
      */
-    public RiemannSumsPanel _riemannSumsPanel = null;
+    @Index( { 3, 5 })
+    public RiemannSumsPanel _riemannSumsPanel;
 
     /**
      * Instance of {@link BMIRectanglePanel} used in scene.
      */
-    public BMIRectanglePanel _bmiRectanglePanel = null;
+    @Index( { 4 })
+    public BMIRectanglePanel _bmiRectanglePanel;
 
     /**
      * Instance of {@link AreaFunctionPanel} used in scene.
      */
-    public AreaFunctionPanel _areaFunctionPanel = null;
+    @Index( { 6, 8 })
+    public AreaFunctionPanel _areaFunctionPanel;
 
     /**
      * Instance of {@link FundTheoremPanel} used in scene.
      */
-    public FundTheoremPanel _fundTheoremPanel = null;
+    @Index(7)
+    public FundTheoremPanel _fundTheoremPanel;
 
     /**
      * AudioClip holding the "ding.wav" sound

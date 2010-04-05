@@ -68,6 +68,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 
 	Tools.initializePanel(this);
+	visibility.build();
     }
 
     /**
@@ -609,23 +610,18 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	return sceneConfig;
     }
 
-    /**
-     * Stores a cache of the Visibility annotations for each field.
-     */
-    public HashMap<Field, Visible> sceneVisibility = new HashMap<Field, Visible>();
+    public james.annotations.visibility.Config visibility;
 
     /**
-     * TODO cache this info like scenes.config
      * <p>
      * Usage note from original comment: override and call super.setScene(int
-     * scene) first thing,
+     * scene) first thing,should have a minimun of 2 scenes since last scene is
+     * the advancePanel call
      * <p>
      * sets the _scene variable,cancels if scene is out of bound.
      * 
      * @param scene
      */
-    // override and call super.setScene(int scene) first thing, should have a
-    // minimun of 2 scenes since last scene is the advancePanel call
     protected void setScene(int scene) {
 
 	if (scene < 0 || scene >= _numScenes)
@@ -643,68 +639,15 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 		e.printStackTrace();
 	    }
 
-	// Component VISIBILITY:
-	for (Field f : sceneVisibility.keySet()) {
-	    Component c = null;
-	    try {
-		c = (Component) f.get(this);
-	    } catch (Exception e) {
-		e.printStackTrace();
-	    }
-	    if (c == null) {
-		System.err.println("NULL FIELD:" + f.getName());
-		continue;
-	    }
-	    Visible s = sceneVisibility.get(f);
-	    int[] active = s.value();
-	    int[] hidden = s.hidden();
-
-	    // Only check active if no hidden values.
-	    if (hidden.length == 0) {
-		/**
-		 * cache value as -1, so a 0 length cache will never be visible
-		 */
-		int lastActive = -1;
-		for (int a : active) {
-		    if (a > _scene)
-			break;
-		    if (a > lastActive) {
-			a = lastActive;
-		    }
-		}
-		if (lastActive >= _scene)
-		    c.setVisible(true);
-		else
-		    c.setVisible(false);
-		// if the last active is odd and the value is
-		// less than the current scene
-		if (active.length > 0 && _scene >= active[0]) {
-		    // && (!s.toggle() || active.length % 2 == 1))
-		    c.setVisible(true);
-		} else {
-		    c.setVisible(false);
-		}
-	    } else {
-		// if hide values are present
-		int closestHide = 0;
-
-		for (int h : hidden) {
-		    if (h >= _scene)
-			break;
-		    if (h > closestHide)
-			closestHide = h;
-		}
-
-		for (int a : active) {
-		    if (a > _scene)
-			break;
-		    if (a > closestHide) {
-			c.setVisible(true);
-			break;
-		    }
-		}
+	// when starting scene 0, hide all components, then show the initially
+	// visible ones.
+	if (_scene == 0) {
+	    for (Component c : _componentList) {
+		c.setVisible(false);
 	    }
 	}
+
+	visibility.setScene(_scene);
     }
 }
 // ---------------------------------------
