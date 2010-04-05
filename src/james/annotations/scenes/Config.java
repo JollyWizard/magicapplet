@@ -30,6 +30,8 @@ public class Config {
      */
     public HashMap<Integer, Boolean> prev = new HashMap<Integer, Boolean>();
 
+    public HashMap<Integer, Scene.Action> action = new HashMap<Integer, Scene.Action>();
+    
     /**
      * Analyzes Scenes Annotation and builds config information.
      * 

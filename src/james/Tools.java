@@ -68,7 +68,6 @@ public class Tools {
 	QuickInit.Build(p);
 	AutoCaller.m.autoCall(p);
 
-	cacheVisibility(p);
 	addAllComponents(p);
     }
 
@@ -347,13 +346,6 @@ public class Tools {
     }
 
     public static boolean mouseDiagnostic = false;
-
-    public static void cacheVisibility(Panel panel) {
-	List<Field> fl = getFieldsWith(panel.getClass(), Visible.class);
-	for (Field f : fl) {
-	    panel.sceneVisibility.put(f, f.getAnnotation(Visible.class));
-	}
-    }
 
     public static List<Field> getFieldsWith(Class c,
 	    Class<? extends Annotation> cl) {
