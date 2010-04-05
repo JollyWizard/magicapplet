@@ -15,7 +15,6 @@ import james.annotations.placement.Scale;
 import james.annotations.scenes.Scene;
 import james.annotations.scenes.Scenes;
 import james.annotations.visibility.Visible;
-import magicofcalculus.Component;
 import magicofcalculus.DPoint;
 import magicofcalculus.Function;
 import magicofcalculus.MagicApplet;
