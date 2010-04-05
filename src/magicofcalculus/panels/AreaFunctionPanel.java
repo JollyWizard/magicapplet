@@ -6,7 +6,7 @@ package magicofcalculus.panels;
 import james.annotations.AxesProperties;
 import james.annotations.PolyLineConfig;
 import james.annotations.drag.Drag;
-import james.annotations.draw.Color;
+import james.annotations.draw.color;
 import james.annotations.draw.Fill;
 import james.annotations.labels.Image;
 import james.annotations.placement.Dimensions;
@@ -251,22 +251,22 @@ public class AreaFunctionPanel extends Panel {
 
     @Visible
     @Drag(action = DragPoint.class)
-    @Color("blue")
+    @color("blue")
     public Circle _lowerPoint;
 
     @Visible
     @Drag(action = DragPoint.class)
-    @Color("red")
+    @color("red")
     public Circle _upperPoint;
 
     @Visible
     @PolyLineConfig(axes = 0, function = Function.SinXOverX.class, intervals = NUM_INTERVALS, rightXLocal = 10)
-    @Color("black")
+    @color("black")
     public PolyLine _lowerGraph;
 
     @Visible
     @PolyLineConfig(axes = 1, function = Function.IntegralOfSinXOverX.class, intervals = NUM_INTERVALS, rightXLocal = 10)
-    @Color("red")
+    @color("red")
     public PolyLine _upperGraph;
 
     private static final int NUM_INTERVALS = 100;
