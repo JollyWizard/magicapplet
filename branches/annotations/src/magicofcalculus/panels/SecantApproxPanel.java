@@ -76,7 +76,6 @@ public class SecantApproxPanel extends Panel {
 	setNumScenes(NUM_SCENES);
 	// setNumScenes(1);//dev
 
-	_tangentPoint = new Circle(this);
 	_tangentPoint.setCenter(_curve
 		.getPointAtParamValue(_tValueAtTangentPoint));
 

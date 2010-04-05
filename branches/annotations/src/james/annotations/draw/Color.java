@@ -17,15 +17,62 @@ public @interface Color {
 
     public String value();
 
+    public Class src() default Object.class;
+
+    public int index() default 0;
+
+    public int red() default 0;
+
+    public int green() default 0;
+
+    public int blue() default 0;
+
+    public Mode mode() default Mode.name;
+
+    public static enum Mode {
+	name, field, rgb;
+    }
+
+    public static @interface Index {
+	int value();
+    }
+
     public static class ComponentSetter extends
-	    ComponentCaller<Color, Component> {
+	    ComponentCaller<color, Component> {
 
 	@Override
-	public void call(Color annote, Component c) {
-	    java.awt.Color co = getColor(annote.value());
+	public void call(color annote, Component c) {
+	    java.awt.Color co = null;
+	    Mode m = annote.mode();
+	    if (m == Mode.name)
+		co = getColor(annote.value());
+	    if (m == Mode.field)
+		co = getColor(annote.src(), annote.index());
+	    if (m == Mode.rgb) {
+		co = new java.awt.Color(annote.red(), annote.green(), annote
+			.blue());
+	    }
 	    if (co != null)
 		c.setColor(co);
+	}
 
+	public java.awt.Color getColor(Class src, int index) {
+	    java.awt.Color r = null;
+	    for (Field f : src.getFields()) {
+		if (java.awt.Color.class.isAssignableFrom(f.getType())) {
+		    Index ind = f.getAnnotation(Index.class);
+		    if (ind == null)
+			continue;
+		    if (ind.value() == index) {
+			try {
+			    r = (java.awt.Color) f.get(null);
+			} catch (Exception e) {
+			    e.printStackTrace();
+			}
+		    }
+		}
+	    }
+	    return r;
 	}
 
 	@Override

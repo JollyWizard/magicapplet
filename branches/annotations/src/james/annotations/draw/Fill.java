@@ -13,7 +13,7 @@ public @interface Fill {
 	@Override
 	public void call(Fill annote, Axes c) {
 	    c.setFillUnderCurveVisible(annote.value());
-	    java.awt.Color co = Color.ComponentSetter.getColor(annote.color());
+	    java.awt.Color co = color.ComponentSetter.getColor(annote.color());
 	    if (co != null) {
 		c.setFillUnderCurveColor(co);
 	    }

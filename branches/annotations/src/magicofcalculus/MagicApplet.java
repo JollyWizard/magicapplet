@@ -295,6 +295,8 @@ public class MagicApplet extends JApplet {
      */
     public static Color GREEN = new Color(60, 150, 170);
 
+    public static final int _GREEN = 1;
+    
     /**
      * A {@link Color} equivalent to <code>(90,180,200)</code>
      */
