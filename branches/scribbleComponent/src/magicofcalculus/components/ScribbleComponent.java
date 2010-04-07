@@ -1,14 +1,11 @@
 package magicofcalculus.components;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import magicofcalculus.Component;
@@ -145,41 +142,45 @@ public class ScribbleComponent extends Component implements MouseListener,
 
     /**
      * Renders the recorded strokes to the specified Graphics object
-     * @param gc Graphics object to draw to
+     * 
+     * @param gc
+     *            Graphics object to draw to
      */
-    private void renderScribble(Graphics gc){
+    private void renderScribble(Graphics gc) {
 	DPoint previous = null; // this will hold the previous point
-	Graphics2D g = (Graphics2D)gc;
+	Graphics2D g = (Graphics2D) gc;
 	Iterator<DPoint> pitr = path.iterator();
-	while(pitr.hasNext()){
+	while (pitr.hasNext()) {
 	    DPoint n = pitr.next();
 	    // if the next DPoint isn't a break
-	    if(!n.equals(path_break)){
+	    if (!n.equals(path_break)) {
 		// if at the start of drawing, or previous was break
-		if(previous==null){
-		    g.drawLine((int)n.x,(int)n.y, (int)n.x, (int)n.y);
+		if (previous == null) {
+		    g.drawLine((int) n.x, (int) n.y, (int) n.x, (int) n.y);
 		}
 		// otherwise draw a line from the previous point to the current
-		else{
-		    g.drawLine((int)previous.x,(int)previous.y,(int)n.x,(int)n.y);
+		else {
+		    g.drawLine((int) previous.x, (int) previous.y, (int) n.x,
+			    (int) n.y);
 		}
-		previous=n; // copy the current DPoint to previous
+		previous = n; // copy the current DPoint to previous
 	    }
 	    // the current DPoint was a break, so clear the previous
-	    else{
-		previous=null; // clear the previous point so it's not connected
+	    else {
+		previous = null; // clear the previous point so it's not
+				 // connected
 	    }
 	}
-	g=null; // clear out g for Garbage collection
-	pitr=null; // clear out the iterator for gc
+	g = null; // clear out g for Garbage collection
+	pitr = null; // clear out the iterator for gc
     }
-    
+
     /**
-     * Renders the strokes to the BufferedImage <code>canvas</code> which can then be rendered using
-     * {@link ScribbleComponent#draw}
+     * Renders the strokes to the BufferedImage <code>canvas</code> which can
+     * then be rendered using {@link ScribbleComponent#draw}
      */
     private void render() {
-	
+
 	canvas = new BufferedImage(super._panel.getSize().width, super._panel
 		.getSize().height, BufferedImage.TYPE_INT_RGB);
 	Graphics2D g = canvas.createGraphics();
@@ -206,12 +207,12 @@ public class ScribbleComponent extends Component implements MouseListener,
      * committed raster contents
      */
     public void draw(Graphics g) {
-	Graphics2D g2d = (Graphics2D)g; // get a Graphics2D context
-	if(committed){
-	    g2d.drawImage(canvas,null,1,1); // render buffered image
+	Graphics2D g2d = (Graphics2D) g; // get a Graphics2D context
+	if (committed) {
+	    g2d.drawImage(canvas, null, 1, 1); // render buffered image
 	}
 	// directly draw the output
-	else{
+	else {
 	    renderScribble(g);
 	}
     }
@@ -238,16 +239,17 @@ public class ScribbleComponent extends Component implements MouseListener,
     }
 
     /**
-     * Called when the mouse exits the component. If the button is down,
-     * the current stroke is immediately stopped.
+     * Called when the mouse exits the component. If the button is down, the
+     * current stroke is immediately stopped.
+     * 
      * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
      */
     @Override
     public void mouseExited(MouseEvent arg0) {
 	// used to end the stroke to prevent out-of-bounds points
-	if(arg0.getButton()==MouseEvent.BUTTON1){
+	if (arg0.getButton() == MouseEvent.BUTTON1) {
 	    path.add(path_break);
-	    isDrawing=false;
+	    isDrawing = false;
 	}
     }
 
@@ -279,7 +281,7 @@ public class ScribbleComponent extends Component implements MouseListener,
     // TODO: Check and make sure this actually works
     @Override
     public void mouseDragged(MouseEvent arg0) {
-	if(super._draggable){
+	if (super._draggable) {
 	    super.dragTo(new DPoint(arg0.getPoint()));
 	}
     }
