@@ -59,7 +59,7 @@ public class Config {
 	// because default @Visibles go to 0, all will be assumed hidden, till
 	// told otherwise
 	hiding.addAll(all);
-	for (int i = 0; i < highest; i++) {
+	for (int i = 0; i <= highest; i++) {
 	    // set newly shown items to be shown until told otherwise
 	    List<Component> temp = shows.get(i);
 	    if (temp != null) {

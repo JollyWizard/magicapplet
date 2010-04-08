@@ -3,8 +3,15 @@
 //
 package magicofcalculus.panels;
 
+import james.annotations.drag.Drag;
+import james.annotations.draw.Fill;
+import james.annotations.draw.color;
+import james.annotations.labels.Image;
+import james.annotations.placement.Position;
+import james.annotations.placement.zIndex;
 import james.annotations.scenes.Scene;
 import james.annotations.scenes.Scenes;
+import james.annotations.visibility.Visible;
 
 import java.awt.Color;
 
@@ -43,9 +50,7 @@ public class BMITrianglePanel extends Panel {
      * set SyncParamters<br>
      */
     public BMITrianglePanel() {
-
 	super();
-	setNumScenes(2);
 
 	DPoint origin = new DPoint(0, 450);
 	int lengthOfAxisX = 450;
@@ -53,10 +58,8 @@ public class BMITrianglePanel extends Panel {
 	int lengthOfAxisXLocal = 10;
 	int lengthOfAxisYLocal = 10;
 
-	_axes = new Axes(this);
 	_axes.setAxesInPanel(origin, lengthOfAxisX, lengthOfAxisY);
 	_axes.setAxesLocal(lengthOfAxisXLocal, lengthOfAxisYLocal);
-	// _axes.setVisible(true);
 
 	double radius = 17.1;
 	_curveFunction.setCenter(new DPoint(-4.44, radius - .8));
@@ -67,16 +70,8 @@ public class BMITrianglePanel extends Panel {
 	_upperGraph = _axes.getPolyLineFromFunction(NUM_INTERVALS, 0, 13,
 		_curveFunction);
 
-	_lowerGraph.setVisible(true);
-	_upperGraph.setVisible(true);
-	_lowerGraph.setColor(Color.red);
-	_upperGraph.setColor(Color.red);
-
-	_axes.setFillUnderCurveColor(Color.red);
 	_axes.setFillBetweenCurves(_upperGraph, _lowerGraph, 0, 600);
-	_axes.setFillUnderCurveVisible(true);
 
-	_secantTriangle = new SecantTriangle(this);
 	double leftXLocal = 4;
 	DPoint leftPointLocal = new DPoint(leftXLocal, _curveFunction
 		.getYofX(leftXLocal));
@@ -87,79 +82,16 @@ public class BMITrianglePanel extends Panel {
 		.getYofX(rightXLocal));
 	DPoint rightPointPanel = _axes.transformLocalToPanel(new DPoint(
 		rightPointLocal));
+
 	_secantTriangle.setTriangle(leftPointPanel, rightPointPanel);
-	_secantTriangle.setColor(Color.blue);
-	_secantTriangle.setDraggable(true);
 	_secantTriangle.setOutlineOnly(true);
 	_secantTriangle.setStrokeWidth(2);
-	_secantTriangle.setVisible(true);
 	_secantTriangle.setInnerThickness(36);
 
-	_tangentLine = new Line(this);
 	_tangentLine.setLine(_secantTriangle.getTangentPoint(), _secantTriangle
 		.getSecantPoint());
-	_tangentLine.setColor(Color.blue);
 	_tangentLine.setStrokeWidth(2);
-	// _tangentLine.setVisible(true);
-	// _tangentLine.setInfiniteLength(true);
 	_tangentLine.setLength(0, 1500);
-
-	_deltaXLabel = new Label(this);
-	_deltaXLabel.setImage("36pt/DeltaX.gif");
-	_deltaXLabel.setDisplayImage(true);
-	_deltaXLabel.setPosition(0, 0);
-	_deltaXLabel.setVisible(true);
-
-	_deltaYLabel = new Label(this);
-	_deltaYLabel.setImage("36pt/DeltaY.gif");
-	_deltaYLabel.setDisplayImage(true);
-	_deltaYLabel.setPosition(0, 0);
-	_deltaYLabel.setVisible(true);
-
-	_dxLabel = new Label(this);
-	_dxLabel.setImage("36pt/Dx.gif");
-	_dxLabel.setDisplayImage(true);
-	_dxLabel.setPosition(0, 0);
-
-	_dyLabel = new Label(this);
-	_dyLabel.setImage("36pt/Dy.gif");
-	_dyLabel.setDisplayImage(true);
-	_dyLabel.setPosition(0, 0);
-
-	_deltaYXFormulaLabel = new Label(this);
-	_deltaYXFormulaLabel.setImage("32pt/DeltaYXFormula.gif");
-	_deltaYXFormulaLabel.setDisplayImage(true);
-	_deltaYXFormulaLabel.setDraggable(true);
-	_deltaYXFormulaLabel.setPosition(53, 166);
-	_deltaYXFormulaLabel.setVisible(true);
-
-	_dydxFormulaLabel = new Label(this);
-	_dydxFormulaLabel.setImage("32pt/DyDxFormula.gif");
-	_dydxFormulaLabel.setDisplayImage(true);
-	_dydxFormulaLabel.setDraggable(true);
-	_dydxFormulaLabel.setPosition(53, 166);
-
-	_curveEquationLabel = new Label(this);
-	_curveEquationLabel.setDraggable(true);
-	_curveEquationLabel.setDisplayImage(true);
-	_curveEquationLabel.setImage("28pt/CurveEquationLabel.gif");
-	_curveEquationLabel.setVisible(true);
-	// _curveEquationLabel.setPosition(422,230);
-	_curveEquationLabel.setPosition(411, 4);
-
-	_componentList.add(0, _axes);
-	_componentList.add(0, _lowerGraph);
-	_componentList.add(0, _upperGraph);
-	_componentList.add(0, _tangentLine);
-	_componentList.add(0, _deltaXLabel);
-	_componentList.add(0, _deltaYLabel);
-	_componentList.add(0, _deltaYXFormulaLabel);
-	_componentList.add(0, _dxLabel);
-	_componentList.add(0, _dyLabel);
-	_componentList.add(0, _dydxFormulaLabel);
-	_componentList.add(0, _curveEquationLabel);
-	_componentList.add(0, _secantTriangle);// needs to be on top because of
-	// setSyncParams()
 
 	int groupId = createDragGroup();
 	addToDragGroup(groupId, _deltaYXFormulaLabel);
@@ -222,10 +154,6 @@ public class BMITrianglePanel extends Panel {
     protected void setScene(int scene) {
 	super.setScene(scene);
 	switch (scene) {
-	// case 0:
-	// sceneDescrip = "Next: Tangent Line";
-	// _tangentLine.setVisible(false);
-	// break;
 	case 1:
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
@@ -282,19 +210,72 @@ public class BMITrianglePanel extends Panel {
 
     private static final int NUM_INTERVALS = 100;
 
-    private Axes _axes = null;
-    private PolyLine _lowerGraph = null;
-    private PolyLine _upperGraph = null;
-    private SecantTriangle _secantTriangle = null;
-    private Line _tangentLine = null;
+    @Visible
+    @Fill(color = "red")
+    @zIndex(layers.axes)
+    public Axes _axes;
 
-    private Label _deltaXLabel = null;
-    private Label _deltaYLabel = null;
-    private Label _dxLabel = null;
-    private Label _dyLabel = null;
-    private Label _deltaYXFormulaLabel = null;
-    private Label _dydxFormulaLabel = null;
-    private Label _curveEquationLabel = null;
+    @Visible
+    @color("red")
+    @zIndex(layers.graph)
+    public PolyLine _lowerGraph;
+
+    @Visible
+    @color("red")
+    @zIndex(layers.graph)
+    public PolyLine _upperGraph;
+
+    @Visible
+    @Drag
+    @color("blue")
+    @zIndex(layers.triangle)
+    public SecantTriangle _secantTriangle;
+
+    @Visible
+    @color("blue")
+    @zIndex(layers.line)
+    public Line _tangentLine;
+
+    @Visible
+    @Image("36pt/DeltaX.gif")
+    @zIndex(layers.label)
+    @Position(x = 0, y = 0)
+    public Label _deltaXLabel;
+
+    @Visible
+    @Image("36pt/DeltaY.gif")
+    @zIndex(layers.label)
+    @Position(x = 0, y = 0)
+    public Label _deltaYLabel;
+
+    @Image("36pt/Dx.gif")
+    @zIndex(layers.label)
+    @Position(x = 0, y = 0)
+    public Label _dxLabel;
+
+    @Image("36pt/Dy.gif")
+    @zIndex(layers.label)
+    @Position(x = 0, y = 0)
+    public Label _dyLabel;
+
+    @zIndex(layers.label)
+    @Visible
+    @Drag
+    @Image("32pt/DeltaYXFormula.gif")
+    @Position(x = 53, y = 166)
+    public Label _deltaYXFormulaLabel;
+
+    @Image("32pt/DyDxFormula.gif")
+    @zIndex(layers.label)
+    @Position(x = 53, y = 166)
+    public Label _dydxFormulaLabel;
+
+    @Drag
+    @Image("28pt/CurveEquationLabel.gif")
+    @Visible
+    @zIndex(layers.label)
+    @Position(x = 411, y = 4)
+    public Label _curveEquationLabel;
 
     private Function.LowerSemiCircle _curveFunction = new Function.LowerSemiCircle();
 
@@ -302,10 +283,13 @@ public class BMITrianglePanel extends Panel {
     private double _xValuePanel = 0;
     private double _yValuePanel = 0;
 
+    public static class layers {
+	public static final int axes = 0;
+	public static final int graph = 1;
+	public static final int line = 2;
+
+	public static final int label = 3;
+	public static final int triangle = 4;
+    }
+
 }
-// ---------------------------------------
-// ------------------------------------------------
-/*
- * _deltaXLabel _deltaYLabel _deltaYXFormulaLabel _dxLabel _dyLabel
- * _dydxFormulaLabel
- */

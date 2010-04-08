@@ -12,6 +12,7 @@ import james.annotations.labels.Image;
 import james.annotations.placement.Dimensions;
 import james.annotations.placement.Position;
 import james.annotations.placement.Scale;
+import james.annotations.placement.zIndex;
 import james.annotations.scenes.Scene;
 import james.annotations.scenes.Scenes;
 import james.annotations.visibility.Visible;
@@ -73,8 +74,6 @@ public class SecantApproxPanel extends Panel {
      */
     public SecantApproxPanel() {
 	super();
-	setNumScenes(NUM_SCENES);
-	// setNumScenes(1);//dev
 
 	_tangentPoint.setCenter(_curve
 		.getPointAtParamValue(_tValueAtTangentPoint));
@@ -170,7 +169,6 @@ public class SecantApproxPanel extends Panel {
 	    // setXCubedLabelsGrouped(false);
 	    break;
 	case 11:
-	    _slopeFormulaLabel.setVisible(true);
 	    syncComponents();// dev, in case coming back here from scene 13 with
 	    // green line
 	    break;
@@ -242,7 +240,6 @@ public class SecantApproxPanel extends Panel {
 	if (pointsOnTopOfEachOther) {
 	} else {
 	    _tangentLine.setVisible(true);
-
 	    _secantPoint.setVisible(true);
 	    _tangentPoint.setVisible(true);
 	    _dydxTriangle.setVisible(false);
@@ -440,10 +437,6 @@ public class SecantApproxPanel extends Panel {
 
     private static final boolean MAKE_TANGENT_DISAPPEAR = false;
 
-    // private static final boolean MAKE_TANGENT_DISAPPEAR = true;
-
-    private static final int NUM_SCENES = 15;
-
     // ////////////////////////////////////////////////
     public static final int originX = 50;
 
@@ -453,96 +446,123 @@ public class SecantApproxPanel extends Panel {
 
     public static final int height = 400;
 
+    public static class layers {
+	public static final int axes = 1;
+	public static final int graph = 0;
+	public static final int line = 2;
+	public static final int points = 3;
+	public static final int label = 4;
+	public static final int triangle = 6;
+    }
+
     @Position(x = originX, y = originY)
     @Dimensions(width = width, height = height)
     @Scale(x = 0, y = 0)
     @Visible(1)
+    @zIndex(layers.axes)
     public Axes _axes;
 
     @QuadCurveProperties(start = @Point(x = originX, y = originY), control = @Point(x = 300, y = originY), end = @Point(x = originX
 	    + width, y = originY - height))
     @Visible(1)
     @color("red")
+    @zIndex(layers.graph)
     public QuadCurve _curve;
 
     @Visible(5)
     @color("red")
+    @zIndex(layers.points)
     public Circle _tangentPoint;
 
     @Drag
     @Visible(4)
     @color("blue")
+    @zIndex(layers.line)
     public Line _tangentLine;
 
     @Drag(action = PostBMI_Collider.class)
     @Visible(3)
     @color("blue")
+    @zIndex(layers.points)
     public Circle _secantPoint;
 
     @Visible(6)
     @Drag
     @color("blue")
+    @zIndex(layers.triangle)
     public SecantTriangle _secantTriangle;
 
     @Drag
     @Image("28pt/CurveEquationLabel.gif")
     @Position(x = 160, y = 80)
     @Visible(2)
+    @zIndex(layers.label)
     public Label _curveEquationLabel;
 
     @Image("24pt/DeltaX.gif")
     @Visible(7)
+    @zIndex(layers.label)
     public Label _deltaXLabel;
 
     @Image("24pt/DeltaY.gif")
     @Visible(7)
+    @zIndex(layers.label)
     public Label _deltaYLabel;
 
     @Drag
     @Image("24pt/DeltaYXFormula.gif")
     @Position(x = 112, y = 183)
     @Visible(8)
+    @zIndex(layers.label)
     public Label _deltaYXFormulaLabel;
 
     @Drag
     @Image("24pt/DydxFormula.gif")
     @Position(x = 112, y = 183)
+    @zIndex(layers.label)
     public Label _dydxFormulaLabel;
 
     @Drag
     @Image("24pt/QuestionMarkFormula.gif")
     @Position(x = 112, y = 183)
+    @zIndex(layers.label)
     public Label _questionMarkFormulaLabel;
 
     @color(src = MagicApplet.class, index = MagicApplet._GREEN, mode = color.Mode.field)
+    @zIndex(layers.triangle)
     public SecantTriangle _dydxTriangle;
 
     @Drag
     @Image("12pt/dx.gif")
     @Position(x = 251, y = 356)
+    @zIndex(layers.label)
     public Label _dxLabel;
 
     @Drag
     @Image("12pt/dy.gif")
     @Position(x = 270, y = 341)
+    @zIndex(layers.label)
     public Label _dyLabel;
 
     @Drag
     @Image("24pt/CurveFormulaLabel.gif")
     @Position(x = 454, y = 148)
     @Visible(9)
+    @zIndex(layers.label)
     public Label _curveFormulaLabel;
 
     @Drag
     @Image("24pt/SlopeFormulaLabel.gif")
     @Position(x = 453, y = 214)
     @Visible(11)
+    @zIndex(layers.label)
     public Label _slopeFormulaLabel;
 
     @Drag
     @Image("32pt/XCubedLabel.gif")
     @Position(x = 694, y = 129)
     @Visible(9)
+    @zIndex(layers.label)
     public Label _xCubedLabel;
 
     /**
@@ -552,16 +572,23 @@ public class SecantApproxPanel extends Panel {
     @Drag
     @Position(x = 694, y = 129)
     @Visible(9)
-    public x23Label _x23;
+    @zIndex(layers.label)
+    private x23Label _x23;
 
     /**
      * addToDragGroup(_xCubedLabelsDragGroupId, _xLabel);
      * addToDragGroup(_xCubedLabelsDragGroupId, _twoLabel);
      * addToDragGroup(_xCubedLabelsDragGroupId, _threeLabel);
      */
-    public class x23Label extends SubComponent {
-	public x23Label(Panel panel) {
-	    super(panel);
+    private static class x23Label extends SubComponent {
+	public x23Label(Panel p) {
+	    super(p);
+	    this.members.add(_xLabel);
+	    this.members.add(_twoLabel);
+	    this.members.add(_threeLabel);
+	    _xLabel.setVisible(true);
+	    _twoLabel.setVisible(true);
+	    _threeLabel.setVisible(true);
 	}
 
 	@Image("32pt/XLabel.gif")
