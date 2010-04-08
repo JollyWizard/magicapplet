@@ -55,7 +55,7 @@ public abstract class Map {
 	 * 
 	 * @return
 	 */
-	int value() default DEFAULT;
+	public int value() default DEFAULT;
 
 	public static final int DEFAULT = 0;
     }
@@ -126,6 +126,47 @@ public abstract class Map {
 	}
 
 	/**
+	 * Acts as a map that is keyed by annotations. The put operation only
+	 * appends to end of list. Added because HashMaps sometimes throw
+	 * reflection security exceptions on equality checks in applet vms.
+	 * 
+	 * @author James Arlow
+	 * 
+	 * @param <A>
+	 */
+	private static class AnnoteMap<A extends Annotation> {
+
+	    public LinkedList<A> annotes = new LinkedList<A>();
+	    public LinkedList<int[]> values = new LinkedList<int[]>();
+
+	    public void put(A a, int[] value) {
+		boolean already = false;
+		for (int i = 0; i < annotes.size(); i++) {
+		    if (a == annotes.get(i))
+			return;
+		}
+		annotes.add(a);
+		values.add(value);
+	    }
+
+	    /*
+	     * (non-Javadoc)
+	     * 
+	     * @see java.util.HashMap#get(java.lang.Object)
+	     */
+	    public int[] get(Object key) {
+		int i = 0;
+		for (A a : annotes) {
+		    if (key == a)
+			return values.get(i);
+		    i++;
+		}
+		return null;
+	    }
+
+	}
+
+	/**
 	 * Processes a class to return a sorted map, based on {@link Map.Key}
 	 * Annotations
 	 * 
@@ -179,14 +220,17 @@ public abstract class Map {
 	    if (ivalue == null)
 		return cacheAndReturn(annotation, key, cl, r);
 
-	    if (ivalue.getReturnType() != int[].class) {
+	    if (ivalue.getReturnType() != int[].class
+		    && ivalue.getReturnType() != int.class) {
 		System.err.println("Map Key not int[]: " + ivalue.getName());
 	    }
 
 	    // find range and cache values
 	    Integer lowest = null, highest = null;
 	    int[] value = null;
-	    HashMap<A, int[]> values = new HashMap<A, int[]>();
+	    // needs linked list because JRE6 throws security in applet on
+	    // @ == @
+	    AnnoteMap<A> values = new AnnoteMap<A>();
 
 	    for (A a : fieldCache.values()) {
 		try {
@@ -194,6 +238,8 @@ public abstract class Map {
 		    Object o = ivalue.invoke(a);
 		    if (o instanceof int[])
 			value = (int[]) o;
+		    if (o instanceof Integer)
+			value = new int[] { (Integer) o };
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
@@ -303,7 +349,9 @@ public abstract class Map {
 			try {
 			    if (r.get(i) == null)
 				r.put(i, new LinkedList<V>());
-			    r.get(i).add((V) f.get(obj));
+			    Object o = f.get(obj);
+			    if (o != null)
+				r.get(i).add((V) f.get(obj));
 			} catch (Exception e) {
 			    e.printStackTrace();
 			}

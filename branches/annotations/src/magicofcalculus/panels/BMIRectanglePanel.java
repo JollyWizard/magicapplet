@@ -3,8 +3,16 @@
 //
 package magicofcalculus.panels;
 
+import james.annotations.drag.Drag;
+
+import james.annotations.draw.Fill;
+import james.annotations.draw.color;
+import james.annotations.labels.Image;
+import james.annotations.placement.Position;
+import james.annotations.placement.zIndex;
 import james.annotations.scenes.Scene;
 import james.annotations.scenes.Scenes;
+import james.annotations.visibility.Visible;
 
 import java.awt.Color;
 
@@ -12,7 +20,6 @@ import magicofcalculus.DPoint;
 import magicofcalculus.Function;
 import magicofcalculus.MagicApplet;
 import magicofcalculus.Panel;
-import magicofcalculus.Function.LinearFunction;
 import magicofcalculus.components.Axes;
 import magicofcalculus.components.Circle;
 import magicofcalculus.components.Label;
@@ -30,7 +37,8 @@ import magicofcalculus.components.PolyLine;
  * @author TJ Johnson
  * @documentation James Arlow<james.arlow@gmail.com>
  */
-@Scenes( { @Scene(index = 0, description = "Start"), @Scene(index = 1) })
+@Scenes( { @Scene(index = 0, description = "Start", next = true),
+	@Scene(index = 1) })
 public class BMIRectanglePanel extends Panel {
 
     /**
@@ -46,8 +54,6 @@ public class BMIRectanglePanel extends Panel {
     public BMIRectanglePanel() {
 
 	super();
-	// setNumScenes(3);
-	setNumScenes(2);
 
 	DPoint origin = new DPoint(0, 450);
 	int lengthOfAxisX = 450;
@@ -57,14 +63,12 @@ public class BMIRectanglePanel extends Panel {
 	_leftXLocal = 0;
 	_rightXLocal = 10;
 
-	_axes = new Axes(this);
 	_axes.setAxesInPanel(origin, lengthOfAxisX, lengthOfAxisY);
 	_axes.setAxesLocal(lengthOfAxisXLocal, lengthOfAxisYLocal);
 	_axes.setRiemannRectsVisible(true);
 	// _axes.setRiemannRightEndPoints(true);
 	_axes.setRiemannRightEndPoints(false);
-	_axes.setVisible(true);
-	_axes.setRiemannRectsColor(Color.blue);
+
 	// _axes.setRiemannRectsStrokeWidth(55.0/2);
 	_axes.setRiemannRectsStrokeWidth(1);
 
@@ -87,48 +91,20 @@ public class BMIRectanglePanel extends Panel {
 	_upperGraph = _axes.getPolyLineFromFunction(NUM_INTERVALS, 0, 10,
 		_linearFunction);
 
-	_lowerGraph.setVisible(true);
-	_upperGraph.setVisible(true);
-	_lowerGraph.setColor(Color.red);
-	_upperGraph.setColor(Color.red);
 	_lowerGraph.setStrokeWidth(1);
 	_upperGraph.setStrokeWidth(1);
 
-	_axes.setFillUnderCurveColor(Color.red);
 	_axes.setFillBetweenCurves(_upperGraph, _lowerGraph, 0,
 		Panel.PANEL_WIDTH);
-	_axes.setFillUnderCurveVisible(true);
 
-	_leftPoint = new Circle(this);
 	_leftPoint.setCenter(_leftXPanel, origin.y);
-	_leftPoint.setColor(Color.red);
-	// _leftPoint.setVisible(true);
 
-	_rightPoint = new Circle(this);
 	// _rightPoint.setCenter(_leftXPanel+.25*(_rightXPanel-_leftXPanel),origin.y);
 	_rightPoint.setCenter(startXPanel, origin.y);
-	_rightPoint.setColor(Color.blue);
-	_rightPoint.setDraggable(true);
-	_rightPoint.setVisible(true);
 	_rightPoint.setDiameter(2);
 	// _rightPoint.setHitMargin(25);
 
-	_dxLabel = new Label(this);
-	_dxLabel.setImage("36pt/DxDimension outside.gif");
-	_dxLabel.setDisplayImage(true);
-	_dxLabel.setPosition(173, 320);
-	_dxLabel.setDraggable(true);
-
-	_componentList.add(0, _lowerGraph);
-	_componentList.add(0, _upperGraph);
-	_componentList.add(0, _axes);
-	_componentList.add(0, _leftPoint);
-	_componentList.add(0, _rightPoint);
-	_componentList.add(0, _dxLabel);
-
-	// setScene(0);
 	setSyncParams();
-	syncComponents();
     }
 
     // From Panel
@@ -158,46 +134,106 @@ public class BMIRectanglePanel extends Panel {
 	    _xValuePanel = _rightXPanel;
     }
 
+    // ---------------------------------------
+
     /**
+     * The number of intervals use when drawing the curve.
+     */
+    private static final int NUM_INTERVALS = 100;
+
+    @color("blue")
+    @Fill(color = "red")
+    @zIndex(LAYERS.axes)
+    public Axes _axes;
+
+    /**
+     * constants for zIndex Layers.
+     * 
+     * @author James Arlow
+     * 
+     */
+    public static final class LAYERS {
+
+	public static final int axes = 2;
+
+	public static final int graph = 1;
+
+	public static final int points = 3;
+
+	public static final int label = 4;
+    }
+
+    @Visible
+    @zIndex(LAYERS.graph)
+    @color("red")
+    public PolyLine _lowerGraph;
+
+    @Visible
+    @zIndex(LAYERS.graph)
+    @color("red")
+    public PolyLine _upperGraph;
+
+    @Visible
+    @zIndex(LAYERS.points)
+    @color("red")
+    public Circle _leftPoint;
+
+    @Visible
+    @zIndex(LAYERS.points)
+    @Drag(action = MaxLeft.class)
+    @color("blue")
+    public Circle _rightPoint;
+
+    /**
+     * Handles the action when the components are dragged
+     * <p>
      * Enables the change in rectangle display properties when the maximum left
      * drag position occurs.
+     * 
+     * @manual If the point is dragged to its maximum left position, the
+     *         rectangle indicates a review of the situation
+     * 
+     * @author James Arlow
+     * 
      */
-    protected void syncComponents() {
-	for (int i = 0; i < _componentList.size(); i++) {
+    public class MaxLeft extends Drag.Handler {
 
-	    if (_componentList.get(i) == _rightPoint) {
-		_rightPoint.setCenter(_xValuePanel, _axes.getOrigin().y);
-	    }
+	@Override
+	public void action(Object... params) {
+	    for (int i = 0; i < _componentList.size(); i++) {
 
-	    else if (_componentList.get(i) == _axes) {
-		double xValueLocal = _axes.transformPanelToLocal(new DPoint(
-			_xValuePanel, _axes.getOrigin().y)).x;
-		double deltaXLocal = (xValueLocal - _leftXLocal);
-		_axes.setRiemannRects(_leftXLocal, _rightXLocal, deltaXLocal,
-			_linearFunction);
-		if (_xValuePanel == _leftStopXPanel) {
-		    _axes.setRiemannRectsColor(MagicApplet.GREEN);
-		    _dxLabel.setVisible(true);
-		} else {
-		    _axes.setRiemannRectsColor(Color.blue);
-		    _dxLabel.setVisible(false);
+		if (_componentList.get(i) == _rightPoint) {
+		    _rightPoint.setCenter(_xValuePanel, _axes.getOrigin().y);
+		}
+
+		else if (_componentList.get(i) == _axes) {
+		    double xValueLocal = _axes
+			    .transformPanelToLocal(new DPoint(_xValuePanel,
+				    _axes.getOrigin().y)).x;
+		    double deltaXLocal = (xValueLocal - _leftXLocal);
+		    _axes.setRiemannRects(_leftXLocal, _rightXLocal,
+			    deltaXLocal, _linearFunction);
+		    if (_xValuePanel == _leftStopXPanel) {
+			_axes.setRiemannRectsColor(MagicApplet.GREEN);
+			_dxLabel.setVisible(true);
+		    } else {
+			_axes.setRiemannRectsColor(Color.blue);
+			_dxLabel.setVisible(false);
+		    }
 		}
 	    }
 	}
+
     }
 
-    // ---------------------------------------
+    @Visible
+    @zIndex(LAYERS.label)
+    @Drag
+    @Image("36pt/DxDimension outside.gif")
+    @Position(x = 173, y = 320)
+    public Label _dxLabel;
 
-    private static final int NUM_INTERVALS = 100;
-
-    private Axes _axes = null;
-    private PolyLine _lowerGraph = null;
-    private PolyLine _upperGraph = null;
-    private Circle _leftPoint = null;
-    private Circle _rightPoint = null;
-    private Label _dxLabel = null;
-
-    Function.LinearFunction _linearFunction = new Function.LinearFunction();
+    public Function.LinearFunction _linearFunction = new Function.LinearFunction();
 
     // Sync Param
     private double _xValuePanel = 193;// in Panel coordinates

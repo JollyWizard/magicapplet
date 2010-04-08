@@ -2,9 +2,11 @@ package james;
 
 import james.annotations.AxesProperties;
 import james.annotations.LabelProperties;
+import james.annotations.Map;
 import james.annotations.PolyLineConfig;
 import james.annotations.QuadCurveProperties;
 import james.annotations.placement.Position;
+import james.annotations.placement.zIndex;
 import james.annotations.scenes.Config;
 import james.annotations.visibility.Visible;
 
@@ -14,8 +16,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import magicofcalculus.Component;
 import magicofcalculus.DPoint;
@@ -64,10 +69,8 @@ public class Tools {
 	subComponents.buildSubComponents(p);
 	buildAxes(p);
 	buildQuadCurves(p);
-	// buildLabels(p);
 	QuickInit.Build(p);
 	AutoCaller.m.autoCall(p);
-
 	addAllComponents(p);
     }
 
@@ -79,24 +82,28 @@ public class Tools {
     }
 
     public static void addAllComponents(Panel p) {
-	Class cp = p.getClass();
-	for (Field f : cp.getFields()) {
-	    if (Component.class.isAssignableFrom(f.getType())) {
-		Component c = null;
-		try {
-		    c = (Component) f.get(p);
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
+	LinkedHashMap<Integer, List<Component>> zIndexes = Map.er.apply(
+		zIndex.class, p, Component.class);
 
-		if (c == null)
-		    continue;
-		for (Component c1 : p._componentList)
-		    if (c1 == c)
-			continue;
-		p._componentList.add(c);
+	// get All the fields
+	Set<Component> leftovers = Collect.getFieldValues(p, Component.class);
+
+	// collect all the annotated field values
+	HashSet<Component> allAnnotated = new HashSet<Component>();
+	for (List<Component> lc : zIndexes.values()) {
+	    for (Component c : lc) {
+		allAnnotated.add(c);
 	    }
 	}
+
+	// remove so only not annotateds are left
+	leftovers.removeAll(allAnnotated);
+
+	p._componentList.addAll(leftovers);
+	for (List<Component> lc : zIndexes.values()) {
+	    p._componentList.addAll(0, lc);
+	}
+
     }
 
     public static Class[] primitives = { int.class, short.class, long.class,
@@ -240,7 +247,6 @@ public class Tools {
 		.control().y(), qp.end().x(), qp.end().y());
 	try {
 	    f.set(p, qc);
-	    p._componentList.add(qc);
 	} catch (IllegalArgumentException e) {
 	    e.printStackTrace();
 	} catch (IllegalAccessException e) {
@@ -290,7 +296,6 @@ public class Tools {
 	    else
 		axesIndexes.get(p).put(ap.index(), a);
 	    f.set(p, a);
-	    p._componentList.add(a);
 	} catch (Exception e) {
 	    System.err.println("COULDN'T CONSTRUCT AXIS: "
 		    + p.getClass().getSimpleName() + ":" + f.getName());

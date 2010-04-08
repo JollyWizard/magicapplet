@@ -32,7 +32,7 @@ public @interface Visible {
      * Must be sorted or will not work properly.
      */
     @Map.Key(show)
-    int[] value() default {0};
+    public int[] value() default {0};
 
     /**
      * Scenes at which the object becomes hidden
@@ -40,6 +40,6 @@ public @interface Visible {
      * Must be sorted or will not work properly.
      */
     @Map.Key(hide)
-    int[] hidden() default {};
+    public int[] hidden() default {};
 
 }
