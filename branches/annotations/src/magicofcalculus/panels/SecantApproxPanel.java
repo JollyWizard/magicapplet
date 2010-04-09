@@ -268,8 +268,8 @@ public class SecantApproxPanel extends Panel {
      * 
      * @author James Arlow
      */
-    public class PostBMI_Collider extends Drag.Handler {
-	public void action(Object... Params) {
+    public class PostBMI_Collider implements Drag.Handler {
+	public void action() {
 	    boolean pointsOnTopOfEachOther = _tValue == _curve
 		    .getParamValueAtPointNearestTo(_tangentPoint.getCenter());
 
@@ -438,33 +438,45 @@ public class SecantApproxPanel extends Panel {
 
     private static final boolean MAKE_TANGENT_DISAPPEAR = false;
 
-    // ////////////////////////////////////////////////
-    public static final int originX = 50;
+    // / ////////////////////////////////////////////////
 
-    public static final int originY = 450;
+    /**
+     * Constants related to axis placement
+     */
+    public static class axis {
+	public static final int originX = 50;
 
-    public static final int width = 350;
+	public static final int originY = 450;
 
-    public static final int height = 400;
+	public static final int width = 350;
 
-    public static class layers {
-	public static final int axes = 1;
-	public static final int graph = 0;
-	public static final int line = 2;
-	public static final int points = 3;
-	public static final int label = 4;
-	public static final int triangle = 6;
+	public static final int height = 400;
     }
 
-    @Position(x = originX, y = originY)
-    @Dimensions(width = width, height = height)
+    /**
+     * Midpoints for zindex layers
+     * 
+     * @author James Arlow
+     * 
+     */
+    public static class layers {
+	public static final int graph = 0;
+	public static final int axes = 10;
+	public static final int line = 20;
+	public static final int points = 30;
+	public static final int label = 40;
+	public static final int triangle = 60;
+    }
+
+    @Position(x = axis.originX, y = axis.originY)
+    @Dimensions(width = axis.width, height = axis.height)
     @Scale(x = 0, y = 0)
     @Visible(1)
     @zIndex(layers.axes)
     public Axes _axes;
 
-    @QuadCurveProperties(start = @Point(x = originX, y = originY), control = @Point(x = 300, y = originY), end = @Point(x = originX
-	    + width, y = originY - height))
+    @QuadCurveProperties(start = @Point(x = axis.originX, y = axis.originY), control = @Point(x = 300, y = axis.originY), end = @Point(x = axis.originX
+	    + axis.width, y = axis.originY - axis.height))
     @Visible(1)
     @color("red")
     @zIndex(layers.graph)
