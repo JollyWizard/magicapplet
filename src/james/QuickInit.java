@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import magicofcalculus.components.PolyLine;
+
 public class QuickInit {
 
     /**
@@ -79,15 +81,19 @@ public class QuickInit {
 	// First search for constructor that takes o as an arguement
 	try {
 	    if (o != null) {
-		for (Constructor con : c.getConstructors()) {
+		cons: for (Constructor con : c.getConstructors()) {
 		    if (!Modifier.isPublic(con.getModifiers()))
 			continue;
 		    Class[] params = con.getParameterTypes();
-		    if (params.length != 1
-			    || !params[0].isAssignableFrom(o.getClass())) {
-			continue;
+		    for (Class cp : params) {
+			if (!cp.isAssignableFrom(o.getClass()))
+			    continue cons;
 		    }
-		    r = (T) con.newInstance(o);
+		    Object[] PARAMS = new Object[params.length];
+		    for (int i = 0; i < PARAMS.length; i++)
+			PARAMS[i] = o;
+
+		    r = (T) con.newInstance(PARAMS);
 		    break;
 		}
 	    }
@@ -101,6 +107,7 @@ public class QuickInit {
 		if (c.getConstructor() != null) {
 		    r = c.newInstance();
 		}
+	    } catch (NoSuchMethodException nsme) {
 	    } catch (Exception e) {
 		System.err.println("DEFAULT CONSTRUCTOR INIT ERROR: "
 			+ c.getClass());
