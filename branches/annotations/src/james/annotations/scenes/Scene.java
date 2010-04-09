@@ -44,10 +44,10 @@ public @interface Scene {
      * strings when processing
      */
     public static final String DEFAULT = "!_DEFAULT";
-    
-    public Class<? extends Action> action = Action.class;
-    
-    public static interface Action<T> {
-	public void performAction(T option);
+
+    public Class<? extends Action> action() default Action.class;
+
+    public static interface Action {
+	public void sceneSet(int scene);
     }
 }
