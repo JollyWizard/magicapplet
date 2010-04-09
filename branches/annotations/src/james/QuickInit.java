@@ -5,11 +5,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import magicofcalculus.components.PolyLine;
+import magicofcalculus.panels.SecantApproxPanel;
 
 public class QuickInit {
 
     /**
-     * Builds all fields that QuickInit is capable of
+     * Builds all fields that QuickInit is capable of in the source object using
+     * it as a constructor parameter for each field object if need be.
      * 
      * @param o
      */
@@ -19,11 +21,56 @@ public class QuickInit {
 	}
     }
 
+    /**
+     * Builds all fields using an alternate default Constructor object.
+     * 
+     * @param o
+     * @param src
+     */
+    public static void Build(Object o, Object src) {
+	for (Field f : o.getClass().getFields()) {
+	    Build(o, f, src);
+	}
+    }
+
+    /**
+     * Builds a new instance of the class, including filling all fields. using
+     * Build methods
+     * 
+     * @param <T>
+     * @param c
+     * @return
+     */
     public static <T> T Build(Class<T> c) {
 	return Build(c, (Object) null);
     }
 
+    /**
+     * Builds and fills a specific field from o. The object that holds the field
+     * is used as the default constructor parameter
+     * 
+     * @param o
+     *            The object whose field is to be built.
+     * @param f
+     *            The field to build and fill.
+     */
     public static void Build(Object o, Field f) {
+	Build(o, f, o);
+    }
+
+    /**
+     * For a specific field from object o, build using the constructor paramater
+     * src or default Constructor.
+     * 
+     * @param o
+     *            The object whose field is to be built and filled
+     * @param f
+     *            The field to build and fill.
+     * @param src
+     *            The object to use as a constructor parameter if such a
+     *            constructor is present.
+     */
+    public static void Build(Object o, Field f, Object src) {
 	// check parameters before trying
 	if (o == null)
 	    return;
@@ -45,7 +92,7 @@ public class QuickInit {
 	}
 
 	// Build object and set if successful
-	Object fo = Build(f.getType(), o);
+	Object fo = Build(f.getType(), src);
 	if (fo == null)
 	    return;
 	try {
@@ -93,11 +140,15 @@ public class QuickInit {
 		    for (int i = 0; i < PARAMS.length; i++)
 			PARAMS[i] = o;
 
+		    if (c == SecantApproxPanel.x23Label.class)
+			System.err.println("X23");
+
 		    r = (T) con.newInstance(PARAMS);
 		    break;
 		}
 	    }
 	} catch (Exception e) {
+	    System.err.println("QUICKBUILD ERROR: " + c);
 	    e.printStackTrace();
 	}
 	// Then perform default constructor search

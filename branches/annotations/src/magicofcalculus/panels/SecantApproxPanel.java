@@ -9,6 +9,7 @@ import james.annotations.QuadCurveProperties;
 import james.annotations.drag.Drag;
 import james.annotations.draw.color;
 import james.annotations.labels.Image;
+import james.annotations.labels.Opaque;
 import james.annotations.placement.Dimensions;
 import james.annotations.placement.Position;
 import james.annotations.placement.Scale;
@@ -570,17 +571,17 @@ public class SecantApproxPanel extends Panel {
      * {@link SecantApproxPanel#_xCubedLabel}
      */
     @Drag
-    @Position(x = 694, y = 129)
+    @Position(x = 694, y = 100)
     @Visible(9)
     @zIndex(layers.label)
-    private x23Label _x23;
+    public x23Label _x23;
 
     /**
      * addToDragGroup(_xCubedLabelsDragGroupId, _xLabel);
      * addToDragGroup(_xCubedLabelsDragGroupId, _twoLabel);
      * addToDragGroup(_xCubedLabelsDragGroupId, _threeLabel);
      */
-    private static class x23Label extends SubComponent {
+    public static class x23Label extends SubComponent {
 	public x23Label(Panel p) {
 	    super(p);
 	    this.members.add(_xLabel);
@@ -591,13 +592,19 @@ public class SecantApproxPanel extends Panel {
 	    _threeLabel.setVisible(true);
 	}
 
+	@Drag
 	@Image("32pt/XLabel.gif")
 	public Label _xLabel;
 
+	@Drag
 	@Image("32pt/TwoLabel.gif")
+	@Position(x=20, y=-15)
 	public Label _twoLabel;
 
-	@Image(value = "32pt/ThreeLabel.gif")
+	@Drag
+	@Opaque
+	@Image("32pt/ThreeLabel.gif")
+	@Position(x=20, y=-15)
 	public Label _threeLabel;
 
 	/*

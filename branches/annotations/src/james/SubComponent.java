@@ -27,6 +27,8 @@ public class SubComponent extends Component {
      */
     public SubComponent(Panel panel) {
 	super(panel);
+	QuickInit.Build(this, panel);
+	AutoCaller.m.autoCall(this);
     }
 
     /**
@@ -35,6 +37,7 @@ public class SubComponent extends Component {
      */
     @Override
     public void draw(Graphics g) {
+	if (!_visible) return;
 	DPoint origin = getPosition();
 	Graphics subg = g.create();
 	subg.translate((int) origin.x, (int) origin.y);
