@@ -1,7 +1,14 @@
 package james;
 
+import james.annotations.Map;
+import james.annotations.labels.Opaque;
+import james.annotations.placement.zIndex;
+
 import java.awt.Graphics;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import magicofcalculus.Component;
 import magicofcalculus.DPoint;
@@ -29,6 +36,13 @@ public class SubComponent extends Component {
 	super(panel);
 	QuickInit.Build(this, panel);
 	AutoCaller.m.autoCall(this);
+	LinkedHashMap<Integer, List<Component>> all = Map.er.apply(
+		zIndex.class, this, Component.class);
+	for (List<Component> cl : all.values())
+	    for (Component c : cl) {
+		members.add(0,c);
+		c.setVisible(true);
+	    }
     }
 
     /**
@@ -37,13 +51,16 @@ public class SubComponent extends Component {
      */
     @Override
     public void draw(Graphics g) {
-	if (!_visible) return;
+	if (!_visible)
+	    return;
 	DPoint origin = getPosition();
 	Graphics subg = g.create();
 	subg.translate((int) origin.x, (int) origin.y);
 
-	for (Component c : members) {
-	    c.draw(subg);
+	for (int i = members.size() - 1; i >= 0; i--) {
+	    Component c = members.get(i);
+	    if (c != null)
+		c.draw(subg);
 	}
     }
 

@@ -584,39 +584,26 @@ public class SecantApproxPanel extends Panel {
     public static class x23Label extends SubComponent {
 	public x23Label(Panel p) {
 	    super(p);
-	    this.members.add(_xLabel);
-	    this.members.add(_twoLabel);
-	    this.members.add(_threeLabel);
-	    _xLabel.setVisible(true);
-	    _twoLabel.setVisible(true);
-	    _threeLabel.setVisible(true);
 	}
 
 	@Drag
 	@Image("32pt/XLabel.gif")
+	@zIndex(0)
 	public Label _xLabel;
 
 	@Drag
 	@Image("32pt/TwoLabel.gif")
 	@Position(x=20, y=-15)
+	@zIndex(2)
 	public Label _twoLabel;
 
 	@Drag
 	@Opaque
 	@Image("32pt/ThreeLabel.gif")
+	@zIndex(1)
 	@Position(x=20, y=-15)
 	public Label _threeLabel;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see magicofcalculus.Component#setVisible(boolean)
-	 */
-	@Override
-	public void setVisible(boolean set) {
-	    super.setVisible(set);
-	    System.out.println("_X23 visible = true;");
-	}
 
     }
 
