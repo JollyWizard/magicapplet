@@ -9,6 +9,7 @@
 package magicofcalculus;
 
 import james.Tools;
+import james.annotations.scenes.Scene;
 import james.annotations.visibility.Visible;
 
 import javax.swing.JPanel;
@@ -597,8 +598,6 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	// in fact, ignore the mouseClicked event all togther
     }
 
-    // ////////////////ADDED BY JAMES:
-
     private james.annotations.scenes.Config sceneConfig;
 
     public void setSceneConfig(james.annotations.scenes.Config config) {
@@ -648,7 +647,10 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	}
 
 	visibility.setScene(_scene);
+
+	sceneConfig.fireAction(_scene);
     }
+
 }
 // ---------------------------------------
 // ------------------------------------------------

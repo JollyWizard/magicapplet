@@ -64,7 +64,7 @@ public class Tools {
      * @param p
      */
     public static void initializePanel(Panel p) {
-	Config c = james.annotations.scenes.Config.build(p.getClass());
+	Config c = james.annotations.scenes.Config.build(p);
 	p.setSceneConfig(c);
 	subComponents.buildSubComponents(p);
 	buildAxes(p);

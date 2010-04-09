@@ -1,5 +1,7 @@
 package james.annotations.scenes;
 
+import james.QuickInit;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -31,15 +33,20 @@ public class Config {
     public HashMap<Integer, Boolean> prev = new HashMap<Integer, Boolean>();
 
     public HashMap<Integer, Scene.Action> action = new HashMap<Integer, Scene.Action>();
-    
+
     /**
      * Analyzes Scenes Annotation and builds config information.
      * 
      * @param p
      */
-    public static Config build(Class<? extends Panel> c) {
+    public static Config build(Panel p) {
 	// return value
 	Config r = new Config();
+
+	if (p == null)
+	    return r;
+
+	Class<? extends Panel> c = p.getClass();
 
 	Scenes ss = c.getAnnotation(Scenes.class);
 
@@ -102,6 +109,10 @@ public class Config {
 	    if (s.prev() == true) {
 		r.prev.put(s.index(), true);
 	    }
+	    if (s.action() != Scene.Action.class) {
+		Scene.Action act = QuickInit.Build(s.action(), p);
+		r.action.put(i, act);
+	    }
 	}
 	// 0 always prev panels, last always next panels.
 	// TODO check to see what problems this might cause.
@@ -109,21 +120,30 @@ public class Config {
 	r.next.put(r.last, true);
 
 	// DEBUG
-	System.out.println(c.getName());
-	int d = 0;
-	for (int i = 0; i < r.descriptions.size(); i++) {
-	    System.out.print(d++ + "\t" + r.descriptions.get(i));
-	    System.out.print("\t"
-		    + (r.prev.get(i) != null && r.prev.get(i) == true ? "prev"
-			    : ""));
-	    System.out.print("\t"
-		    + (r.next.get(i) != null && r.next.get(i) == true ? "next"
-			    : ""));
-	    System.out.println("");
+	if (false) {
+	    System.out.println(c.getName());
+	    int d = 0;
+	    for (int i = 0; i < r.descriptions.size(); i++) {
+		System.out.print(d++ + "\t" + r.descriptions.get(i));
+		System.out
+			.print("\t"
+				+ (r.prev.get(i) != null
+					&& r.prev.get(i) == true ? "prev" : ""));
+		System.out
+			.print("\t"
+				+ (r.next.get(i) != null
+					&& r.next.get(i) == true ? "next" : ""));
+		System.out.println("");
+	    }
+	    System.out.println();
 	}
-	System.out.println();
-
 	return r;
     }
 
+    public void fireAction(int scene) {
+	Scene.Action sa = action.get(scene);
+	if (sa != null)
+	    sa.sceneSet(scene);
+
+    }
 }

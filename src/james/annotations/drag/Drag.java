@@ -30,8 +30,8 @@ public @interface Drag {
      * @author James Arlow
      * 
      */
-    public abstract class Handler {
-	public abstract void action(Object... params);
+    public static interface Handler {
+	public void action();
     }
 
     /**
