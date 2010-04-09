@@ -37,7 +37,8 @@ import magicofcalculus.components.PolyLine;
  * @author TJ Johnson
  * @documentation James Arlow<james.arlow@gmail.com>
  */
-@Scenes( { @Scene(index = 0, description = "Start", next = true),
+@Scenes( {
+	@Scene(index = 0, description = "Start", next = true, action = BMIRectanglePanel.MaxLeft.class),
 	@Scene(index = 1) })
 public class BMIRectanglePanel extends Panel {
 
@@ -52,7 +53,6 @@ public class BMIRectanglePanel extends Panel {
      * </ul>
      */
     public BMIRectanglePanel() {
-
 	super();
 
 	DPoint origin = new DPoint(0, 450);
@@ -68,6 +68,7 @@ public class BMIRectanglePanel extends Panel {
 	_axes.setRiemannRectsVisible(true);
 	// _axes.setRiemannRightEndPoints(true);
 	_axes.setRiemannRightEndPoints(false);
+	_axes.setRiemannRectsColor(Color.blue);
 
 	// _axes.setRiemannRectsStrokeWidth(55.0/2);
 	_axes.setRiemannRectsStrokeWidth(1);
@@ -78,7 +79,6 @@ public class BMIRectanglePanel extends Panel {
 	_leftXPanel = _axes.transformLocalToPanel(new DPoint(_leftXLocal, 0)).x;
 	_rightXPanel = _axes.transformLocalToPanel(new DPoint(_rightXLocal, 0)).x;
 
-	_leftStopXPanel = 55;
 	double startXPanel = 193;
 	double h = 1;
 	double slope = .9;
@@ -107,7 +107,6 @@ public class BMIRectanglePanel extends Panel {
 	setSyncParams();
     }
 
-    // From Panel
     /**
      * Sets scene description using switch or forwards scene
      */
@@ -120,20 +119,6 @@ public class BMIRectanglePanel extends Panel {
 	}
     }
 
-    /**
-     * Makes sure draggin points don't leave their bounds
-     */
-    protected void setSyncParams() {
-	if (_componentList.get(0) == _rightPoint) {
-	    _xValuePanel = _rightPoint.getCenter().x;
-	}
-	// if (_xValuePanel<_leftXPanel) _xValuePanel=_leftXPanel;
-	if (_xValuePanel < _leftStopXPanel)
-	    _xValuePanel = _leftStopXPanel;
-	if (_xValuePanel > _rightXPanel)
-	    _xValuePanel = _rightXPanel;
-    }
-
     // ---------------------------------------
 
     /**
@@ -141,45 +126,46 @@ public class BMIRectanglePanel extends Panel {
      */
     private static final int NUM_INTERVALS = 100;
 
-    @color("blue")
-    @Fill(color = "red")
-    @zIndex(LAYERS.axes)
-    public Axes _axes;
-
     /**
      * constants for zIndex Layers.
      * 
      * @author James Arlow
      * 
      */
-    public static final class LAYERS {
+    public static final class layers {
 
-	public static final int axes = 2;
+	public static final int axes = 20;
 
-	public static final int graph = 1;
+	public static final int graph = 10;
 
-	public static final int points = 3;
+	public static final int points = 30;
 
-	public static final int label = 4;
+	public static final int label = 40;
     }
 
     @Visible
-    @zIndex(LAYERS.graph)
+    @color("blue")
+    @Fill(color = "red")
+    @zIndex(layers.axes)
+    public Axes _axes;
+
+    @Visible
+    @zIndex(layers.graph)
     @color("red")
     public PolyLine _lowerGraph;
 
     @Visible
-    @zIndex(LAYERS.graph)
+    @zIndex(layers.graph)
     @color("red")
     public PolyLine _upperGraph;
 
     @Visible
-    @zIndex(LAYERS.points)
+    @zIndex(layers.points)
     @color("red")
     public Circle _leftPoint;
 
     @Visible
-    @zIndex(LAYERS.points)
+    @zIndex(layers.points)
     @Drag(action = MaxLeft.class)
     @color("blue")
     public Circle _rightPoint;
@@ -196,41 +182,46 @@ public class BMIRectanglePanel extends Panel {
      * @author James Arlow
      * 
      */
-    public class MaxLeft extends Drag.Handler {
+    public class MaxLeft implements Scene.Action, Drag.Handler {
 
 	@Override
-	public void action(Object... params) {
-	    for (int i = 0; i < _componentList.size(); i++) {
+	public void action() {
+	    _xValuePanel = _rightPoint.getCenter().x;
 
-		if (_componentList.get(i) == _rightPoint) {
-		    _rightPoint.setCenter(_xValuePanel, _axes.getOrigin().y);
-		}
+	    if (_xValuePanel < _leftStopXPanel)
+		_xValuePanel = _leftStopXPanel;
+	    if (_xValuePanel > _rightXPanel)
+		_xValuePanel = _rightXPanel;
 
-		else if (_componentList.get(i) == _axes) {
-		    double xValueLocal = _axes
-			    .transformPanelToLocal(new DPoint(_xValuePanel,
-				    _axes.getOrigin().y)).x;
-		    double deltaXLocal = (xValueLocal - _leftXLocal);
-		    _axes.setRiemannRects(_leftXLocal, _rightXLocal,
-			    deltaXLocal, _linearFunction);
-		    if (_xValuePanel == _leftStopXPanel) {
-			_axes.setRiemannRectsColor(MagicApplet.GREEN);
-			_dxLabel.setVisible(true);
-		    } else {
-			_axes.setRiemannRectsColor(Color.blue);
-			_dxLabel.setVisible(false);
-		    }
-		}
+	    _rightPoint.setCenter(_xValuePanel, _axes.getOrigin().y);
+
+	    if (_xValuePanel == _leftStopXPanel) {
+		_axes.setRiemannRectsColor(MagicApplet.GREEN);
+		_dxLabel.setVisible(true);
+	    } else {
+		_axes.setRiemannRectsColor(Color.blue);
+		_dxLabel.setVisible(false);
 	    }
+
+	    double xValueLocal = _axes.transformPanelToLocal(new DPoint(
+		    _xValuePanel, _axes.getOrigin().y)).x;
+
+	    double deltaXLocal = (xValueLocal - _leftXLocal);
+	    _axes.setRiemannRects(_leftXLocal, _rightXLocal, deltaXLocal,
+		    _linearFunction);
+	}
+
+	@Override
+	public void sceneSet(int scene) {
+	    action();
 	}
 
     }
 
-    @Visible
-    @zIndex(LAYERS.label)
     @Drag
     @Image("36pt/DxDimension outside.gif")
     @Position(x = 173, y = 320)
+    @zIndex(layers.label)
     public Label _dxLabel;
 
     public Function.LinearFunction _linearFunction = new Function.LinearFunction();
@@ -242,7 +233,7 @@ public class BMIRectanglePanel extends Panel {
     private double _rightXLocal = 0;
     private double _leftXPanel = 0;
     private double _rightXPanel = 0;
-    private double _leftStopXPanel = 0;
+    private static final double _leftStopXPanel = 55;
 
 }
 // ---------------------------------------

@@ -67,9 +67,6 @@ public class AreaFunctionPanel extends Panel {
 
 	_upperPoint.setCenter(_upperAxes.getOrigin());
 
-	_componentList.add(0, _lowerPoint);
-	_componentList.add(0, _upperPoint);
-
 	// setLabelsOverThreeXSquaredLabel();
 	_xCubedLabelsDragGroupId = createDragGroup();
 	setSyncParams();
@@ -149,10 +146,10 @@ public class AreaFunctionPanel extends Panel {
      * @manual The two points will move in tandem.
      * @author T Johnson, James Arlow
      */
-    public class DragPoint extends Drag.Handler {
+    public class DragPoint implements  Drag.Handler {
 
 	@Override
-	public void action(Object... params) {
+	public void action() {
 	    // _lowerPoint
 	    _lowerPoint.setCenter(_xValuePanel, _lowerAxes.getOrigin().y);
 
@@ -220,32 +217,63 @@ public class AreaFunctionPanel extends Panel {
     // ---------------------------------------
 
     /**
-     * The number of intervals used to map the integral function
+     * Constants related to axis size, scale and placement
      */
+    public static class axis {
+	/**
+	 * Left most x position of axis
+	 */
+	public static final double X = 50;
 
-    public static final double AXIS_X = 50;
+	/**
+	 * Width for each axes in pixels
+	 */
+	public static final int W = 300;
 
-    public static final int AXIS_W = 300;
+	/**
+	 * Height for each pair of axes in pixels
+	 */
+	public static final int H = 200;
 
-    public static final int AXIS_H = 200;
+	/**
+	 * Maximum local x value for each axes
+	 */
+	public static final int localX = 10;
 
-    public static final int localX = 10;
+	/**
+	 * Maximum local y value for each axes
+	 */
+	public static final int localY = 2;
+    }
 
-    public static final int localY = 2;
+    /**
+     * Integer constants for zindex layers
+     * 
+     * @author James Arlow
+     * 
+     */
+    public static class layers {
+	public static final int axes = 10;
+	public static final int graph = 0;
+	public static final int line = 20;
+	public static final int points = 30;
+	public static final int label = 40;
+	public static final int triangle = 60;
+    }
 
     @Visible
     @AxesProperties(index = 0)
-    @Scale(x = localX, y = localY)
-    @Dimensions(width = AXIS_W, height = AXIS_H)
+    @Scale(x = axis.localX, y = axis.localY)
+    @Dimensions(width = axis.W, height = axis.H)
     @Fill(color = "blue")
-    @Position(x = AXIS_X, y = 450)
+    @Position(x = axis.X, y = 450)
     public Axes _lowerAxes;
 
     @Visible
-    @AxesProperties(index = 1, localW = localX, localH = localY)
-    @Position(x = AXIS_X, y = 225)
+    @AxesProperties(index = 1, localW = axis.localX, localH = axis.localY)
+    @Position(x = axis.X, y = 225)
     @Fill(color = "red")
-    @Dimensions(width = AXIS_W, height = AXIS_H)
+    @Dimensions(width = axis.W, height = axis.H)
     public Axes _upperAxes;
 
     @Visible
