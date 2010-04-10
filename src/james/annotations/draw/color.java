@@ -1,6 +1,6 @@
 package james.annotations.draw;
 
-import james.ComponentCaller;
+import james.annotations.ComponentCaller;
 
 import java.awt.Color;
 import java.lang.annotation.ElementType;

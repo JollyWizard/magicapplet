@@ -1,7 +1,5 @@
 package james.annotations;
 
-import james.AutoCaller;
-import james.ComponentCaller;
 import james.QuickInit;
 
 import java.lang.reflect.Field;

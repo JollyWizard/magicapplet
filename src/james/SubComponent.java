@@ -1,5 +1,6 @@
 package james;
 
+import james.annotations.AutoCaller;
 import james.annotations.Map;
 import james.annotations.labels.Opaque;
 import james.annotations.placement.zIndex;

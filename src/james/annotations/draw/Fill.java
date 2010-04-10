@@ -1,6 +1,6 @@
 package james.annotations.draw;
 
-import james.ComponentCaller;
+import james.annotations.ComponentCaller;
 import magicofcalculus.components.Axes;
 
 public @interface Fill {

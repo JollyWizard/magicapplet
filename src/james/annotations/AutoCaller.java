@@ -1,6 +1,7 @@
-package james;
+package james.annotations;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 
 /**
@@ -26,7 +27,7 @@ public interface AutoCaller<T extends Annotation> {
      * @param o
      *            The object for which the annotation should be applied to.
      */
-    public void call(T annote, Object o);
+    public void call(T annote, Object target);
 
     /**
      * Utility methods for AutoCall inner classes of Annotation Types
@@ -42,32 +43,36 @@ public interface AutoCaller<T extends Annotation> {
 	public static void autoCall(Object o) {
 	    if (o == null)
 		return;
-	    for (Field f : o.getClass().getFields()) {
+	    
+	    Class c = o.getClass();
+	    //first process class level annotations
+	    while (c != null) {
+		autoCall(c, o);
+		c = c.getSuperclass();
+	    }
+
+	    //then process field level annotations
+ 	    for (Field f : o.getClass().getFields()) {
 		autoCall(f, o);
 	    }
 	}
 
 	/**
-	 * Auto calls a single field with a single parent instance (to get the
-	 * field value from).
+	 * For each annotation on the element, if the annotation has an inner
+	 * class of type AutoCaller, call
+	 * {@link AutoCaller#call(T, Object)};
 	 * 
-	 * @param f
-	 * @param parent
+	 * @param ae
+	 *            the annotated element to retrieve annotations from,
+	 *            generally this a class or field for which the element
+	 *            belongs.
+	 * @param o
+	 *            the object which is passed as the target to the
+	 *            AutoCallers#call() method
 	 */
 	@SuppressWarnings("unchecked")
-	public static void autoCall(Field f, Object parent) {
-	    // Get field value
-	    Object o = null;
-	    try {
-		o = f.get(parent);
-	    } catch (Exception e1) {
-		e1.printStackTrace();
-	    }
-	    // return if the value is null
-	    if (o == null)
-		return;
-
-	    Annotation[] aa = f.getAnnotations();
+	public static void autoCall(AnnotatedElement ae, Object o) {
+	    Annotation[] aa = ae.getAnnotations();
 	    for (Annotation a : aa) {
 		Class[] inners = a.annotationType().getDeclaredClasses();
 		for (Class<?> c : inners) {
@@ -81,6 +86,30 @@ public interface AutoCaller<T extends Annotation> {
 		    }
 		}
 	    }
+	}
+
+	/**
+	 * Auto calls a single field with a single parent instance (to get the
+	 * field value from).
+	 * 
+	 * @param f
+	 * @param parent
+	 */
+	public static void autoCall(Field f, Object parent) {
+	    // Get field value
+	    Object o = null;
+	    try {
+		o = f.get(parent);
+	    } catch (Exception e1) {
+		e1.printStackTrace();
+	    }
+	    // return if the value is null
+	    if (o == null)
+		return;
+
+	    // if the value was retrieved, apply the fields annotations to it
+	    autoCall(f, o);
+
 	}
     }
 }
