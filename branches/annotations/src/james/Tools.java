@@ -1,5 +1,6 @@
 package james;
 
+import james.annotations.AutoCaller;
 import james.annotations.AxesProperties;
 import james.annotations.LabelProperties;
 import james.annotations.Map;

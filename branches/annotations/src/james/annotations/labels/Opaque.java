@@ -1,6 +1,6 @@
 package james.annotations.labels;
 
-import james.ComponentCaller;
+import james.annotations.ComponentCaller;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

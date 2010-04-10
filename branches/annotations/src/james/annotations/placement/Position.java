@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import magicofcalculus.Component;
-import james.ComponentCaller;
+import james.annotations.ComponentCaller;
 
 /**
  * Indicates two dimensional position defaulting to (0,0)

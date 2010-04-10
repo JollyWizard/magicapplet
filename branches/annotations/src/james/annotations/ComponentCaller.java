@@ -1,4 +1,5 @@
-package james;
+package james.annotations;
+
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
