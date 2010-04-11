@@ -118,7 +118,7 @@ public interface AutoCaller<T extends Annotation> {
 	 *            the object from whom the field value should be retrieved
 	 *            before calling the annotation setter
 	 */
-	public static void autoCall(Field f, Object parent) {
+	public static void autoCall(Field f, Object parent, Class...whitelist) {
 	    // Get field value
 	    Object o = null;
 	    try {
@@ -131,7 +131,7 @@ public interface AutoCaller<T extends Annotation> {
 		return;
 
 	    // if the value was retrieved, apply the fields annotations to it
-	    autoCall((AnnotatedElement) f, o);
+	    autoCall((AnnotatedElement) f, o, whitelist);
 
 	}
     }
