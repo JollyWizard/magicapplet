@@ -21,7 +21,7 @@ public abstract class TypedCaller<A extends Annotation, T> implements
     public Class<T> getType() {
 	Class base = getClass();
 	while (base.getSuperclass() != Object.class
-		&& base.getSuperclass() != ComponentCaller.class) {
+		&& base.getSuperclass() != TypedCaller.class) {
 	    base = base.getSuperclass();
 	}
 	Type r = ((ParameterizedType) base.getGenericSuperclass())
