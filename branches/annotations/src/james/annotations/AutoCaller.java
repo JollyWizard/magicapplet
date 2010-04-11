@@ -3,6 +3,7 @@ package james.annotations;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.util.LinkedList;
 
 /**
  * If an annotation defines an inner class extending this type, the call method
@@ -41,20 +42,25 @@ public interface AutoCaller<T extends Annotation> {
 	 * @param o
 	 *            The object to autocall anotation types for all fields.
 	 */
-	public static void autoCall(Object o) {
+	public static void autoCall(Object o, Class...whitelist) {
 	    if (o == null)
 		return;
 
+	    // first process class level annotations. Starting at bottom class
+	    // and working up
+	    LinkedList<Class> classes = new LinkedList<Class>();
 	    Class c = o.getClass();
-	    // first process class level annotations
-	    while (c != null) {
-		autoCall(c, o);
+	    while (c != Object.class && c != null) {
+		classes.add(c);
 		c = c.getSuperclass();
 	    }
+	    
+	    for (int i = 0; i < classes.size(); i++)
+		autoCall(classes.get(i), o, whitelist);
 
 	    // then process field level annotations
 	    for (Field f : o.getClass().getFields()) {
-		autoCall(f, o);
+		autoCall(f, o, whitelist);
 	    }
 	}
 
@@ -69,11 +75,20 @@ public interface AutoCaller<T extends Annotation> {
 	 * @param o
 	 *            the object which is passed as the target to the
 	 *            AutoCallers#call() method
+	 * @param whitelist
+	 *            if these arguements are included, only Annotations of
+	 *            these types will be processed.
 	 */
 	@SuppressWarnings("unchecked")
-	public static void autoCall(AnnotatedElement ae, Object o) {
+	public static void autoCall(AnnotatedElement ae, Object o,
+		Class... whitelist) {
 	    Annotation[] aa = ae.getAnnotations();
-	    for (Annotation a : aa) {
+	    annotations: for (Annotation a : aa) {
+		if (whitelist.length != 0) {
+		    for (Class<? extends Annotation> c : whitelist)
+			if (!c.isAssignableFrom(a.getClass()))
+			    continue annotations;
+		}
 		Class[] inners = a.annotationType().getDeclaredClasses();
 		for (Class<?> c : inners) {
 		    if (AutoCaller.class.isAssignableFrom(c)) {
@@ -111,7 +126,7 @@ public interface AutoCaller<T extends Annotation> {
 		return;
 
 	    // if the value was retrieved, apply the fields annotations to it
-	    autoCall((AnnotatedElement)f, o);
+	    autoCall((AnnotatedElement) f, o);
 
 	}
     }
