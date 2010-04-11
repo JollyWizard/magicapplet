@@ -35,7 +35,8 @@ public interface AutoCaller<T extends Annotation> {
     public static class m {
 
 	/**
-	 * AutoCalls on all non null fields for the input object.
+	 * Applys all autocallers from class to the object, then all fields to
+	 * non-null field values
 	 * 
 	 * @param o
 	 *            The object to autocall anotation types for all fields.
@@ -43,24 +44,23 @@ public interface AutoCaller<T extends Annotation> {
 	public static void autoCall(Object o) {
 	    if (o == null)
 		return;
-	    
+
 	    Class c = o.getClass();
-	    //first process class level annotations
+	    // first process class level annotations
 	    while (c != null) {
 		autoCall(c, o);
 		c = c.getSuperclass();
 	    }
 
-	    //then process field level annotations
- 	    for (Field f : o.getClass().getFields()) {
+	    // then process field level annotations
+	    for (Field f : o.getClass().getFields()) {
 		autoCall(f, o);
 	    }
 	}
 
 	/**
 	 * For each annotation on the element, if the annotation has an inner
-	 * class of type AutoCaller, call
-	 * {@link AutoCaller#call(T, Object)};
+	 * class of type AutoCaller, call {@link AutoCaller#call(T, Object)};
 	 * 
 	 * @param ae
 	 *            the annotated element to retrieve annotations from,
@@ -93,7 +93,10 @@ public interface AutoCaller<T extends Annotation> {
 	 * field value from).
 	 * 
 	 * @param f
+	 *            The field to call the object on.
 	 * @param parent
+	 *            the object from whom the field value should be retrieved
+	 *            before calling the annotation setter
 	 */
 	public static void autoCall(Field f, Object parent) {
 	    // Get field value
@@ -108,7 +111,7 @@ public interface AutoCaller<T extends Annotation> {
 		return;
 
 	    // if the value was retrieved, apply the fields annotations to it
-	    autoCall(f, o);
+	    autoCall((AnnotatedElement)f, o);
 
 	}
     }

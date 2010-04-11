@@ -87,7 +87,7 @@ public class Tools {
 		zIndex.class, p, Component.class);
 
 	// get All the fields
-	Set<Component> leftovers = Collect.getFieldValues(p, Component.class);
+	Set<Component> leftovers = Collect.fieldValues(p, Component.class);
 
 	// collect all the annotated field values
 	HashSet<Component> allAnnotated = new HashSet<Component>();
