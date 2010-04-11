@@ -42,7 +42,7 @@ public interface AutoCaller<T extends Annotation> {
 	 * @param o
 	 *            The object to autocall anotation types for all fields.
 	 */
-	public static void autoCall(Object o, Class...whitelist) {
+	public static void autoCall(Object o, Class... whitelist) {
 	    if (o == null)
 		return;
 
@@ -51,10 +51,10 @@ public interface AutoCaller<T extends Annotation> {
 	    LinkedList<Class> classes = new LinkedList<Class>();
 	    Class c = o.getClass();
 	    while (c != Object.class && c != null) {
-		classes.add(c);
+		classes.add(0, c);
 		c = c.getSuperclass();
 	    }
-	    
+
 	    for (int i = 0; i < classes.size(); i++)
 		autoCall(classes.get(i), o, whitelist);
 
@@ -85,9 +85,14 @@ public interface AutoCaller<T extends Annotation> {
 	    Annotation[] aa = ae.getAnnotations();
 	    annotations: for (Annotation a : aa) {
 		if (whitelist.length != 0) {
+		    boolean inWhiteList = false;
 		    for (Class<? extends Annotation> c : whitelist)
-			if (!c.isAssignableFrom(a.getClass()))
-			    continue annotations;
+			if (c.isAssignableFrom(a.getClass())) {
+			    inWhiteList = true;
+			    break;
+			}
+		    if (!inWhiteList)
+			continue annotations;
 		}
 		Class[] inners = a.annotationType().getDeclaredClasses();
 		for (Class<?> c : inners) {
