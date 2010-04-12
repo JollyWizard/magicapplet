@@ -58,7 +58,7 @@ The MagicApplet Project is heavily referenced and has to be attached.  If its in
   # Projects (Tab)
   # Add _{MagicApplet project}_
 
-To run the applet, you need to add the source folder location to your run configuration.
+To run the applet, you need to add the source folder location to your run configuration, So it can find the source files to process them.
 
   # Try to run PanelDoc the project once, you will get errors, but it will create the run configuration
   # Drop down arrow next to the Play Button
@@ -66,4 +66,5 @@ To run the applet, you need to add the source folder location to your run config
   # Find the Run configuration that is being used for the PanelDoc
   # ClassPath (tab)
   # Advanced (button)
-  #
+  # External Folder (radio)
+  # Select _{magic applet project}/src/_
