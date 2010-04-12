@@ -44,6 +44,89 @@ import magicofcalculus.components.SecantTriangle;
 public class BMITrianglePanel extends Panel {
 
     /**
+     * @name Axes
+     * @description The Axes for this panels graph
+     */
+    @Visible
+    @Fill(color = "red")
+    @zIndex(layers.axes)
+    public Axes _axes;
+
+    /**
+     * @name Curve Equation
+     */
+    @Drag
+    @Image("28pt/CurveEquationLabel.gif")
+    @Visible
+    @zIndex(layers.label)
+    @Position(x = 350, y = 4)
+    public Label _curveEquationLabel;
+
+    @Visible
+    @Image("36pt/DeltaX.gif")
+    @zIndex(layers.label)
+    @Position(x = 0, y = 0)
+    public Label _deltaXLabel;
+
+    @Visible
+    @Image("36pt/DeltaY.gif")
+    @zIndex(layers.label)
+    @Position(x = 0, y = 0)
+    public Label _deltaYLabel;
+
+    @zIndex(layers.label)
+    @Visible
+    @Drag
+    @Image("32pt/DeltaYXFormula.gif")
+    @Position(x = 53, y = 166)
+    public Label _deltaYXFormulaLabel;
+
+    @Image("36pt/Dx.gif")
+    @zIndex(layers.label)
+    @Position(x = 0, y = 0)
+    public Label _dxLabel;
+
+    @Image("32pt/DyDxFormula.gif")
+    @zIndex(layers.label)
+    @Position(x = 53, y = 166)
+    public Label _dydxFormulaLabel;
+
+    @Image("36pt/Dy.gif")
+    @zIndex(layers.label)
+    @Position(x = 0, y = 0)
+    public Label _dyLabel;
+
+    // ---------------------------------------
+
+    @Visible
+    @color("red")
+    @zIndex(layers.graph)
+    public PolyLine _lowerGraph;
+
+    @Visible
+    @Drag
+    @color("blue")
+    @zIndex(layers.triangle)
+    public SecantTriangle _secantTriangle;
+
+    @Visible
+    @color("blue")
+    @zIndex(layers.line)
+    public Line _tangentLine;
+
+    @Visible
+    @color("red")
+    @zIndex(layers.graph)
+    public PolyLine _upperGraph;
+
+    private Function.LowerSemiCircle _curveFunction = new Function.LowerSemiCircle();
+
+    // Sync Param
+    private double _xValuePanel = 0;
+
+    private double _yValuePanel = 0;
+
+    /**
      * Normal stuff.<br>
      * build coordinates<br>
      * intialize all components<br>
@@ -101,6 +184,8 @@ public class BMITrianglePanel extends Panel {
 	syncComponents();
     }
 
+    private static final int NUM_INTERVALS = 100;
+
     private void setSyncParamsFromSecantTriangle() {
 	_xValuePanel = _secantTriangle.getCornerPoint().x;
 	if (_xValuePanel < 282)
@@ -119,16 +204,6 @@ public class BMITrianglePanel extends Panel {
 	_yValuePanel = curvePt.y;
     }
 
-    private void syncSecantTriangle() {
-	_secantTriangle.setSecantPoint(new DPoint(_xValuePanel, _yValuePanel));
-    }
-
-    private void syncTangentLine() {
-	_tangentLine.setLine(_secantTriangle.getTangentPoint(), new DPoint(
-		_xValuePanel, _yValuePanel));
-	_tangentLine.setLength(0, 1500);
-    }
-
     /**
      * Groups label movements.
      */
@@ -145,6 +220,16 @@ public class BMITrianglePanel extends Panel {
 		- _deltaXLabel.getRect().height / 2;
 	_deltaYLabel.setPosition(xPos, yPos);
 	_dyLabel.setPosition(xPos, yPos);
+    }
+
+    private void syncSecantTriangle() {
+	_secantTriangle.setSecantPoint(new DPoint(_xValuePanel, _yValuePanel));
+    }
+
+    private void syncTangentLine() {
+	_tangentLine.setLine(_secantTriangle.getTangentPoint(), new DPoint(
+		_xValuePanel, _yValuePanel));
+	_tangentLine.setLength(0, 1500);
     }
 
     /**
@@ -206,89 +291,12 @@ public class BMITrianglePanel extends Panel {
 	}
     }
 
-    // ---------------------------------------
-
-    private static final int NUM_INTERVALS = 100;
-
-    @Visible
-    @Fill(color = "red")
-    @zIndex(layers.axes)
-    public Axes _axes;
-
-    @Visible
-    @color("red")
-    @zIndex(layers.graph)
-    public PolyLine _lowerGraph;
-
-    @Visible
-    @color("red")
-    @zIndex(layers.graph)
-    public PolyLine _upperGraph;
-
-    @Visible
-    @Drag
-    @color("blue")
-    @zIndex(layers.triangle)
-    public SecantTriangle _secantTriangle;
-
-    @Visible
-    @color("blue")
-    @zIndex(layers.line)
-    public Line _tangentLine;
-
-    @Visible
-    @Image("36pt/DeltaX.gif")
-    @zIndex(layers.label)
-    @Position(x = 0, y = 0)
-    public Label _deltaXLabel;
-
-    @Visible
-    @Image("36pt/DeltaY.gif")
-    @zIndex(layers.label)
-    @Position(x = 0, y = 0)
-    public Label _deltaYLabel;
-
-    @Image("36pt/Dx.gif")
-    @zIndex(layers.label)
-    @Position(x = 0, y = 0)
-    public Label _dxLabel;
-
-    @Image("36pt/Dy.gif")
-    @zIndex(layers.label)
-    @Position(x = 0, y = 0)
-    public Label _dyLabel;
-
-    @zIndex(layers.label)
-    @Visible
-    @Drag
-    @Image("32pt/DeltaYXFormula.gif")
-    @Position(x = 53, y = 166)
-    public Label _deltaYXFormulaLabel;
-
-    @Image("32pt/DyDxFormula.gif")
-    @zIndex(layers.label)
-    @Position(x = 53, y = 166)
-    public Label _dydxFormulaLabel;
-
-    @Drag
-    @Image("28pt/CurveEquationLabel.gif")
-    @Visible
-    @zIndex(layers.label)
-    @Position(x = 411, y = 4)
-    public Label _curveEquationLabel;
-
-    private Function.LowerSemiCircle _curveFunction = new Function.LowerSemiCircle();
-
-    // Sync Param
-    private double _xValuePanel = 0;
-    private double _yValuePanel = 0;
-
     public static class layers {
 	public static final int axes = 0;
 	public static final int graph = 1;
-	public static final int line = 2;
-
 	public static final int label = 3;
+
+	public static final int line = 2;
 	public static final int triangle = 4;
     }
 
