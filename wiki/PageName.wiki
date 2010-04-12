@@ -1,0 +1,28 @@
+#labels doclet,Phase-Deploy
+#Configuring the doclet project
+
+= Table of Contents =
+
+1) Checkout the project
+2) Add tools.jar to your Java Platform configuration in eclipse.
+3*) Add codesource of applet project to classpath.
+
+============================================
+
+:: 1) Checkout the project
+
+
+The Checkout URL for the doclet project root is:
+
+https://magicapplet.googlecode.com/svn/doclet/trunk/MagicDoclet
+
+============================================
+
+:: 2) Add tools.jar to your Java Platform configuration in eclipse
+
+
+
+
+============================================
+
+:: 3) Add source file paths 
