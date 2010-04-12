@@ -3,9 +3,9 @@
 
 = Table of Contents =
 
-1) Checkout the project
-2) Add tools.jar to your Java Platform configuration in eclipse.
-3*) Add codesource of applet project to classpath.
+  # Checkout the project
+  # Add tools.jar to your Java Platform configuration in eclipse.
+  # Add codesource of applet project to classpath.
 
 ============================================
 
