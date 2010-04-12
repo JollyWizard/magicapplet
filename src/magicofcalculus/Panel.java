@@ -598,7 +598,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
 	// in fact, ignore the mouseClicked event all togther
     }
 
-    private james.annotations.scenes.Config sceneConfig;
+    public james.annotations.scenes.Config sceneConfig;
 
     public void setSceneConfig(james.annotations.scenes.Config config) {
 	sceneConfig = config;
