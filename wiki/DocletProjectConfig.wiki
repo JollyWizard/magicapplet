@@ -1,4 +1,5 @@
 #summary Configuring the doclet project
+#labels doclet
 
 = Table of Contents =
 
@@ -6,22 +7,47 @@
   # Add tools.jar to your Java Platform configuration in eclipse.
   # Add codesource of applet project to classpath.
 
-============================================
+----
 
-:: 1) Checkout the project
+=== 1) Checkout the project ===
 
 
 The Checkout URL for the doclet project root is:
 
 https://magicapplet.googlecode.com/svn/doclet/trunk/MagicDoclet
 
-============================================
+----
 
-:: 2) Add tools.jar to your Java Platform configuration in eclipse
+=== 2) Add tools.jar to your Java Platform configuration in eclipse ===
 
+Goto Global Preferences Page
 
+  # Window -> Preferences
+  # Java   -> Installed JREs
 
+Add Tools.jar
 
-============================================
+  # Select JRE (most likely you only have one)
+  # Edit
+  # Add External Jar
+  # Navigate to eclipse root directory
+  # Find and select: *tools.jar*.  It will be in _{jdk_root}\lib\_
 
-:: 3) Add source file paths 
+On my system I use:
+
+_C:\eclipse09\jdk1.6.0\lib\tools.jar_
+
+You could also use the system JDK, instead of the eclipse one if you have it installed.
+
+=== Attaching Source & Javadocs ===
+
+  # Select tools.jar in the JRE jar list
+  # Source Attachment  (Button)
+  # Find *src.zip*:  _{jdk1.6.x}/src.zip_
+  # Javadoc Attachment (Button)
+  # Javadoc in Archive
+  # Use *src.zip* again.
+
+----
+
+=== 3) Add source file paths ===
