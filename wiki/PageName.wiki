@@ -1,5 +1,5 @@
+#summary Configuring the doclet project
 #labels doclet,Phase-Deploy
-Configuring the doclet project
 
 = Table of Contents =
 
