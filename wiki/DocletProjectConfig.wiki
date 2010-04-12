@@ -51,3 +51,19 @@ You could also use the system JDK, instead of the eclipse one if you have it ins
 ----
 
 === 3) Add source file paths ===
+
+The MagicApplet Project is heavily referenced and has to be attached.  If its incorrect:
+
+  # Project Properties -> Java Build Path
+  # Projects (Tab)
+  # Add _{MagicApplet project}_
+
+To run the applet, you need to add the source folder location to your run configuration.
+
+  # Try to run PanelDoc the project once, you will get errors, but it will create the run configuration
+  # Drop down arrow next to the Play Button
+  # Run Configurations
+  # Find the Run configuration that is being used for the PanelDoc
+  # ClassPath (tab)
+  # Advanced (button)
+  #
