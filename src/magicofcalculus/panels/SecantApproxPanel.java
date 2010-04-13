@@ -28,6 +28,7 @@ import magicofcalculus.QuadCurve;
 import magicofcalculus.components.Axes;
 import magicofcalculus.components.Circle;
 import magicofcalculus.components.Label;
+import magicofcalculus.components.ScribbleComponent;
 import magicofcalculus.components.SecantTriangle;
 
 /**
@@ -59,6 +60,12 @@ import magicofcalculus.components.SecantTriangle;
 	@Scene(index = 14, description = "You shouldn't be seeing this!", next = true) })
 public class SecantApproxPanel extends Panel {
 
+    @Visible
+    @Position(x=axis.originX + 250, y=axis.originY)
+    @zIndex(-100)
+    @Scale(x=200,y=200)
+    public ScribbleComponent sc;
+    
     /**
      * @name Graph
      * @description the graph for this example
