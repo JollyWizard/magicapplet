@@ -29,7 +29,7 @@ import magicofcalculus.Panel;
  * Committed ScribbleComponents
  * <li>Render from BufferedImage objects</li>
  * <li>Cannot be modified</li>
- * <li>Can be dragged</li>
+ * <li>Can be dragged (not implemented)</li>
  * </ul>
  * <ul>
  * Uncommitted ScribbleComponents
@@ -37,6 +37,9 @@ import magicofcalculus.Panel;
  * <li>Can be appended</li>
  * <li>Cannot be dragged</li>
  * </ul>
+ * The color of the scribble can be altered using
+ * {@link #setColor(java.awt.Color)}, but all strokes will be drawn in the most
+ * recently set color.
  * <p>
  * <i>The class implements the {@link MouseListener} and
  * {@link MouseMotionListener} interfaces, thus overriding the associated
@@ -47,12 +50,10 @@ import magicofcalculus.Panel;
  */
 public class ScribbleComponent extends Component implements MouseListener,
 	MouseMotionListener {
-    // set to true if the currently mapping the movement of the mouse, otherwise
-    // false
-    private boolean isDrawing = false;
 
-    // an arraylist of DPoint objects representing the scribble
-    private ArrayList<DPoint> path = new ArrayList<DPoint>();
+    private java.awt.Color penColor = java.awt.Color.BLACK; // pen color
+    private boolean isDrawing = false; // is stroke being recorded
+    private ArrayList<DPoint> path = new ArrayList<DPoint>(); // path array
 
     /**
      * {@link DPoint} object used in the stroke path array to indicate the start
@@ -90,32 +91,6 @@ public class ScribbleComponent extends Component implements MouseListener,
     }
 
     /**
-     * Enumeration for the modes under which the {@link ScribbleComponent} can
-     * operate.
-     * <ul>
-     * <li><b>Single stroke mode</b> -
-     * <code>{@link ScribbleComponent.ScribbleMode#SingleStroke}</code></li>
-     * <li><b>Multi-stroke mode</b> -
-     * <code>{@link ScribbleComponent.ScribbleMode#MultiStroke}</code></li>
-     * </ul>
-     * 
-     * @author Wade Harkins (vdtdev@gmail.com)
-     * 
-     */
-    public enum ScribbleMode {
-	/**
-	 * Mode for the <code>ScribbleComponent</code> in which a single stroke
-	 * can be made.
-	 */
-	SingleStroke,
-	/**
-	 * Mode for the <code>ScribbleComponent</code> in which multiple strokes
-	 * can be made until committed.
-	 */
-	MultiStroke
-    }
-
-    /**
      * Sets the size of the ScribbleComponent. <br>
      * 
      * @param size
@@ -126,6 +101,10 @@ public class ScribbleComponent extends Component implements MouseListener,
 	super._panel.setSize(this.size);
     }
 
+    // may be needed for annotations to work?
+    public void setPosition(int x, int y){
+	super._panel.setLocation(x,y);
+    }
     /**
      * Sets the size of the ScribbleComponent. <br>
      * <i>Changing the size of the component after the contents have been
@@ -141,6 +120,20 @@ public class ScribbleComponent extends Component implements MouseListener,
     }
 
     /**
+     * Set the color of the 'pen' stroke. <br>
+     * Default is <code>java.awt.Color.BLACK</code>
+     * <p>
+     * All strokes will be rendered in the most recently set color. Colors are
+     * not finalized until the image is committed.
+     * 
+     * @param c
+     *            {@link java.awt.Color} representing the desired color
+     */
+    public void setColor(java.awt.Color c) {
+	this.penColor = c;
+    }
+
+    /**
      * Renders the recorded strokes to the specified Graphics object
      * 
      * @param gc
@@ -149,6 +142,7 @@ public class ScribbleComponent extends Component implements MouseListener,
     private void renderScribble(Graphics gc) {
 	DPoint previous = null; // this will hold the previous point
 	Graphics2D g = (Graphics2D) gc;
+	g.setColor(this.penColor);
 	Iterator<DPoint> pitr = path.iterator();
 	while (pitr.hasNext()) {
 	    DPoint n = pitr.next();
@@ -168,11 +162,9 @@ public class ScribbleComponent extends Component implements MouseListener,
 	    // the current DPoint was a break, so clear the previous
 	    else {
 		previous = null; // clear the previous point so it's not
-				 // connected
+		// connected
 	    }
 	}
-	g = null; // clear out g for Garbage collection
-	pitr = null; // clear out the iterator for gc
     }
 
     /**
@@ -218,23 +210,31 @@ public class ScribbleComponent extends Component implements MouseListener,
     }
 
     public void repaint() {
-	super.repaint();
+	_panel.repaint();
     }
+
+    // ========== Mouse Events===============
 
     @Override
     public void mouseClicked(MouseEvent arg0) {
 	// record as single stroke, both in the same position to allow
 	// dots to be drawn
-	if (arg0.getButton() == MouseEvent.BUTTON1) {
-	    path.add(new DPoint(arg0.getPoint()));
-	    path.add(new DPoint(arg0.getPoint()));
-	    path.add(path_break); // indicate the end of a stroke
+	/*
+	 * if (arg0.getButton() == MouseEvent.BUTTON1) { path.add(new
+	 * DPoint(arg0.getPoint())); // path.add(new DPoint(arg0.getPoint()));
+	 * // path.add(path_break); // indicate the end of a stroke }
+	 */
+	if(arg0.getButton()==MouseEvent.BUTTON2){
+	this.commit();
+	this.repaint();
 	}
+	repaint();
     }
 
     @Override
     public void mouseEntered(MouseEvent arg0) {
 	// TODO Auto-generated method stub
+	//super._panel.mouseEntered(arg0);
 
     }
 
@@ -251,6 +251,7 @@ public class ScribbleComponent extends Component implements MouseListener,
 	    path.add(path_break);
 	    isDrawing = false;
 	}
+	repaint();
     }
 
     /**
@@ -263,6 +264,8 @@ public class ScribbleComponent extends Component implements MouseListener,
 	    isDrawing = true; // drawing begins
 	    path.add(new DPoint(arg0.getPoint()));
 	}
+	arg0.consume();
+	repaint();
 
     }
 
@@ -274,25 +277,44 @@ public class ScribbleComponent extends Component implements MouseListener,
 	// end of a stroke
 	if (arg0.getButton() == MouseEvent.BUTTON1) {
 	    path.add(new DPoint(arg0.getPoint()));
+	    path.add(this.path_break);
+	    isDrawing = false;
+
 	}
+	//arg0.consume();
+	repaint();
 
     }
 
     // TODO: Check and make sure this actually works
     @Override
     public void mouseDragged(MouseEvent arg0) {
-	if (super._draggable) {
-	    super.dragTo(new DPoint(arg0.getPoint()));
+	/*
+	 * if (super._draggable) { super.dragTo(new DPoint(arg0.getPoint())); }
+	 */
+	// determine if both the mouse is down, and a stroke is underway
+	/*
+	 * if (arg0.getButton() == MouseEvent.BUTTON1 && isDrawing) { // add the
+	 * new point to the path path.add(new DPoint(arg0.getPoint())); }
+	 */
+	if (isDrawing && !committed) {
+	    path.add(new DPoint(arg0.getPoint()));
 	}
+
+	repaint();
+
     }
 
     @Override
     public void mouseMoved(MouseEvent arg0) {
+
 	// determine if both the mouse is down, and a stroke is underway
-	if (arg0.getButton() == MouseEvent.BUTTON1 && isDrawing) {
-	    // add the new point to the path
-	    path.add(new DPoint(arg0.getPoint()));
-	}
+	/*
+	 * if (arg0.getButton() == MouseEvent.BUTTON1 ) { // add the new point
+	 * to the path path.add(new DPoint(arg0.getPoint())); }
+	 */
+	//arg0.consume();
+	repaint();
 
     }
 
