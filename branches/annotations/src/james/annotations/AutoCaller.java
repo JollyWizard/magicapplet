@@ -51,6 +51,7 @@ public interface AutoCaller<T extends Annotation> {
 	    LinkedList<Class> classes = new LinkedList<Class>();
 	    Class c = o.getClass();
 	    while (c != Object.class && c != null) {
+		// classes are pushed back from beginning of list.
 		classes.add(0, c);
 		c = c.getSuperclass();
 	    }
@@ -84,16 +85,21 @@ public interface AutoCaller<T extends Annotation> {
 		Class... whitelist) {
 	    Annotation[] aa = ae.getAnnotations();
 	    annotations: for (Annotation a : aa) {
+		// first ensure that the class is in the valid whitelist
 		if (whitelist.length != 0) {
 		    boolean inWhiteList = false;
-		    for (Class<? extends Annotation> c : whitelist)
+		    for (Class<? extends Annotation> c : whitelist) {
 			if (c.isAssignableFrom(a.getClass())) {
 			    inWhiteList = true;
 			    break;
 			}
-		    if (!inWhiteList)
+		    }
+		    if (!inWhiteList) {
 			continue annotations;
+		    }
 		}
+		// Once you know the annotation is valid, go through and find
+		// the autocaller classes
 		Class[] inners = a.annotationType().getDeclaredClasses();
 		for (Class<?> c : inners) {
 		    if (AutoCaller.class.isAssignableFrom(c)) {
@@ -104,6 +110,11 @@ public interface AutoCaller<T extends Annotation> {
 			    e.printStackTrace();
 			}
 		    }
+		}
+		PropertyPack pp = a.annotationType().getAnnotation(
+			PropertyPack.class);
+		if (pp != null) {
+		    autoCall(a.annotationType(), o, whitelist);
 		}
 	    }
 	}
@@ -118,7 +129,7 @@ public interface AutoCaller<T extends Annotation> {
 	 *            the object from whom the field value should be retrieved
 	 *            before calling the annotation setter
 	 */
-	public static void autoCall(Field f, Object parent, Class...whitelist) {
+	public static void autoCall(Field f, Object parent, Class... whitelist) {
 	    // Get field value
 	    Object o = null;
 	    try {
