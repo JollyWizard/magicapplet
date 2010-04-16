@@ -78,8 +78,9 @@ The Run Configuration may need to be allocated extra memory or the javadoc utili
   # VM arguments:
 
 Add two lines:
-
+ {{{
 -Xms128m
 -Xmx512m
+}}}
 
 Increase the Xmx value until the program works (512 works fine for me at the time of this writing).
