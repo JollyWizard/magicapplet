@@ -69,6 +69,8 @@ To run the applet, you need to add the source folder location to your run config
   # External Folder (radio)
   # Select _{magic applet project}/src/_
 
+----
+
 === 4) Increasing Memory For Doclet Process ===
 
 The Run Configuration may need to be allocated extra memory or the javadoc utility will die as it tries to cache all the class analysis.
