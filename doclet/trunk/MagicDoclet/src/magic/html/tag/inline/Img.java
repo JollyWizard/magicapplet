@@ -8,25 +8,30 @@ import magic.html.attributes.StringAttribute;
 @XML.name("img")
 public class Img extends HTML {
 
-  @XML.Attribute.name("alt")
-  public StringAttribute alt;
+    @XML.Attribute.name("alt")
+    public StringAttribute alt;
 
-  @XML.Attribute.name("src")
-  public StringAttribute path;
+    @XML.Attribute.name("src")
+    public StringAttribute path;
 
-  public Img() {
-    super();
-  }
+    public Img() {
+	super();
+    }
 
-  public Img(String path, String alt) {
-    super();
-    this.path.set(path);
-    this.alt.set(alt);
-  }
+    public Img(String path, String alt) {
+	super();
+	this.path.set(path);
+	this.alt.set(alt);
+    }
 
-  public void initXMLAttributes () {
-    path = new StringAttribute();
-    alt = new StringAttribute();
-  }
+    public void initXMLAttributes() {
+	path = new StringAttribute();
+	alt = new StringAttribute();
+    }
+
+    public void copy(Img dataSource) {
+	path.set(dataSource.path.get());
+	alt.set(dataSource.alt.get());
+    }
 
 }

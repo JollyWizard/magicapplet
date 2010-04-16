@@ -1,17 +1,20 @@
 package magic.html;
 
-import magic.html.tag.*;
-
 @XML.name("html")
-public class Page extends XML {
-  
-  public Body body = new Body();
+public class Page extends HTML {
 
-  public Head head = new Head();
+    public String path;
 
-  @Override
-  public void initXMLAttributes () {
-    
-  }
+    public Body body;
+
+    public Head head;
+
+    public String toHTML() {
+	newLine();
+	tagLine(head);
+	newLine();
+	tagLine(body);
+	return super.toHTML();
+    }
 
 }
