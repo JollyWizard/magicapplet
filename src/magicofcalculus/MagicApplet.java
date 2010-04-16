@@ -312,7 +312,7 @@ public class MagicApplet extends JApplet {
     /**
      * ArrayList of type {@link Panel} which holds the scene panels in order
      */
-    private ArrayList<Panel> _panelList = new ArrayList<Panel>();
+    public ArrayList<Panel> _panelList = new ArrayList<Panel>();
 
     /**
      * Index of the current panel
