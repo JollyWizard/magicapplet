@@ -1,6 +1,10 @@
 package magic.doclet;
 
+import java.awt.Color;
+import java.io.IOException;
 import java.util.HashMap;
+
+import wade.SavableGraphics;
 
 import james.annotations.drag.Drag;
 import james.annotations.scenes.Scene;
@@ -34,6 +38,18 @@ public class PanelDoc extends Doclet {
 	siteRoot.writeFile(indexPage);
 	for (PanelPageFile pf : panelPages.values()) {
 	    siteRoot.writeFile(pf);
+	}
+	// write screenshots
+	for (HashMap<Integer, SceneSummary> hm : panelScenes.values()) {
+	    for (SceneSummary ss : hm.values()) {
+		try {
+		    ss.screenshot.WriteImage(siteRoot
+			    .getRelativePath(ss.imgpath.replace('/', '\\')),
+			    SavableGraphics.SGF_TYPE_PNG);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	    }
 	}
     }
 
@@ -72,6 +88,8 @@ public class PanelDoc extends Doclet {
      * The cache of each panel doc by panel class for later reference.
      */
     public HashMap<Class<? extends Panel>, ClassDoc> panelDocs = new HashMap<Class<? extends Panel>, ClassDoc>();
+
+    public HashMap<Class<? extends Panel>, HashMap<Integer, SceneSummary>> panelScenes = new HashMap<Class<? extends Panel>, HashMap<Integer, SceneSummary>>();
 
     /**
      * @return the description tag from a panels class level javadoc
@@ -128,12 +146,14 @@ public class PanelDoc extends Doclet {
 	    e.printStackTrace();
 	}
 
+	// cache panel info
 	panelDocs.put(panelClass, doc);
-	// create panelPage
 	panelPages.put(panelClass, new PanelPageFile(panelClass));
 
-	// cache scene config info
 	HashMap<Integer, SceneSummary> scenes = new HashMap<Integer, SceneSummary>();
+	panelScenes.put(panelClass, scenes);
+
+	// cache scene config info
 	for (int i = 0; i <= panel.sceneConfig.last; i++) {
 	    SceneSummary ss = new SceneSummary(i,
 		    panel.sceneConfig.descriptions.get(i));
@@ -142,6 +162,18 @@ public class PanelDoc extends Doclet {
 	    Scene.Action sa = panel.sceneConfig.action.get(i);
 	    if (sa != null)
 		ss.actions_scene.add(sa.getClass());
+
+	    // generate screenshot
+	    panel.setScene(i);
+	    SavableGraphics g = new SavableGraphics(800, 600);
+	    g.getGraphics2D().setBackground(new Color(0xdd, 0xdd, 0xdd));
+	    g.getGraphics2D().fillRect(0, 0, 800, 600);
+	    panel.paintComponent(g.getGraphics2D());
+	    ss.imgpath = "images/" + panelClass.getSimpleName() + "_scene"
+		    + (i + 1) + ".png";
+	    ss.screenshot = g;
+
+	    // cache scene
 	    scenes.put(i, ss);
 	}
 
@@ -166,6 +198,7 @@ public class PanelDoc extends Doclet {
 	for (int i : scenes.keySet()) {
 	    panelPages.get(panelClass).addToBody(scenes.get(i).buildDiv());
 	}
+
     }
 
     /**

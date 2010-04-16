@@ -12,7 +12,7 @@ public class Img extends HTML {
     public StringAttribute alt;
 
     @XML.Attribute.name("src")
-    public StringAttribute path;
+    public StringAttribute src;
 
     public Img() {
 	super();
@@ -20,17 +20,21 @@ public class Img extends HTML {
 
     public Img(String path, String alt) {
 	super();
-	this.path.set(path);
-	this.alt.set(alt);
+	set(path, alt);
     }
 
     public void initXMLAttributes() {
-	path = new StringAttribute();
+	src = new StringAttribute();
 	alt = new StringAttribute();
     }
 
+    public void set(String path, String alt) {
+	this.src.set(path);
+	this.alt.set(alt);
+    }
+
     public void copy(Img dataSource) {
-	path.set(dataSource.path.get());
+	src.set(dataSource.src.get());
 	alt.set(dataSource.alt.get());
     }
 

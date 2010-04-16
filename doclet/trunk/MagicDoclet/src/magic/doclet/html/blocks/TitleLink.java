@@ -36,6 +36,10 @@ public class TitleLink extends H2 {
 	link.setTitle(title);
     }
 
+    public void setText(String text) {
+	this.setText((Object) text);
+    }
+
     /**
      * @param text
      * @see magic.html.tag.inline.A#setText(java.lang.Object[])

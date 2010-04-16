@@ -6,6 +6,8 @@ import james.annotations.scenes.Scene.Action;
 import java.util.LinkedList;
 import java.util.List;
 
+import wade.SavableGraphics;
+
 import magic.doclet.html.blocks.ActionRow;
 import magic.doclet.html.blocks.ItemRow;
 import magic.doclet.html.blocks.SceneDiv;
@@ -20,6 +22,10 @@ public class SceneSummary {
 
     public String name;
 
+    public String imgpath;
+
+    public SavableGraphics screenshot;
+
     public Boolean nextAfter;
 
     public Boolean prevBefore;
@@ -32,6 +38,13 @@ public class SceneSummary {
 
     public List<ClassDoc> actions_drag = new LinkedList<ClassDoc>();
 
+    /**
+     * @param index
+     *            the scene index (in java) the named index of the panel will be
+     *            equal to index+1 (for normal people)
+     * @param name
+     *            The scene name/description
+     */
     public SceneSummary(int index, String name) {
 	this.index = index + 1;
 	this.name = name;
@@ -46,6 +59,7 @@ public class SceneSummary {
 	SceneDiv r = new SceneDiv();
 	r.setId(index);
 	r.title.setText(name);
+	r.screenshot.set(imgpath, "Screenshot for scene " + index);
 	for (int i = 0; i < added.size(); i++)
 	    r.changes.added.table.add(buildItemRow(added, i));
 	for (int i = 0; i < removed.size(); i++)
