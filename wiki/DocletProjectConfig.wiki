@@ -68,3 +68,18 @@ To run the applet, you need to add the source folder location to your run config
   # Advanced (button)
   # External Folder (radio)
   # Select _{magic applet project}/src/_
+
+=== 4) Increasing Memory For Doclet Process ===
+
+The Run Configuration may need to be allocated extra memory or the javadoc utility will die as it tries to cache all the class analysis.
+
+  # Open Run Configurations as per last step
+  # Variables (tab)
+  # VM arguments:
+
+Add two lines:
+
+-Xms128m
+-Xmx512m
+
+Increase the Xmx value until the program works (512 works fine for me at the time of this writing).
