@@ -325,7 +325,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
      * <li>if (buttonArea contains mousepoint) buttonFlag = true;
      * <li>Selected Component
      * <ol>
-     * <li>= first.isHitBy(DPoint);
+     * <li>=first.isHitBy(DPoint);
      * <li>!.isSelectable : break;
      * <li>.bringToTopOfZOrder
      * <li>.repaint
@@ -621,7 +621,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener 
      * 
      * @param scene
      */
-    protected void setScene(int scene) {
+    public void setScene(int scene) {
 
 	if (scene < 0 || scene >= _numScenes)
 	    return;
