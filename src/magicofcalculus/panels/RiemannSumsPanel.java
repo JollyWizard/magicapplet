@@ -23,6 +23,7 @@ import magicofcalculus.components.PolyLine;
  * TODO add Mathematical description of what the panel actually demonstrates
  * <p>
  * 
+ * @description Change in X value analyzed by width of Riemann Triangles
  * @axes
  * @graph
  * @interactive
@@ -112,13 +113,15 @@ public class RiemannSumsPanel extends Panel {
     }
 
     // From Panel
-    protected void setScene(int scene) {
+    public void setScene(int scene) {
 	super.setScene(scene);
 	switch (scene) {
 	case 0:
 	    syncComponents();
 	    break;
 	case 1:
+	    if (getTopLevelAncestor() == null)
+		break;
 	    if (_sceneAdvancing)
 		((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    else
@@ -128,6 +131,8 @@ public class RiemannSumsPanel extends Panel {
 	    syncComponents();
 	    break;
 	case 3:
+	    if (getTopLevelAncestor() == null)
+		break;
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	}

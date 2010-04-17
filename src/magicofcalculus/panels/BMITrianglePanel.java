@@ -32,6 +32,7 @@ import magicofcalculus.components.SecantTriangle;
  * TODO add Mathematical description of what the panel actually demonstrates
  * <p>
  * 
+ * @description A closer, smaller scale look at the secant triangle
  * @axes 1
  * @graph Quadratic Curve
  * @interactive The secant triangle can be resized by dragging and when it
@@ -236,10 +237,12 @@ public class BMITrianglePanel extends Panel {
      * Simple screen descriptor change. Forward to next panel after first scene
      */
     @Override
-    protected void setScene(int scene) {
+    public void setScene(int scene) {
 	super.setScene(scene);
 	switch (scene) {
 	case 1:
+	    if (getTopLevelAncestor() == null)
+		break;
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	}

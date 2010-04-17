@@ -26,6 +26,7 @@ import magicofcalculus.components.SecantTriangle;
  * TODO add Mathematical description of what the panel actually demonstrates
  * <p>
  * 
+ * @description the fundamental theoreom of calculus.
  * @axes 2
  * @graph simple curves
  * @interactive The slider points on the two area triangles are synced together
@@ -250,7 +251,7 @@ public class FundTheoremPanel extends Panel {
     }
 
     // From Panel
-    protected void setScene(int scene) {
+    public void setScene(int scene) {
 	super.setScene(scene);
 	switch (scene) {
 	case 0:
@@ -312,6 +313,8 @@ public class FundTheoremPanel extends Panel {
 	    syncComponents();
 	    break;
 	case 7:
+	    if (getTopLevelAncestor() == null)
+		break;
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	}
