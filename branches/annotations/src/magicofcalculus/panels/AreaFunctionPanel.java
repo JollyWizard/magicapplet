@@ -28,6 +28,8 @@ import magicofcalculus.components.PolyLine;
  * TODO add Mathematical description of what the panel actually demonstrates
  * <p>
  * 
+ * @description A linked pair of graphs which show the correlation between
+ *              infintessimal slope and derivative value
  * @axes
  * @graph
  * @interactive
@@ -77,10 +79,12 @@ public class AreaFunctionPanel extends Panel {
      * MagicApplet.advancePlayer
      */
     @Override
-    protected void setScene(int scene) {
+    public void setScene(int scene) {
 	super.setScene(scene);
 	switch (scene) {
 	case 1:
+	    if (getTopLevelAncestor() == null)
+		break;
 	    if (_sceneAdvancing)
 		((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    else
@@ -99,6 +103,8 @@ public class AreaFunctionPanel extends Panel {
 	    syncComponents();
 	    break;
 	case 6:
+	    if (getTopLevelAncestor() == null)
+		break;
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	}
@@ -146,7 +152,7 @@ public class AreaFunctionPanel extends Panel {
      * @manual The two points will move in tandem.
      * @author T Johnson, James Arlow
      */
-    public class DragPoint implements  Drag.Handler {
+    public class DragPoint implements Drag.Handler {
 
 	@Override
 	public void action() {

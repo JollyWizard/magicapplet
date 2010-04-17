@@ -34,6 +34,8 @@ import magicofcalculus.components.SecantTriangle;
  * TODO add Mathematical description of what the panel actually demonstrates
  * <p>
  * 
+ * @description Walks through the analysis of infintessimal slope using the
+ *              hypotenuse of a secant triangle
  * @axes 1
  * @graph Quadratic Curve
  * @interactive Points on the curve can be dragged. When they collide, they
@@ -483,7 +485,7 @@ public class SecantApproxPanel extends Panel {
      * sets visibility and descriptions via switch
      * <p>
      */
-    protected void setScene(int scene) {
+    public void setScene(int scene) {
 
 	super.setScene(scene);
 
@@ -504,12 +506,16 @@ public class SecantApproxPanel extends Panel {
 	    // green line
 	    break;
 	case 12:
+	    if (getTopLevelAncestor() == null)
+		break;
 	    if (_sceneAdvancing)
 		((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    else
 		((MagicApplet) getTopLevelAncestor()).reversePanel();
 	    break;
 	case 14:
+	    if (getTopLevelAncestor() == null)
+		break;
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	default:

@@ -31,7 +31,7 @@ import magicofcalculus.components.PolyLine;
  * TODO add Mathematical description of what the panel actually demonstrates
  * <p>
  * 
- * @axes
+ * @description A closer look at the Riemenn Rectangle graph.
  * @graph
  * @interactive
  * @author TJ Johnson
@@ -110,10 +110,12 @@ public class BMIRectanglePanel extends Panel {
     /**
      * Sets scene description using switch or forwards scene
      */
-    protected void setScene(int scene) {
+    public void setScene(int scene) {
 	super.setScene(scene);
 	switch (scene) {
 	case 1:
+	    if (getTopLevelAncestor() == null)
+		break;
 	    ((MagicApplet) getTopLevelAncestor()).advancePanel();
 	    break;
 	}
