@@ -3,9 +3,9 @@ package magic.html.tag.block.tables;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import magic.html.*;
-import magic.html.attributes.IntegerAttribute;
+import magic.html.XML;
 import magic.html.attributes.EnumAttribute;
+import magic.html.attributes.IntegerAttribute;
 
 @XML.name("th")
 public class Th extends Td {

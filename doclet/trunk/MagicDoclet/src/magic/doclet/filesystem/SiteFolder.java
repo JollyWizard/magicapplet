@@ -8,6 +8,10 @@ public class SiteFolder {
 
     String root;
 
+    File rootFolder;
+    File imageFolder;
+    File stylesFolder;
+
     public File getRootFile() {
 	return new File(root);
     }
@@ -15,6 +19,10 @@ public class SiteFolder {
     public SiteFolder(String rootURL) {
 	root = rootURL;
 	getRootFile().mkdirs();
+	imageFolder = new File(getRelativePath("images"));
+	imageFolder.mkdirs();
+	stylesFolder = new File(getRelativePath("styles"));
+	stylesFolder.mkdirs();
     }
 
     public void writeFile(PageFile pf) {

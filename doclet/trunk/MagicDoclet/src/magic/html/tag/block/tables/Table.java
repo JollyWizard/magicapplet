@@ -2,7 +2,8 @@ package magic.html.tag.block.tables;
 
 import java.util.LinkedList;
 
-import magic.html.*;
+import magic.html.HTML;
+import magic.html.XML;
 
 @XML.name("table")
 public class Table<R extends Tr> extends HTML {

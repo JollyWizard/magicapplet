@@ -7,8 +7,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -46,7 +44,7 @@ public abstract class HTML extends XML implements HtmlContents,
 
     public Iterators iterators = new Iterators();
 
-    protected ContentList contents = new ContentList();
+    public ContentList contents = new ContentList();
 
     public HTML() {
 	super();

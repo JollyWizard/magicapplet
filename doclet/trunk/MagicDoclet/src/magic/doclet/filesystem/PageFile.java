@@ -1,5 +1,6 @@
 package magic.doclet.filesystem;
 
+import magic.html.Doctype;
 import magic.html.HTML;
 import magic.html.Page;
 
@@ -35,7 +36,7 @@ public class PageFile {
      *         inclusive)
      */
     public String getContents() {
-	return page.toHTML();
+	return Doctype.xStrict.toHTML() + "\n" + page.toHTML();
     }
 
     public void addToBody(HTML contents) {

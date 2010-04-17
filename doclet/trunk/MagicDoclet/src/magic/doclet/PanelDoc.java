@@ -1,19 +1,20 @@
 package magic.doclet;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.util.HashMap;
-
-import wade.SavableGraphics;
-
+import static magic.doclet.Tools.annotationValue;
+import static magic.doclet.Tools.fieldsOfType;
+import static magic.doclet.Tools.getRealClass;
+import static magic.doclet.Tools.instanceOf;
 import james.annotations.drag.Drag;
 import james.annotations.scenes.Scene;
 import james.annotations.visibility.Visible;
+
+import java.util.HashMap;
 
 import magic.doclet.filesystem.IndexPageFile;
 import magic.doclet.filesystem.PanelPageFile;
 import magic.doclet.filesystem.SiteFolder;
 import magic.doclet.html.blocks.PanelSummaryDiv;
+import magic.doclet.screenshots.PanelScreenShot;
 import magicofcalculus.Component;
 import magicofcalculus.MagicApplet;
 import magicofcalculus.Panel;
@@ -23,11 +24,30 @@ import com.sun.javadoc.Doclet;
 import com.sun.javadoc.FieldDoc;
 import com.sun.javadoc.RootDoc;
 import com.sun.javadoc.Tag;
-import static magic.doclet.Tools.*;
 
 /**
+ * This is the doclet class for generating the project manual.
+ * <p>
+ * The main method starts the javadoc utility programatically.
+ * <p>
+ * Doclets contain a static method {@link #start(RootDoc)} which the javadoc
+ * utility will call once it is done prepro0cessing the class files. The RootDoc
+ * is a container for all ClassDoc and PackageDoc (s) generated during the
+ * preprocessing phase.
+ * <p>
+ * When the static method is called it creates a new instance of this class,
+ * which then processes the information from the docs and generates the file.
+ * <p>
+ * In order to avoid reprocessing all the runtime configurations from the
+ * ClassDocs this implementation uses instances of the actual class to retrieve
+ * the information as it is generated for runtime behavior. It also uses those
+ * instances to generate screenshots via programmatic control of the panels
+ * behavior.
+ * <p>
+ * For memory issues see project wiki entry on doclet configuration
+ * 
  * @author James Arlow
- * @date today
+ * @date March-April, 2010
  */
 public class PanelDoc extends Doclet {
 
@@ -42,13 +62,7 @@ public class PanelDoc extends Doclet {
 	// write screenshots
 	for (HashMap<Integer, SceneSummary> hm : panelScenes.values()) {
 	    for (SceneSummary ss : hm.values()) {
-		try {
-		    ss.screenshot.WriteImage(siteRoot
-			    .getRelativePath(ss.imgpath.replace('/', '\\')),
-			    SavableGraphics.SGF_TYPE_PNG);
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
+		ss.screenshot.write(siteRoot);
 	    }
 	}
     }
@@ -164,14 +178,8 @@ public class PanelDoc extends Doclet {
 		ss.actions_scene.add(sa.getClass());
 
 	    // generate screenshot
-	    panel.setScene(i);
-	    SavableGraphics g = new SavableGraphics(800, 600);
-	    g.getGraphics2D().setBackground(new Color(0xdd, 0xdd, 0xdd));
-	    g.getGraphics2D().fillRect(0, 0, 800, 600);
-	    panel.paintComponent(g.getGraphics2D());
-	    ss.imgpath = "images/" + panelClass.getSimpleName() + "_scene"
-		    + (i + 1) + ".png";
-	    ss.screenshot = g;
+
+	    ss.screenshot = new PanelScreenShot(panel, i);
 
 	    // cache scene
 	    scenes.put(i, ss);

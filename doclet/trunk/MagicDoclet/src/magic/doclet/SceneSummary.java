@@ -6,11 +6,10 @@ import james.annotations.scenes.Scene.Action;
 import java.util.LinkedList;
 import java.util.List;
 
-import wade.SavableGraphics;
-
 import magic.doclet.html.blocks.ActionRow;
 import magic.doclet.html.blocks.ItemRow;
 import magic.doclet.html.blocks.SceneDiv;
+import magic.doclet.screenshots.PanelScreenShot;
 
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.FieldDoc;
@@ -22,9 +21,7 @@ public class SceneSummary {
 
     public String name;
 
-    public String imgpath;
-
-    public SavableGraphics screenshot;
+    public PanelScreenShot screenshot;
 
     public Boolean nextAfter;
 
@@ -59,7 +56,7 @@ public class SceneSummary {
 	SceneDiv r = new SceneDiv();
 	r.setId(index);
 	r.title.setText(name);
-	r.screenshot.set(imgpath, "Screenshot for scene " + index);
+	r.screenshot.set(screenshot.path, "Screenshot for scene " + index);
 	for (int i = 0; i < added.size(); i++)
 	    r.changes.added.table.add(buildItemRow(added, i));
 	for (int i = 0; i < removed.size(); i++)

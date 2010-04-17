@@ -1,9 +1,9 @@
 package magic.doclet.html.blocks;
 
 import magic.doclet.filesystem.PageFile;
+import magic.html.HTML.classes;
 import magic.html.tag.block.H2;
 import magic.html.tag.inline.A;
-import magic.html.HTML.classes;
 
 @classes("titlelink")
 public class TitleLink extends H2 {

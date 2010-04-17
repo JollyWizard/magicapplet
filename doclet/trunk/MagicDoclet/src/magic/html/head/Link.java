@@ -1,6 +1,7 @@
 package magic.html.head;
 
-import magic.html.*;
+import magic.html.HTML;
+import magic.html.XML;
 import magic.html.attributes.StringAttribute;
 
 @XML.close(true)

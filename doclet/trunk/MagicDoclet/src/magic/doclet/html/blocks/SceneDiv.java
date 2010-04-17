@@ -20,6 +20,9 @@ public class SceneDiv extends Div {
     @classes("actions")
     public Actions actions;
 
+    @classes("clear")
+    public Div clear;
+
     public static class Actions extends Div {
 	@classes("title")
 	public H2 title;
@@ -125,20 +128,8 @@ public class SceneDiv extends Div {
 	tagLine(screenshot);
 	tagLine(changes);
 	tagLine(actions);
+	tagLine(clear);
 	return super.toHTML();
-    }
-
-    public static void main(String[] args) {
-	SceneDiv s = new SceneDiv();
-	s.setId("scene1");
-	ActionRow ar = new ActionRow();
-	ar.name.setText("Action1");
-	ar.description.setText("DESCRIPTION");
-	s.actions.drag.table.add(ar);
-
-	s.changes.added.table.add("item 1", "item 2", "item 2");
-	s.changes.removed.table.add("item 1", "item 2", "item 2");
-	System.out.println(s.toHTML());
     }
 
 }

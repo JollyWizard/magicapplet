@@ -1,6 +1,7 @@
 package magic.doclet.filesystem;
 
 import magic.doclet.html.blocks.SceneDiv;
+import magic.doclet.html.blocks.SiteHeader;
 import magic.html.contents.HtmlContents;
 import magic.html.head.Stylesheet;
 import magicofcalculus.Panel;
@@ -14,6 +15,7 @@ public class PanelPageFile extends PageFile {
 	this.panelClass = panelClass;
 	page.head.styles.add(new Stylesheet("styles/main.css"));
 	setTitle("MagicApplet | Panel " + panelClass.getSimpleName());
+	page.body.addTag(new SiteHeader());
     }
 
     public SceneDiv getScene(int i) {

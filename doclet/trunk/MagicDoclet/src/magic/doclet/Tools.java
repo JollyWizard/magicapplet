@@ -1,12 +1,9 @@
 package magic.doclet;
 
-import static magic.doclet.Tools.instanceOf;
-
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Set;
-
-import magicofcalculus.Component;
 
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.AnnotationValue;
@@ -15,7 +12,6 @@ import com.sun.javadoc.FieldDoc;
 import com.sun.javadoc.MemberDoc;
 import com.sun.javadoc.Type;
 import com.sun.javadoc.AnnotationDesc.ElementValuePair;
-import java.lang.reflect.Array;
 
 public class Tools {
 
