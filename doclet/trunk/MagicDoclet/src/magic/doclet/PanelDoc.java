@@ -58,7 +58,11 @@ public class PanelDoc extends Doclet {
     public PanelDoc(RootDoc root) {
 	siteRoot = new SiteFolder(Config.outputPath);
 
-	siteRoot.copyResource(getClass(), SiteFolder.images, Config.logoPath);
+	Class c = getClass();
+	siteRoot.copyResource(c, SiteFolder.images, Config.logoPath);
+	siteRoot.copyResource(c, SiteFolder.styles, Config.homeCSS);
+	siteRoot.copyResource(c, SiteFolder.styles, Config.mainCSS);
+	siteRoot.copyResource(c, SiteFolder.styles, Config.headerCSS);
 
 	cachePanels(root.classes());
 	cacheIndexPage(magicAppletDoc);

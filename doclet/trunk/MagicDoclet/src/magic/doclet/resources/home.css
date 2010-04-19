@@ -1,0 +1,29 @@
+.panelsummary {
+    margin: 5%;
+    width: 35%;
+    float: left;
+    border: thin solid red;
+    height: 25em;
+    padding: 1em;
+    text-align: center;
+    background: #FFDC73;
+}
+
+.titlelink a:link, .titlelink a:visited {
+    text-decoration: none;
+    color:inherit;
+}
+
+.titlelink a:hover {
+    color: red;
+}
+
+.screenshot {
+    float: left;
+    max-width: 90%;
+    margin-bottom: 1em;
+}
+
+.description {
+    text-align: center;
+}

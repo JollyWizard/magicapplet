@@ -1,0 +1,118 @@
+body {
+    background: #36D986;
+    font-family: arial;
+}
+
+.scene {
+    border: thin solid black;
+    width: 85%;
+    clear: both;
+    margin: 1em auto;
+    padding-bottom: 1em;
+    background: #FFDC73;
+}
+
+.scene .title {
+    text-align: center;
+    border-top: thin double red;
+    border-bottom: thin double red;
+    background: #FFA340;
+    letter-spacing: .2em;
+}
+
+.screenshot {
+    max-width: 45%;
+    border: thin solid black;
+    float: left;
+    margin: 0em 1em;
+    margin-bottom: 1em;
+}
+
+.changes {
+    width: 50%;
+    float: right;
+}
+
+.changes .title {
+    border: thick double #0000FF;
+    letter-spacing: normal;
+    padding: .1em;
+    background: #E5ECF9;
+    margin: 10px;
+    margin-top: 0em;
+}
+
+.changeset .title {
+    border: none;
+    background: none;
+}
+
+.items {
+    border: thin solid black;
+    background: #5FD4B1;
+    text-align: center;
+    vertical-align:bottom;
+    width: 89%;
+    margin-left: 5%;
+    border-collapse:separate;
+}
+
+.items th {
+    border-bottom: thick solid black;
+    padding: .5em;
+    margin: 0px;
+}
+
+.items td {
+    border-bottom: thin solid black;
+    padding: .5em;
+    margin: 0px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.description {
+    text-align: left;
+    font-size: .75em;
+}
+
+.clear {
+    clear: both;
+}
+
+.actions {
+    clear: both;
+    margin-top: 1em;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.actions .title {
+    background: #E5ECF9;
+    border: thick double #0000FF;
+    margin: 0em;
+}
+
+.actionset .title {
+    background: none;
+    border: none;
+    margin: .5em 0em;
+}
+
+.actionset table {
+    border: thin solid black;
+    width: 100%;
+    text-align: center;
+    background: #5FD4B1;
+}
+
+.actionset th {
+    border-bottom: thick solid black;
+}
+
+.actionset td {
+    border-bottom: thin solid black;
+}

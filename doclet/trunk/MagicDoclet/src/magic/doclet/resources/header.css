@@ -1,0 +1,57 @@
+.header {
+    border: 1em ridge blue;
+    border-right: 1em groove blue;
+    border-bottom: 1em groove blue;
+    background: white;
+    text-align: center;
+    position: relative;
+}
+
+.header h2 {
+    font-size: 2.5em;
+    margin: .5em;
+    letter-spacing: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+.header .logo{
+    float: left;
+    margin-left: 5%;
+    height: 1.25em;
+}
+
+.header a:link, .header a:visited {
+    text-decoration:none;
+    color:inherit;
+    padding: .25em;
+    line-height: 1em;
+    display: block;
+    width: 100%;
+}
+
+ul.navmenu {
+    clear: both;
+    list-style: none outside none;
+    border: thin solid green;
+    padding: 0em 0em;
+    margin: 0px;
+    text-align: justify;
+}
+
+.navmenu li {
+    border-top: thin solid #008000;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    float: left;
+    width: 25%;
+    margin: 0em;
+    overflow: hidden;
+}
+
+.navmenu a:hover {
+    background: #36D986;
+    color: red;
+}
