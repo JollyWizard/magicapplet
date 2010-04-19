@@ -59,11 +59,13 @@ public class PanelDoc extends Doclet {
 	siteRoot = new SiteFolder(Config.outputPath);
 
 	Class c = getClass();
-	siteRoot.copyResource(c, SiteFolder.images, Config.logoPath);
-	siteRoot.copyResource(c, SiteFolder.styles, Config.homeCSS);
-	siteRoot.copyResource(c, SiteFolder.styles, Config.mainCSS);
-	siteRoot.copyResource(c, SiteFolder.styles, Config.headerCSS);
-
+	if (Config.freshstart) {
+	    siteRoot.copyResource(c, SiteFolder.images, Config.logoPath);
+	    siteRoot.copyResource(c, SiteFolder.styles, Config.homeCSS);
+	    siteRoot.copyResource(c, SiteFolder.styles, Config.mainCSS);
+	    siteRoot.copyResource(c, SiteFolder.styles, Config.headerCSS);
+	}
+	
 	cachePanels(root.classes());
 	cacheIndexPage(magicAppletDoc);
 	buildMenus();

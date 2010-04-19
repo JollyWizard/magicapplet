@@ -12,4 +12,6 @@ public abstract class Config {
 
     public static String logoLocal = "images/logo.png";
 
+    public static boolean freshstart = false;
+    
 }
