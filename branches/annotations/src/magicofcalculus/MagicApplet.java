@@ -303,10 +303,10 @@ public class MagicApplet extends JApplet {
 
     public static final int _LIGHT_GREEN = 2;
 
-    @color.Index(_LIGHT_GREEN)
     /**
-     * * A {@link Color} equivalent to <code>(90,180,200)</code>
+     * {@link Color} equivalent to <code>(90,180,200)</code>
      */
+    @color.Index(_LIGHT_GREEN)
     public static Color LIGHT_GREEN = new Color(90, 180, 200);
 
     /**

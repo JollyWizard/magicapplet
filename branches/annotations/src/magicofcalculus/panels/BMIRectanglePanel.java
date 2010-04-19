@@ -145,27 +145,48 @@ public class BMIRectanglePanel extends Panel {
 	public static final int label = 40;
     }
 
+    /**
+     * @name Axes
+     * @description The Axes for the graph
+     */
     @Visible
     @color("blue")
     @Fill(color = "red")
     @zIndex(layers.axes)
     public Axes _axes;
 
+    /**
+     * @name Fill
+     * @description The area of under the graph is filled.
+     */
     @Visible
     @zIndex(layers.graph)
     @color("red")
     public PolyLine _lowerGraph;
 
+    /**
+     * @name Upper Bound
+     * @description The upper bound of the graph.
+     */
     @Visible
     @zIndex(layers.graph)
     @color("red")
     public PolyLine _upperGraph;
 
+    /**
+     * @name Left Bound
+     * @description Marks the minimum value for the graph
+     */
     @Visible
     @zIndex(layers.points)
     @color("red")
     public Circle _leftPoint;
 
+    /**
+     * @name Draggable Point
+     * @description The blue point is draggable and affects the area rectangle
+     *              size.
+     */
     @Visible
     @zIndex(layers.points)
     @Drag(action = MaxLeft.class)
@@ -220,6 +241,10 @@ public class BMIRectanglePanel extends Panel {
 
     }
 
+    /**
+     * @name Delta X
+     * @description The label showing the line.
+     */
     @Drag
     @Image("36pt/DxDimension outside.gif")
     @Position(x = 173, y = 320)
