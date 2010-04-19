@@ -3,17 +3,23 @@
 //
 package magicofcalculus.panels;
 
+import james.Tools;
+import james.annotations.AutoCaller;
+import james.annotations.drag.Drag;
+import james.annotations.draw.color;
+import james.annotations.labels.Image;
+import james.annotations.placement.Position;
+import james.annotations.placement.zIndex;
 import james.annotations.scenes.Scene;
 import james.annotations.scenes.Scenes;
+import james.annotations.visibility.Visible;
 
 import java.awt.Color;
 
-import magicofcalculus.Component;
 import magicofcalculus.DPoint;
 import magicofcalculus.Function;
 import magicofcalculus.MagicApplet;
 import magicofcalculus.Panel;
-import magicofcalculus.Function.LowerSemiCircle;
 import magicofcalculus.components.Axes;
 import magicofcalculus.components.Circle;
 import magicofcalculus.components.Label;
@@ -63,14 +69,12 @@ public class FundTheoremPanel extends Panel {
 	int lengthOfAxisXLocal = 15;// 20::1
 	int lengthOfAxisYLocal = 10;
 
-	_lowerAxes = new Axes(this);
 	_lowerAxes.setAxesInPanel(lowerOrigin, lengthOfAxisXInPanel,
 		lengthOfAxisYInPanel);
 	_lowerAxes.setAxesLocal(lengthOfAxisXLocal, lengthOfAxisYLocal);
 	final double axesStrokeWidth = 1.0;
 	_lowerAxes.setStrokeWidth(axesStrokeWidth);
 
-	_upperAxes = new Axes(this);
 	_upperAxes.setAxesInPanel(upperOrigin, lengthOfAxisXInPanel,
 		lengthOfAxisYInPanel);
 	_upperAxes.setAxesLocal(lengthOfAxisXLocal, lengthOfAxisYLocal);
@@ -104,141 +108,20 @@ public class FundTheoremPanel extends Panel {
 	final double bottomOfTrianglePanel = 125;
 	final double topOfTrianglePanel = 55;
 
-	_bgRectangle = new RectComponent(this);
 	_bgRectangle.setRectComponent(new DPoint(leftEndpointPanel,
 		topOfRectanglePanel), new DPoint(rightEndpointPanel,
 		lowerOrigin.y));
-	_bgRectangle.setColor(MagicApplet.LIGHT_GREEN);
 
-	_fillRectangle = new RectComponent(this);
 	_fillRectangle.setRectComponent(new DPoint(leftEndpointPanel,
 		topOfRectanglePanel), new DPoint(leftEndpointPanel,
 		lowerOrigin.y));
-	_fillRectangle.setColor(Color.blue);
 
-	_dAdxTriangle = new SecantTriangle(this);
 	_dAdxTriangle.setTriangle(new DPoint(leftEndpointPanel,
 		bottomOfTrianglePanel), new DPoint(rightEndpointPanel,
 		topOfTrianglePanel));
-	_dAdxTriangle.setColor(MagicApplet.LIGHT_GREEN);
 
-	_lowerPoint = new Circle(this);
 	_lowerPoint.setCenter(leftEndpointPanel, lowerOrigin.y);
-	_lowerPoint.setColor(Color.blue);
-	_lowerPoint.setDraggable(true);
-
-	_upperPoint = new Circle(this);
 	_upperPoint.setCenter(leftEndpointPanel, bottomOfTrianglePanel);
-	_upperPoint.setColor(Color.red);
-
-	_fLabel = new Label(this);
-	_fLabel.setImage("24pt/FLabel.gif");
-	_fLabel.setDisplayImage(true);
-	_fLabel.setPosition(50, 262);
-	_fLabel.setDraggable(true);
-
-	_aLabel = new Label(this);
-	_aLabel.setImage("24pt/ALabel.gif");
-	_aLabel.setDisplayImage(true);
-	_aLabel.setPosition(50, 140);
-	_aLabel.setDraggable(true);
-
-	_dxDimensionLabel = new Label(this);
-	_dxDimensionLabel.setImage("32pt/DxDimension left.gif");
-	_dxDimensionLabel.setDisplayImage(true);
-	_dxDimensionLabel.setPosition(74, 373);
-	_dxDimensionLabel.setDraggable(true);
-
-	_bigFLabel = new Label(this);
-	_bigFLabel.setImage("32pt/FLabel.gif");
-	_bigFLabel.setDisplayImage(true);
-	_bigFLabel.setPosition(274, 331);
-	_bigFLabel.setDraggable(true);
-
-	_daLabel = new Label(this);
-	_daLabel.setImage("32pt/DaLabel.gif");
-	_daLabel.setDisplayImage(true);
-	_daLabel.setPosition(202, 66);
-	_daLabel.setDraggable(true);
-
-	_dxLabel = new Label(this);
-	_dxLabel.setImage("32pt/DxLabel.gif");
-	_dxLabel.setDisplayImage(true);
-	_dxLabel.setPosition(158, 130);
-	_dxLabel.setDraggable(true);
-
-	_verticalDimensionLabel = new Label(this);
-	_verticalDimensionLabel.setImage("32pt/VerticalDimension.gif");
-	_verticalDimensionLabel.setDisplayImage(true);
-	_verticalDimensionLabel.setPosition(235, 288);
-	_verticalDimensionLabel.setDraggable(true);
-
-	_lowerAreaEqLabel = new Label(this);
-	_lowerAreaEqLabel.setImage("28pt/Lower Area Eq.gif");
-	_lowerAreaEqLabel.setDisplayImage(true);
-	_lowerAreaEqLabel.setPosition(352, 252);
-	_lowerAreaEqLabel.setDraggable(true);
-
-	_upperAreaEqLabel = new Label(this);
-	_upperAreaEqLabel.setImage("28pt/Upper Area Eq.gif");
-	_upperAreaEqLabel.setDisplayImage(true);
-	_upperAreaEqLabel.setPosition(307, 67);
-	_upperAreaEqLabel.setDraggable(true);
-
-	_slopeEqLabel = new Label(this);
-	_slopeEqLabel.setImage("24pt/Slope Eq.gif");
-	_slopeEqLabel.setDisplayImage(true);
-	_slopeEqLabel.setPosition(25, 20);
-	_slopeEqLabel.setDraggable(true);
-
-	_mainEqLabel = new Label(this);
-	_mainEqLabel.setImage("32pt/Main Eq.gif");
-	_mainEqLabel.setDisplayImage(true);
-	_mainEqLabel.setPosition(415, 147);
-	_mainEqLabel.setDraggable(true);
-
-	_mainEqShortLabel = new Label(this);
-	_mainEqShortLabel.setImage("32pt/Main Eq Short.gif");
-	_mainEqShortLabel.setDisplayImage(true);
-	// _mainEqShortLabel.setPosition(415,147);
-	_mainEqShortLabel.setDraggable(true);
-
-	_mainEqDxLabel = new Label(this);
-	_mainEqDxLabel.setImage("32pt/DxLabel.gif");
-	_mainEqDxLabel.setDisplayImage(true);
-	// _mainEqDxLabel.setPosition(608,147);
-	_mainEqDxLabel.setDraggable(true);
-
-	_fundamentalEqLabel = new Label(this);
-	_fundamentalEqLabel.setImage("32pt/Fundamental Eq.gif");
-	_fundamentalEqLabel.setDisplayImage(true);
-	// _fundamentalEqLabel.setPosition(411,145);
-	// _fundamentalEqLabel.setPosition(408,117);
-	_fundamentalEqLabel.setDraggable(true);
-
-	_componentList.add(0, _lowerAxes);
-	_componentList.add(0, _upperAxes);
-	_componentList.add(0, _lowerGraph);
-	_componentList.add(0, _upperGraph);
-	_componentList.add(0, _bgRectangle);
-	_componentList.add(0, _fillRectangle);
-	_componentList.add(0, _dAdxTriangle);
-	_componentList.add(0, _lowerPoint);
-	_componentList.add(0, _upperPoint);
-	_componentList.add(0, _fLabel);
-	_componentList.add(0, _aLabel);
-	_componentList.add(0, _dxDimensionLabel);
-	_componentList.add(0, _bigFLabel);
-	_componentList.add(0, _daLabel);
-	_componentList.add(0, _dxLabel);
-	_componentList.add(0, _verticalDimensionLabel);
-	_componentList.add(0, _lowerAreaEqLabel);
-	_componentList.add(0, _upperAreaEqLabel);
-	_componentList.add(0, _slopeEqLabel);
-	_componentList.add(0, _mainEqLabel);
-	_componentList.add(0, _mainEqShortLabel);
-	_componentList.add(0, _mainEqDxLabel);
-	_componentList.add(0, _fundamentalEqLabel);
 
 	setLabelsOverMainEqLable();
 	_mainEqLabelsDragGroupId = createDragGroup();
@@ -246,6 +129,21 @@ public class FundTheoremPanel extends Panel {
 	addToDragGroup(_mainEqLabelsDragGroupId, _mainEqDxLabel);
 	addToDragGroup(_mainEqLabelsDragGroupId, _fundamentalEqLabel);
 
+	/**
+	 * This is neccessary because polylines are generated from axes and
+	 * override the autocall properties. All properties are going to be
+	 * reapplied
+	 * <p>
+	 * TODO: Modify whitelist in autocall to work with target types in
+	 * addition to annotation types
+	 * <p>
+	 * TODO: Fix the visibility cache problem here.
+	 */
+	AutoCaller.m.autoCall(this);
+	visibility.build();
+	_componentList.clear();
+	Tools.addAllComponents(this);
+	//
 	setSyncParams();
 	syncComponents();
     }
@@ -255,51 +153,11 @@ public class FundTheoremPanel extends Panel {
 	super.setScene(scene);
 	switch (scene) {
 	case 0:
-	    for (Component comp : _componentList)
-		comp.setVisible(false);
-	    _lowerAxes.setVisible(true);
-	    _upperAxes.setVisible(true);
-	    _lowerGraph.setVisible(true);
-	    _upperGraph.setVisible(true);
-	    _bgRectangle.setVisible(true);
-	    // _fillRectangle.setVisible(true);
-	    _dAdxTriangle.setVisible(true);
-	    _upperPoint.setVisible(true);
-	    _lowerPoint.setVisible(true);
 	    syncComponents();
-	    _fLabel.setVisible(true);
-	    _aLabel.setVisible(true);
-	    _dxDimensionLabel.setVisible(true);
-	    _bigFLabel.setVisible(true);
-	    _daLabel.setVisible(true);
-	    _dxLabel.setVisible(true);
-	    _verticalDimensionLabel.setVisible(true);
-	    _lowerAreaEqLabel.setVisible(false);
-	    break;
-	case 1:
-	    _lowerAreaEqLabel.setVisible(true);
-	    _slopeEqLabel.setVisible(false);
-	    break;
-	case 2:
-	    _slopeEqLabel.setVisible(true);
-	    _upperAreaEqLabel.setVisible(false);
-	    break;
-	case 3:
-	    _upperAreaEqLabel.setVisible(true);
-	    _mainEqLabel.setVisible(false);
-	    _mainEqShortLabel.setVisible(false);
-	    _mainEqDxLabel.setVisible(false);
-	    _fundamentalEqLabel.setVisible(false);
 	    break;
 	case MAIN_EQUATION_SCENE:// 4
 	    setLabelsOverMainEqLable();
 	    syncMainEqLabels();
-	    _mainEqLabel.setVisible(true);
-	    // _mainEqShortLabel.setVisible(true);
-	    _mainEqDxLabel.setVisible(true);
-	    // _fundamentalEqLabel.setVisible(false);
-	    // _fundamentalEqLabel.setVisible(true);//dev
-	    // setMainEqLabelsGrouped(true);
 	    addToDragGroup(_mainEqLabelsDragGroupId, _mainEqDxLabel);
 	    break;
 	case 5:
@@ -423,35 +281,224 @@ public class FundTheoremPanel extends Panel {
      */
     private static final int MAIN_EQUATION_SCENE = 4;
 
-    private Axes _lowerAxes = null;
-    private Axes _upperAxes = null;
+    /**
+     * @name Upper Axes
+     * @description The upper cartesian plane
+     */
+    @zIndex(layers.axes)
+    @Visible
+    public Axes _lowerAxes;
 
-    private PolyLine _lowerGraph = null;
-    private PolyLine _upperGraph = null;
+    /**
+     * @name Lower Axes
+     * @description The lower cartesian plane
+     */
+    @zIndex(layers.axes)
+    @Visible
+    public Axes _upperAxes;
 
-    private RectComponent _bgRectangle = null;
-    private RectComponent _fillRectangle = null;
-    private SecantTriangle _dAdxTriangle = null;
+    /**
+     * @name Upper Graph
+     * @description The graph line on the upper axes
+     */
+    @zIndex(layers.graph)
+    @Visible
+    public PolyLine _lowerGraph;
 
-    private Circle _lowerPoint = null;
-    private Circle _upperPoint = null;
+    /**
+     * @name Upper Graph
+     * @description The graph line on the lower axes
+     */
+    @zIndex(layers.graph)
+    @Visible
+    public PolyLine _upperGraph;
+
+    /**
+     * @name Area Fill
+     * @description The area of the triangle is filled to show its analogy in
+     *              the theorem
+     */
+    @Visible
+    @zIndex(layers.fill)
+    @color(index = MagicApplet._LIGHT_GREEN, mode = color.Mode.field, src = MagicApplet.class)
+    public RectComponent _bgRectangle;
+
+    /**
+     * TODO This is set visible so it will be displayed in the docs, the action
+     * handler may not disable it on scene starts yet.
+     * 
+     * @name Lower Fill
+     * @description The integral width is shown in the lower graph
+     */
+    @Visible
+    @zIndex(layers.fill)
+    @color("blue")
+    public RectComponent _fillRectangle;
+
+    @Visible
+    @zIndex(layers.fill)
+    @color(index = MagicApplet._LIGHT_GREEN, mode = color.Mode.field, src = MagicApplet.class)
+    public SecantTriangle _dAdxTriangle;
+
+    /**
+     * @name Lower Point
+     * @description The draggable point on the lower graph
+     */
+    @zIndex(layers.points)
+    @Visible
+    @Drag
+    @color("blue")
+    public Circle _lowerPoint;
+
+    /**
+     * @name Upper Point
+     * @description The point on the upper graph
+     */
+    @zIndex(layers.points)
+    @Visible
+    @color("red")
+    public Circle _upperPoint;
 
     Function.LowerSemiCircle _curveFunction = new Function.LowerSemiCircle();
 
-    private Label _fLabel = null;
-    private Label _aLabel = null;
-    private Label _dxDimensionLabel = null;
-    private Label _bigFLabel = null;
-    private Label _daLabel = null;
-    private Label _dxLabel = null;
-    private Label _verticalDimensionLabel = null;
-    private Label _lowerAreaEqLabel = null;
-    private Label _upperAreaEqLabel = null;
-    private Label _slopeEqLabel = null;
-    private Label _mainEqLabel = null;
-    private Label _mainEqShortLabel = null;
-    private Label _mainEqDxLabel = null;
-    private Label _fundamentalEqLabel = null;
+    /**
+     * @name Function : F
+     * @description The lower graph formula
+     */
+    @Visible
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 50, y = 262)
+    @Image("24pt/FLabel.gif")
+    public Label _fLabel;
+
+    /**
+     * @name Function : A
+     * @description The upper graph formula
+     */
+    @Visible
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 50, y = 140)
+    @Image("24pt/ALabel.gif")
+    public Label _aLabel;
+
+    @Visible
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 74, y = 373)
+    @Image("32pt/DxDimension left.gif")
+    public Label _dxDimensionLabel;
+
+    @Visible
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 274, y = 331)
+    @Image("32pt/FLabel.gif")
+    public Label _bigFLabel;
+
+    @Visible
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 202, y = 66)
+    @Image("32pt/DaLabel.gif")
+    public Label _daLabel;
+
+    @Visible
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 158, y = 130)
+    @Image("32pt/DxLabel.gif")
+    public Label _dxLabel;
+    /**
+     */
+    @Visible
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 235, y = 288)
+    @Image("32pt/VerticalDimension.gif")
+    public Label _verticalDimensionLabel;
+    /**
+     */
+    @Visible(1)
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 352, y = 252)
+    @Image("28pt/Lower Area Eq.gif")
+    public Label _lowerAreaEqLabel;
+
+    /**
+     */
+    @Visible(3)
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 307, y = 67)
+    @Image("28pt/Upper Area Eq.gif")
+    public Label _upperAreaEqLabel;
+
+    /**
+     * @name Slope Equation
+     * @description The slope of the triangle is shown on the upper graph
+     */
+    @Visible(2)
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 25, y = 20)
+    @Image("24pt/Slope Eq.gif")
+    public Label _slopeEqLabel;
+
+    @Visible(4)
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 415, y = 147)
+    @Image("32pt/Main Eq.gif")
+    public Label _mainEqLabel;
+
+    /**
+     * @name Main Equation Short Label
+     * @description ?
+     */
+    @Drag
+    @zIndex(layers.label)
+    @Image("32pt/Main Eq Short.gif")
+    @Position(x = 415, y = 147)
+    public Label _mainEqShortLabel;
+
+    /**
+     * @name Delta X
+     * @description The change in x symbolified
+     */
+    @Visible(4)
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 608, y = 147)
+    @Image("32pt/DxLabel.gif")
+    public Label _mainEqDxLabel;
+
+    /**
+     * @name Fundamental Equation
+     * @description The fundamental equation of calculus
+     */
+    @Drag
+    @zIndex(layers.label)
+    @Position(x = 408, y = 117)
+    @Image("32pt/Fundamental Eq.gif")
+    public Label _fundamentalEqLabel;
+
+    /**
+     * Midpoints for zindex layers
+     * 
+     * @author James Arlow
+     * 
+     */
+    public static class layers {
+	public static final int axes = 10;
+	public static final int graph = 0;
+	public static final int label = 40;
+	public static final int fill = 20;
+	public static final int points = 30;
+	public static final int triangle = 60;
+    }
 
     private boolean _groupMainEqLabels = true;
     private int _mainEqLabelsDragGroupId = -1;

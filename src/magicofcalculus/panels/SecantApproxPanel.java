@@ -173,7 +173,8 @@ public class SecantApproxPanel extends Panel {
 
     /**
      * @name Unknown Formula
-     * @Description Unknown
+     * @Description Unknown (As we have not yet discovered the great mysteries
+     *              of calculus)
      */
     @Drag
     @Image("24pt/QuestionMarkFormula.gif")
@@ -691,14 +692,14 @@ public class SecantApproxPanel extends Panel {
 	@Drag
 	@Opaque
 	@Image("32pt/ThreeLabel.gif")
-	@zIndex(1)
+	@zIndex(2)
 	@Position(x = 20, y = -15)
 	public Label _threeLabel;
 
 	@Drag
 	@Image("32pt/TwoLabel.gif")
 	@Position(x = 20, y = -15)
-	@zIndex(2)
+	@zIndex(1)
 	public Label _twoLabel;
 
 	@Drag

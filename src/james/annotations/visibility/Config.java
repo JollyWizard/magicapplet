@@ -25,6 +25,7 @@ public class Config {
      * Creates the visibility cache based on annotation information.
      */
     public void build() {
+	show = new HashMap<Component, HashMap<Integer, Boolean>>();
 	LinkedHashMap<Integer, List<Component>> shows = Map.er.apply(
 		Visible.class, parent, Component.class, Visible.show);
 	LinkedHashMap<Integer, List<Component>> hides = Map.er.apply(
