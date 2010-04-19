@@ -34,6 +34,7 @@ public @interface color {
 	name, field, rgb;
     }
 
+    @Retention(RetentionPolicy.RUNTIME)
     public static @interface Index {
 	int value();
     }
