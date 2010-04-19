@@ -9,12 +9,16 @@ import james.annotations.scenes.Scene;
 import james.annotations.visibility.Visible;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 import magic.doclet.filesystem.IndexPageFile;
 import magic.doclet.filesystem.PanelPageFile;
 import magic.doclet.filesystem.SiteFolder;
 import magic.doclet.html.blocks.PanelSummaryDiv;
 import magic.doclet.screenshots.PanelScreenShot;
+import magic.html.tag.inline.A;
+import magic.html.tag.list.Li;
 import magicofcalculus.Component;
 import magicofcalculus.MagicApplet;
 import magicofcalculus.Panel;
@@ -53,8 +57,13 @@ public class PanelDoc extends Doclet {
 
     public PanelDoc(RootDoc root) {
 	siteRoot = new SiteFolder(Config.outputPath);
+
+	siteRoot.copyResource(getClass(), SiteFolder.images, Config.logoPath);
+
 	cachePanels(root.classes());
 	cacheIndexPage(magicAppletDoc);
+	buildMenus();
+
 	siteRoot.writeFile(indexPage);
 	for (PanelPageFile pf : panelPages.values()) {
 	    siteRoot.writeFile(pf);
@@ -75,14 +84,55 @@ public class PanelDoc extends Doclet {
      */
     public void cacheIndexPage(ClassDoc playerDoc) {
 	indexPage.setTitle("Magic Applet: Discover the Magic of Calculus");
-	MagicApplet player = new MagicApplet();
-	player.init();
-	for (Panel p : player._panelList) {
+	for (Panel p : applet._panelList) {
 	    PanelSummaryDiv psd = new PanelSummaryDiv(panelPages.get(p
 		    .getClass()));
+
 	    psd.description.setText(getPanelDescription(p.getClass()));
 	    indexPage.addToBody(psd);
 	}
+    }
+
+    public MagicApplet applet = new MagicApplet();
+    {
+	applet.init();
+    }
+
+    public void buildMenus() {
+	LinkedList<Li> menuItems = new LinkedList<Li>();
+	HashSet<Panel> already = new HashSet<Panel>();
+
+	Li home = new Li();
+	A homeLink = new A();
+	homeLink.setLink(indexPage);
+	homeLink.setText("HOME");
+	home.addTag(homeLink);
+	menuItems.add(home);
+
+	for (Panel p : applet._panelList) {
+	    Li menuItem = new Li();
+	    if (!already.contains(p)) {
+		A link = new A();
+		link.addText(p.getClass().getSimpleName());
+		link.setLink(panelPages.get(p.getClass()));
+		menuItem.addTag(link);
+		menuItems.add(menuItem);
+	    }
+	    already.add(p);
+	}
+
+	for (Li li : menuItems) {
+	    for (PanelPageFile ppf : panelPages.values()) {
+		ppf.header.menu.listItems.add(li);
+	    }
+	    indexPage.header.menu.listItems.add(li);
+	}
+
+	for (PanelPageFile ppf : panelPages.values()) {
+	    ppf.header.logo.setLink(indexPage);
+	}
+	indexPage.header.logo.setLink(indexPage);
+
     }
 
     public SiteFolder siteRoot;

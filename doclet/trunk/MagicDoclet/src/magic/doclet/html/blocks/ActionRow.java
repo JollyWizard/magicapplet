@@ -8,11 +8,12 @@ import magic.html.tag.block.tables.Tr;
 @classes("action")
 public class ActionRow extends Tr {
 
-  @Td.index(0)
-  public Td name;
+    @Th.text("Name")
+    @Td.index(0)
+    public Td name;
 
-  @Th.text("Description")
-  @Td.index(1)
-  public Td description;
+    @Th.text("Description")
+    @Td.index(1)
+    public Td description;
 
 }

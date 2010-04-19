@@ -32,8 +32,8 @@ public class PanelSummaryDiv extends Div {
      */
     @Override
     public String toHTML() {
-	tagLine(screenshot);
 	tagLine(titlelink);
+	tagLine(screenshot);
 	tagLine(description);
 	return super.toHTML();
     }

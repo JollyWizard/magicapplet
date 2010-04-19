@@ -1,17 +1,31 @@
 package magic.doclet.html.blocks;
 
+import magic.doclet.Config;
 import magic.html.tag.block.Div;
+import magic.html.tag.inline.Img;
 import magic.html.tag.list.Li;
 import magic.html.tag.list.Ul;
 
 @magic.html.HTML.classes("header")
 public class SiteHeader extends Div {
 
-    @classes("pagetitle")
-    public TitleLink title;
+    @classes("title")
+    public logoDiv logo;
 
-    @classes("logo")
-    public Div logo;
+    @classes("clear")
+    public Div clear;
+
+    public static class logoDiv extends TitleLink {
+
+	@classes("logo")
+	public Img img;
+
+	public String toHTML() {
+	    tagLine(img);
+	    return super.toHTML();
+	}
+
+    }
 
     @classes("navmenu")
     public Ul menu;
@@ -19,6 +33,7 @@ public class SiteHeader extends Div {
     public SiteHeader() {
 	super();
 	setTitle("MAGIC APPLET");
+	logo.img.set(Config.logoLocal, "Applet Logo");
     }
 
     /**
@@ -26,7 +41,7 @@ public class SiteHeader extends Div {
      * @see magic.doclet.html.blocks.TitleLink#setText(java.lang.String)
      */
     public void setTitle(String text) {
-	title.setText(text);
+	logo.setText(text);
     }
 
     /**
@@ -45,8 +60,8 @@ public class SiteHeader extends Div {
     @Override
     public String toHTML() {
 	tagLine(logo);
-	tagLine(title);
 	tagLine(menu);
+	tagLine(clear);
 	return super.toHTML();
     }
 

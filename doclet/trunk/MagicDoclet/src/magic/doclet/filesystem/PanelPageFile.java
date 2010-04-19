@@ -10,12 +10,15 @@ public class PanelPageFile extends PageFile {
 
     public Class<? extends Panel> panelClass;
 
+    public SiteHeader header = new SiteHeader();
+
     public PanelPageFile(Class<? extends Panel> panelClass) {
 	super(panelClass.getSimpleName());
 	this.panelClass = panelClass;
 	page.head.styles.add(new Stylesheet("styles/main.css"));
+	page.head.styles.add(new Stylesheet("styles/header.css"));
 	setTitle("MagicApplet | Panel " + panelClass.getSimpleName());
-	page.body.addTag(new SiteHeader());
+	page.body.addTag(header);
     }
 
     public SceneDiv getScene(int i) {

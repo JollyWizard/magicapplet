@@ -1,16 +1,19 @@
 package magic.doclet.filesystem;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
+
+import javax.imageio.stream.FileImageInputStream;
 
 public class SiteFolder {
 
-    String root;
-
-    File rootFolder;
-    File imageFolder;
-    File stylesFolder;
+    public String root;
+    public static String images = "images";
+    public static String styles = "styles";
 
     public File getRootFile() {
 	return new File(root);
@@ -19,10 +22,8 @@ public class SiteFolder {
     public SiteFolder(String rootURL) {
 	root = rootURL;
 	getRootFile().mkdirs();
-	imageFolder = new File(getRelativePath("images"));
-	imageFolder.mkdirs();
-	stylesFolder = new File(getRelativePath("styles"));
-	stylesFolder.mkdirs();
+	new File(getRelativePath(images)).mkdirs();
+	new File(getRelativePath(styles)).mkdirs();
     }
 
     public void writeFile(PageFile pf) {
@@ -41,4 +42,21 @@ public class SiteFolder {
 	return root + "//" + s;
     }
 
+    public void copyResource(Class sameLoader, String path, String resource) {
+	try {
+	    File f = new File(sameLoader.getResource(resource).toURI());
+	    FileInputStream fis = new FileInputStream(f);
+	    FileOutputStream fos = new FileOutputStream(new File(
+		    getRelativePath(path), f.getName()));
+	    byte[] buf = new byte[1024];
+	    int len;
+	    while ((len = fis.read(buf)) > 0) {
+		fos.write(buf, 0, len);
+	    }
+	    fis.close();
+	    fos.close();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
 }
