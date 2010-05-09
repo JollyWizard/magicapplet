@@ -13,11 +13,17 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 import magic.doclet.filesystem.IndexPageFile;
+import magic.doclet.filesystem.ManifestFile;
+import magic.doclet.filesystem.PageFile;
 import magic.doclet.filesystem.PanelPageFile;
 import magic.doclet.filesystem.SiteFolder;
 import magic.doclet.html.blocks.PanelSummaryDiv;
+import magic.doclet.html.blocks.SceneDiv;
 import magic.doclet.screenshots.PanelScreenShot;
+import magic.html.HTML;
+import magic.html.contents.HtmlContents;
 import magic.html.tag.inline.A;
+import magic.html.tag.inline.Img;
 import magic.html.tag.list.Li;
 import magicofcalculus.Component;
 import magicofcalculus.MagicApplet;
@@ -65,12 +71,15 @@ public class PanelDoc extends Doclet {
 	    siteRoot.copyResource(c, SiteFolder.styles, Config.mainCSS);
 	    siteRoot.copyResource(c, SiteFolder.styles, Config.headerCSS);
 	}
-	
+
 	cachePanels(root.classes());
 	cacheIndexPage(magicAppletDoc);
 	buildMenus();
 
 	siteRoot.writeFile(indexPage);
+
+	generateManifest();
+	siteRoot.writeFile(manifest);
 	for (PanelPageFile pf : panelPages.values()) {
 	    siteRoot.writeFile(pf);
 	}
@@ -78,6 +87,36 @@ public class PanelDoc extends Doclet {
 	for (HashMap<Integer, SceneSummary> hm : panelScenes.values()) {
 	    for (SceneSummary ss : hm.values()) {
 		ss.screenshot.write(siteRoot);
+	    }
+	}
+    }
+
+    public ManifestFile manifest = new ManifestFile();
+
+    public void generateManifest() {
+	ManifestFile.ItemRow row = new ManifestFile.ItemRow();
+	row.name.addText("Home");
+	row.description.addText("Root Page with Panel Navigation");
+	row.file.addText("index.html");
+	manifest.pages.add(row);
+	for (Class c : panelPages.keySet()) {
+	    row = new ManifestFile.ItemRow();
+	    row.name.addText(c.getSimpleName());
+	    row.description.addText("Panel page for ", c.getSimpleName());
+	    row.file.addText(panelPages.get(c).path);
+	    manifest.pages.add(row);
+	}
+	for (Class c : panelScenes.keySet()) {
+	    for (HashMap<Integer, SceneSummary> hm : panelScenes.values()) {
+		for (Integer i : hm.keySet()) {
+		    row = new ManifestFile.ItemRow();
+		    row.name.addText(c.getSimpleName() + " Screen "
+			    + hm.get(i).index);
+		    row.description.addText("Screenshot for Scene "
+			    + hm.get(i).index);
+		    row.file.addText(hm.get(i).screenshot.path);
+		    manifest.images.add(row);
+		}
 	    }
 	}
     }
