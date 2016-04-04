@@ -1,0 +1,1 @@
+An interactive Java applet created to assist with calculus instruction.
